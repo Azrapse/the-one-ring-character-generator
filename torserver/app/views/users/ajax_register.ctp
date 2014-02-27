@@ -1,0 +1,1 @@
+﻿<span class="uiText"><? echo $message ?></span>

@@ -1,0 +1,115 @@
+﻿.actionMenu 
+{
+	display: none;
+}
+.characterSheet {
+	position: relative;
+	border-style: none;
+	border-width: 0;
+	padding: 0;
+	margin: 0;
+	width: auto;		
+	border-radius: 0;	
+	box-shadow: none;     
+	display: block;
+}
+
+.characterSheet  input, 
+.characterSheet div[contenteditable=true] 
+{
+	font-family: 'AloisLightRegular', Palatino Linotype, Book Antiqua3, Palatino, serif;
+	font-size: 10pt;
+}
+/*.characterSheet label {
+	font-family: 'AloisLightRegular', Palatino Linotype, Book Antiqua3, Palatino, serif;
+	font-size: 10pt;	
+}*/
+.characterSheet label {
+	font-family: 'TolkienesqueRegular', Book Antiqua3, Palatino, serif;
+	font-size: 12pt;	
+}
+.alternateFont .characterSheet label {
+	font-family: 'AloisLightRegular', Palatino Linotype, Book Antiqua3, Palatino, serif;	
+}
+
+
+.characterSheet label.narrowLabel {
+	font-size: 8pt;		
+}
+
+.characterSheet .heading,
+.characterSheet .headingMinor
+{
+	font-family: 'LibraRegular';
+}
+
+.characterSheet .attributeContainerBox .attributeBox{	
+	border-style: solid; 	
+}
+
+
+.characterSheet .attributeContainerBox .attributeBox input{
+	top: 0;
+}
+
+.characterSheet .attributeContainerBox .favouredAttributeBox input{
+	top: 0;
+	height: 35px;
+}
+
+.characterSheet .attributeContainerBox .favouredAttributeBox label{
+	right: -55px;
+	font-size: 10pt;
+}
+/*.characterSheet .skillsBox .skillNameCell{
+	font-family: 'AloisLightRegular', Palatino Linotype, Book Antiqua3, Palatino, serif;
+	font-size: 10pt;
+	padding-left: 1px;
+}*/
+.characterSheet .skillsBox .skillNameCell{
+	font-family: 'TolkienesqueRegular', Book Antiqua3, Palatino, serif;
+	font-size: 8pt;
+	text-align: right;	
+}
+.alternateFont .characterSheet .skillsBox .skillNameCell{
+	font-family: 'AloisLightRegular', Palatino Linotype, Book Antiqua3, Palatino, serif;	
+}
+
+
+.characterSheet .weaponSkillsBox .skillNameCell input, 
+.characterSheet .weaponSkillsBox .skillNameCell div[contenteditable=true]
+{
+	font-family: 'AloisLightRegular', Palatino Linotype, Book Antiqua3, Palatino, serif;
+	font-size: 8pt;
+	width: 80px;
+	height: 18px;
+}
+
+.characterSheet .gearContainer{
+	width: 270px;	
+	height: 120px;	
+}
+.characterSheet .roundStatBox > input{
+	top: 0;
+	left: 0;
+	width: 50px;
+	height: 34px;	
+	font-size: 20pt;
+}
+.characterSheet .subRoundStatBox input{
+	top: 0;
+	left: 0;
+	width: 40px;
+	height: 35px;	
+}
+.characterSheet.back
+{
+	page-break-before: always;
+}
+
+
+.noPrint > input,
+.noPrint > img
+{
+	display: none;
+}

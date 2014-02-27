@@ -1,0 +1,1451 @@
+﻿@font-face {
+    font-family: 'LibraRegular';
+    src: url('libra-bt-webfont.eot');
+    src: url('libra-bt-webfont.eot?#iefix') format('embedded-opentype'),
+         url('libra-bt-webfont.woff') format('woff'),
+         url('libra-bt-webfont.ttf') format('truetype'),
+         url('libra-bt-webfont.svg#LibraRegular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+@font-face {
+    font-family: 'aaaorRegular';
+    src: url('aaaor-webfont.eot');
+    src: url('aaaor-webfont.eot?#iefix') format('embedded-opentype'),
+         url('aaaor-webfont.woff') format('woff'),
+         url('aaaor-webfont.ttf') format('truetype'),
+         url('aaaor-webfont.svg#aaaorRegular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+@font-face {
+    font-family: 'AloisLightRegular';
+    src: url('alois-light-webfont.eot');
+    src: url('alois-light-webfont.eot?#iefix') format('embedded-opentype'),
+         url('alois-light-webfont.woff') format('woff'),
+         url('alois-light-webfont.ttf') format('truetype'),
+         url('alois-light-webfont.svg#AloisLightRegular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+@font-face {
+    font-family: 'TolkienesqueRegular';
+    src: url('tolkien-webfont.eot');
+    src: url('tolkien-webfont.eot?#iefix') format('embedded-opentype'),
+         url('tolkien-webfont.woff') format('woff'),
+         url('tolkien-webfont.ttf') format('truetype'),
+         url('tolkien-webfont.svg#TolkienesqueRegular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+.actionMenu {
+	left: 690px;
+	top: 10px;
+	z-index: 10;
+	position: absolute;
+	border-style: solid;
+	border-width: 1px;
+	padding: 5px;
+	margin: 5px;
+	width: auto;
+	float: right;
+	border-radius: 10px;	
+	box-shadow: 3px 2px 3px #555555; 
+    background-color: #fff;
+	
+	text-align: center;
+}
+.contextMenu 
+{
+	z-index: 10;
+	position: absolute;
+	border-style: solid;
+	border-width: 1px;
+	padding: 5px;
+	margin: 5px;
+	width: auto;
+	
+	
+	border-radius: 3px;	
+	box-shadow: 2px 1px 2px #555555; 
+    
+	background-color: #fff;
+	
+	text-align: center;
+}
+
+.actionMenu .action{
+	font-family: 'LibraRegular', "Palatino Linotype", "Book Antiqua3", Palatino, serif;
+	font-size: 10pt;
+	border-style: solid;
+	border-width: 1px;
+	border-color: #999;
+	margin: 2px;
+	border-radius: 10px;
+}
+
+.action:hover{		
+	border-color: #000;
+	box-shadow: 2px 1px 2px #555555;     
+}
+
+.contextMenu .action{
+	font-family: 'AloisLightRegular', "Palatino Linotype", "Book Antiqua3", Palatino, serif;
+	font-size: 9pt;
+	border-style: solid;
+	border-width: 1px;
+	border-color: transparent;
+	
+	padding: 2px 2px 2px 2px; 
+	border-radius: 5px;
+}
+
+/*What's new button highlighted*/
+.action.highlight
+{
+	background-color: #eaa;
+}
+
+.characterSheet { 
+	position: relative;
+	border-style: solid;
+	border-width: 1px;
+	padding: 15px;
+	margin: 15px;
+	width: 620px;
+	min-height: 920px;	
+	border-radius: 10px;	
+	box-shadow: 3px 2px 3px #555555;     
+	display: block;
+}
+
+.characterSheet.front .basicInformationTable{
+	width: 90%;	
+}
+.characterSheet .basicInformationTable td
+{
+	white-space: nowrap;
+}
+
+.characterSheet .basicInformationTable .cell,
+.characterSheet .basicInformationTable input,
+.characterSheet .basicInformationTable .input
+{	
+	white-space: nowrap;		
+}
+
+.characterSheet .basicInformationTable .labelCell
+{
+	width: auto;	
+}
+
+.characterSheet .basicInformationTable .inputCell
+{
+	width: 100%;
+	min-width: 100px;
+}
+
+.characterSheet.back .basicInformationTable
+{
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+.characterSheet  input, 
+.characterSheet div[contenteditable=true], 
+.characterSheet .input
+{
+	font-family: 'AloisLightRegular', "Palatino Linotype", "Book Antiqua3", Palatino, serif;
+	font-size: 12pt;
+	border-style: solid;
+	border-color: transparent;
+	width: 100%;
+	border-width: 2px;
+}
+
+.characterSheet  input:hover:not([readonly]), 
+.characterSheet div[contenteditable=true]:hover:not([readonly]), 
+.characterSheet  .input:hover:not([readonly]) 
+{
+	border-bottom-color: #000;	
+}
+.characterSheet.back .basicInformationTable 
+{
+	border-collapse: collapse;	
+}
+.characterSheet.back .basicInformationTable  input,
+.characterSheet.back .basicInformationTable  td
+{
+	padding: 0;
+	margin: 0;
+}
+.characterSheet.back .basicInformationTable.coinTable 
+{
+	top: 80px;
+	left: 20px;
+	position: relative;
+}
+.characterSheet.back .basicInformationTable.coinTable  input
+{
+	width: 4em;
+}
+.characterSheet.back .basicInformationTable.fellowshipTable 
+{
+	width: 600px;
+}
+
+.characterSheet.back .basicInformationTable.fellowshipTable input
+{
+	width: 6em;
+}
+
+.characterSheet.back .basicInformationTable.fellowshipPhaseTable 
+{
+	width: 100%;
+}
+
+.characterSheet.back .basicInformationTable.fellowshipPhaseTable input
+{
+	width: 100%;
+}
+
+.characterSheet.back .inventory 
+{
+	position: relative;
+	top: 100px;
+	border: 0 none transparent;
+}
+.characterSheet.back .inventory table
+{
+	width: 100%;	
+}
+.characterSheet.back .inventory .basicInformationTable  td
+{
+	padding-right: 5px;
+}
+.characterSheet.back .inventory .basicInformationTable  td .input
+{
+	width: 100%;
+}
+
+#taleOfYearsTable,
+#taleOfYearsTable tr,
+#taleOfYearsTable td
+{
+	border-spacing: 0px;
+	border-collapse: collapse;
+	padding: 0;
+}
+#taleOfYearsTable tr,
+#taleOfYearsTable td
+{
+	height: 16px;
+	padding-left: 2px;
+}
+
+#taleOfYearsTable .input,
+#taleOfYearsTable input,
+div.inventory .input
+{
+	border: 0px none transparent;
+	border-bottom: 1px solid #000;
+}
+
+#taleOfYearsTable .yearTale .year.input
+{
+	width: 100px !important;
+	height: 1em;
+}
+
+#taleOfYearsTable .yearTale .events.input
+{
+	width: 500px !important;
+	height: 1em;
+}
+
+
+.characterSheet label {
+	font-family: 'TolkienesqueRegular', "Book Antiqua3", Palatino, serif;
+	font-size: 12pt;	
+}
+.alternateFont .characterSheet label {
+	font-family: 'AloisLightRegular', "Palatino Linotype", "Book Antiqua3", Palatino, serif;	
+}
+.alternateFont .statNameCell
+{
+	font-weight: bold;
+}
+
+.characterSheet label.narrowLabel {
+	font-size: 12pt;	
+	letter-spacing: -1px
+}
+.narrow {	
+	letter-spacing: -1px
+}
+
+.characterSheet .labelCell{
+	text-align: right;
+}
+
+.characterSheet .heading{
+	font-family: 'aaaorRegular';
+	font-size: 18pt;
+	font-variant: small-caps;
+	text-align: center;
+}
+
+.characterSheet .headingMinor{
+	font-family: 'aaaorRegular';
+	font-size: 14pt;
+	font-variant: small-caps;
+	text-align: center;
+}
+.characterSheet .attributeContainerBox{
+	position: relative; 
+	height: 60px;	
+}
+.characterSheet .attributeContainerBox .attributeBox{
+	position: absolute;
+	top: 0;	
+	width: 50px;
+	height: 50px;
+	border-style: double; 
+	border-color: #000;
+	border-width: 5px;
+	border-radius: 25px;
+	vertical-align: middle;
+	text-align: center;	
+}
+
+.characterSheet .attributeContainerBox .bodyBox{
+	left: 100px;
+}
+.characterSheet .attributeContainerBox .heartBox{
+	left: 250px;
+}
+.characterSheet .attributeContainerBox .witsBox{
+	left: 400px;
+}
+/*
+.characterSheet .attributeContainerBox .attributeBox input{
+	z-index: 1;
+	position: absolute;
+	top: 17%;
+	left: 17%;
+	width: 34px;
+	height: 34px;	
+	font-size: 20pt;
+	text-align: center;
+	background-color: transparent;
+}
+*/
+.characterSheet .attributeContainerBox .witsBox > input,
+.characterSheet .attributeContainerBox .heartBox > input,
+.characterSheet .attributeContainerBox .bodyBox > input{
+	z-index: 1;
+	position: absolute;
+	top: 17%;
+	left: 0;
+	width: 50px;
+	height: 34px;	
+	font-size: 18pt;
+	text-align: center;
+	background-color: transparent;
+}
+
+
+
+.characterSheet .attributeContainerBox .attributeBox label{
+	position: absolute;
+	top: 25%;	
+	right: 60px;	
+}
+
+.characterSheet .attributeContainerBox .favouredAttributeBox{
+	z-index: 2;
+	position: absolute;
+	top: 0;	
+	width: 30px;
+	height: 30px;
+	border-style: solid; 
+	border-color: #000;
+	border-width: 2px;
+	border-radius: 15px;
+	vertical-align: middle;
+	text-align: center;
+	background-color: #fff;
+}
+
+.characterSheet .attributeContainerBox .favouredBodyBox{
+	left: 140px;
+}
+.characterSheet .attributeContainerBox .favouredHeartBox{
+	left: 290px;
+}
+.characterSheet .attributeContainerBox .favouredWitsBox{
+	left: 440px;
+}
+
+.characterSheet .attributeContainerBox .favouredAttributeBox input{
+	z-index: 3;
+	position: absolute;
+	top: 13%;	
+	left: 0;	
+	width: 33px;
+	height: 24px;	
+	font-size: 14pt;	
+	text-align: center;
+	background-color: transparent;
+}
+
+.characterSheet .attributeContainerBox .favouredAttributeBox label{
+	position: absolute;
+	top: 0;	
+	left: 40px;
+	text-align: left;
+	font-size: 10pt;
+	letter-spacing: -1px;
+}
+
+.characterSheet .skillTable,
+.characterSheet #weaponSkillsTable,
+.characterSheet #weaponGearTable
+{
+	line-height: 25%;
+}
+
+.characterSheet .skillTable
+{
+	width: 80%;
+}
+
+
+.characterSheet .skillsBox .skillNameCell{
+	font-family: 'TolkienesqueRegular', "Book Antiqua3", Palatino, serif;
+	font-size: 8pt;
+	text-align: right;
+	/*padding-left: 10px;*/
+}
+.alternateFont .characterSheet .skillsBox .skillNameCell{
+	font-family: 'AloisLightRegular', "Palatino Linotype", "Book Antiqua3", Palatino, serif;	
+}
+
+.characterSheet .skillsBox .skillNameCell.favoured{
+	text-decoration: underline;
+}
+
+.characterSheet .skillsBox .skillGroupNameCell{
+	font-family: 'TolkienesqueRegular', "Book Antiqua3", Palatino, serif;
+	font-size: 8pt;
+	text-align: right;
+	padding-left: 15px;
+	letter-spacing: -1px;	
+}
+.alternateFont .characterSheet .skillsBox .skillGroupNameCell{
+	font-family: 'AloisLightRegular', "Palatino Linotype", "Book Antiqua3", Palatino, serif;	
+}
+
+.headingMinor.skillGroupsCell{
+	text-align: right;
+}
+
+.characterSheet .skillsBox .skillRankCell{	
+	text-align: center;	
+}
+
+.characterSheet .skillsBox .skillGroupAdvancementCell{	
+	font-size: 18pt;
+	text-align: center;	
+	letter-spacing: -3px;
+}
+
+.characterSheet .weaponSkillsBox .weaponSkillStatCell input,
+.characterSheet .weaponGearBox .weaponGearStatCell input
+{
+	font-family: 'AloisLightRegular', "Palatino Linotype", "Book Antiqua3", Palatino, serif;
+	font-size: 10pt;
+	border-style: solid;
+	border-color: transparent;
+	width: 45px;
+	height: 18px;
+	text-align:center;
+}
+.characterSheet .weaponSkillsBox .weaponSkillStatCell input:hover,
+.characterSheet .weaponGearBox .weaponGearStatCell input:hover
+{	
+	border-bottom-color: #000;
+}
+
+.characterSheet .weaponSkillsBox .skillNameCell input, 
+.characterSheet .weaponSkillsBox .skillNameCell div[contenteditable=true], 
+.characterSheet .weaponSkillsBox .skillNameCell .input,
+.characterSheet .weaponGearBox .weaponGearNameCell input, 
+.characterSheet .weaponGearBox .weaponGearNameCell div[contenteditable=true], 
+.characterSheet .weaponGearBox .weaponGearNameCell .input
+{
+	font-family: 'AloisLightRegular', "Palatino Linotype", "Book Antiqua3", Palatino, serif;
+	font-size: 10pt;
+	width: 95px;
+	height: 18px;
+	vertical-align: middle;
+	line-height: 10px;
+	text-align: right;
+}
+
+.characterSheet .weaponSkillsBox .skillNameCell input.favoured, 
+.characterSheet .weaponSkillsBox .skillNameCell div[contenteditable=true].favoured, 
+.characterSheet .weaponSkillsBox .skillNameCell .input.favoured,
+.characterSheet .weaponGearBox .weaponGearNameCell input.favoured, 
+.characterSheet .weaponGearBox .weaponGearNameCell div[contenteditable=true].favoured, 
+.characterSheet .weaponGearBox .weaponGearNameCell .input.favoured
+{
+	text-decoration: underline;
+}
+
+.characterSheet .weaponSkillsBox .statNameCell,
+.characterSheet .weaponGearBox .statNameCell
+{
+	font-family: 'TolkienesqueRegular', "Book Antiqua3", Palatino, serif;
+	font-size: 10pt;
+	text-align: left;
+	padding-left: 15px;
+	text-align: right;
+}
+.alternateFont .characterSheet .weaponSkillsBox .statNameCell,
+.alternateFont .characterSheet .weaponGearBox .statNameCell
+{
+	font-family: 'AloisLightRegular', "Palatino Linotype", "Book Antiqua3", Palatino, serif;
+	
+}
+.characterSheet .weaponSkillsBox td,
+.characterSheet .weaponGearBox td
+{
+	margin: 0px 0px 0px 0px;
+	padding: 0px 0px 0px 0px;
+}
+
+
+.skillRankIcon {
+	display: inline-block;
+	width: 10px;
+	height: 15px;
+	padding: 0px 0px 0px 0px;
+	margin: 0px 0px 0px 0px;
+	background-image: url('skillrankempty.png');
+	background-repeat: no-repeat;
+	background-size: 10px 15px;	
+}
+
+
+.wizardWindow .skillRankIcon[filled=true] {
+	background-image: url('skillrankfull.png');
+}
+
+.characterSheet .skillGroupIcon {
+	display: inline-block;
+	width: 10px;
+	height: 15px;
+	padding: 0px 0px 0px 0px;
+	margin: 0px 0px 0px 0px;
+	background-image: url('skillrankempty.png');
+	background-repeat: no-repeat;
+	background-size: 10px 15px;	
+	background-image: url('skillgroupempty.png');
+}
+
+
+.skillRankIcon img, .skillGroupIcon img{
+	width: 10px;
+	height: 15px;
+	padding: 0px 0px 0px 0px;
+	margin: 0px 0px 0px 0px;
+}
+
+.characterSheet .virtuesRewardsContainer{
+	width: 570px;
+	position: relative;
+	height: 60px;	
+}
+.characterSheet .virtuesRewardsContainer > div{
+	position: absolute;
+	top: 0;
+	height: 60px;
+	width: 280px;	
+}
+.characterSheet .virtuesRewardsContainer .rewardsContainer{
+	left: 0;
+}
+.characterSheet .virtuesRewardsContainer .virtuesContainer{
+	right: 0;
+}
+
+.characterSheet .rewardsContainer div[contenteditable=true], .characterSheet .virtuesContainer div[contenteditable=true], .characterSheet .rewardsContainer .input, .characterSheet .virtuesContainer .input{
+	width: 280px;
+	border-style: none;
+	font-family: 'AloisLightRegular', "Palatino Linotype", "Book Antiqua3", Palatino, serif;
+	font-size: 14px;
+	height: 55px;
+}
+
+.characterSheet .gearContainer
+{
+	position: absolute;			
+	bottom: 0px;
+}
+
+.characterSheet .gearContainer label{
+	font-family: 'TolkienesqueRegular', "Book Antiqua3", Palatino, serif;
+	font-size: 10pt;	
+	padding-left: 5px;	
+}
+.alternateFont .characterSheet .gearContainer label{
+	font-family: 'AloisLightRegular', "Palatino Linotype", "Book Antiqua3", Palatino, serif;	
+}
+.characterSheet .gearContainer td{
+	border-width: 0px;
+	padding: 0px 0px 0px 0px;
+	margin: 0px 0px 0px 0px;
+	text-align: right;
+}
+.characterSheet .gearContainer div[contenteditable=true], .characterSheet .gearContainer input, .characterSheet .gearContainer .input{
+	font-family: 'AloisLightRegular', "Palatino Linotype", "Book Antiqua3", Palatino, serif;
+	font-size: 10pt;
+	text-align: center;
+	height: 16px;
+	width: 140px;
+	border-width: 0px 0px 1px 0px;	
+}
+
+.characterSheet .gearContainer input.gearEnc{	
+	width: 20px;
+}
+
+.characterSheet .roundStatBox{
+	position: absolute;	
+	width: 50px;
+	height: 50px;
+	border-style: solid; 
+	border-color: #000;
+	border-width: 2px;
+	border-radius: 25px;
+	vertical-align: middle;
+	text-align: center;	
+}
+
+.characterSheet .roundStatBox > input{
+	z-index: 1;
+	position: relative;
+	top: 17%;
+	left: 0;
+	width: 1.5em; /*50px;*/
+	height: 34px;	
+	font-size: 20pt;	
+	text-align: center;
+	background-color: transparent;
+}
+
+
+
+.characterSheet .roundStatBox > label{
+	position: absolute;
+	top: -30px;	
+	left: -33px;
+	font-size: 12pt;	
+	width: 100px;
+	height: 30px;
+	text-align: center;
+	white-space:nowrap
+}
+
+
+.characterSheet .subRoundStatBox{
+	z-index: 2;
+	position: absolute;
+	width: 33px;
+	height: 30px;
+	border-style: solid; 
+	border-color: #000;
+	border-width: 2px;
+	border-radius: 15px;
+	vertical-align: middle;
+	text-align: center;
+	background-color: #fff;
+}
+
+.characterSheet .subRoundStatBox input{
+	z-index: 3;
+	position: relative;
+	top: 13%;
+	left: 0;
+	width: 1.5em; /*33px;*/
+	height: 24px;	
+	font-size: 14pt;	
+	text-align: center;
+	background-color: transparent;
+}
+
+
+.characterSheet .subRoundStatBox label{
+	position: absolute;
+	top: 0px;	
+	right: 37px;
+	text-align: right;
+	font-size: 8pt;
+	letter-spacing: -1px;
+	height: 35px;
+	width: 55px;	
+	line-height: 95%;
+}
+
+.characterSheet .subRoundStatBox.top{
+	top: -10px;	
+}
+.characterSheet .subRoundStatBox.bottom{
+	bottom: -10px;	
+}
+.characterSheet .subRoundStatBox.left{
+	left: -20px;
+}
+.characterSheet .subRoundStatBox.right{
+	right: -20px;
+}
+
+.characterSheet .subRoundStatBox.subbottom{
+	bottom: -40px;	
+}
+
+.characterSheet .subRoundStatBox.right label{
+	top: 30px;
+	left: -10px;
+	text-align: left;
+}
+
+
+.characterSheet .roundStatBox[stat=endurance]{
+	bottom: 50px;	
+	right: 190px;
+}
+
+.characterSheet .roundStatBox[stat=hope]{
+	bottom: 50px;	
+	right: 30px;
+}
+
+.characterSheet .roundStatBox[stat=armour]{
+	top: 580px;	
+	right: 10px;
+}
+
+.characterSheet .roundStatBox[stat=parry]{
+	top: 480px;	
+	right: 10px;
+}
+
+.characterSheet .roundStatBox[stat=damage]{
+	top: 380px;	
+	right: 10px;
+}
+.characterSheet .roundStatBox[stat=wisdom]{
+	top: 280px;	
+	right: 10px;
+}
+.characterSheet .roundStatBox[stat=valour]{
+	top: 180px;	
+	right: 10px;
+}
+.characterSheet .roundStatBox[stat=experience]{
+	top: 80px;	
+	right: 10px;
+}
+
+.characterSheet .roundStatBox[stat=fellowshipPoints]{
+	top: 40px;	
+	left: 70px;
+}
+
+.characterSheet .roundStatBox[stat=advancementPoints]{
+	top: 40px;	
+	left: 210px;
+}
+
+.characterSheet .roundStatBox[stat=treasurePoints]{
+	top: 40px;	
+	left: 350px;
+}
+
+.characterSheet .roundStatBox[stat=standing]{
+	top: 40px;	
+	left: 490px;
+}
+
+
+.characterSheet .statusBox{
+	font-family: 'AloisLightRegular', "Palatino Linotype", "Book Antiqua3", Palatino, serif;
+	position: absolute;
+	width: 25px;
+	height: 20px;
+	border-style: solid; 
+	border-color: #000;
+	border-width: 2px;	
+	border-radius: 15px;
+	vertical-align: middle;
+	text-align: center;
+	background-color: #fff;
+}
+
+.characterSheet .weaponGearBox .statusBox,
+.characterSheet .gearContainer .statusBox
+{	
+	position: relative;
+	width: 15px;
+	height: 15px;
+	border-style: solid; 
+	border-color: #000;
+	border-width: 1px;	
+	border-radius: 15px;
+	vertical-align: middle;
+	text-align: center;
+	background-color: #fff;
+	padding: 0;
+	font-size: 0em;
+}
+
+.characterSheet  .statusBox img
+{
+	width: 25px;
+	height: 20px;
+}
+
+.characterSheet .weaponGearBox .statusBox img,
+.characterSheet .gearContainer .statusBox img
+{
+	width: 15px;
+	height: 15px;
+}
+
+/*
+.characterSheet .statusBox[on=true]{
+	background-image: url('checked.png');
+	background-size: 25px 20px;
+	backgroud-repeat: no-repeat;
+}
+*/
+
+.characterSheet .statusBox label{
+	font-family: 'TolkienesqueRegular', "Book Antiqua3", Palatino, serif;
+	font-size: 11pt;
+	line-height: 95%;
+	position: absolute;
+	top: 0;	
+	left: -90px;
+	text-align: right;	
+	letter-spacing: -1px;
+	height: 20px;
+	width: 80px;		
+}
+.alternateFont .characterSheet .statusBox label{
+	font-family: 'AloisLightRegular', "Palatino Linotype", "Book Antiqua3", Palatino, serif;	
+}
+
+.characterSheet .statusBox[stat=weary]{
+	bottom: 250px;	
+	right: 20px;
+}
+
+.characterSheet .statusBox[stat=miserable]{
+	bottom: 220px;	
+	right: 20px;
+}
+
+.characterSheet .statusBox[stat=wounded]{
+	bottom: 190px;	
+	right: 20px;
+}
+
+.characterSheet .statusBox[stat=woundTreated]{
+	bottom: 160px;	
+	right: 20px;
+}
+
+.characterSheet .bigText[stat=backgroundText] {
+	padding-top: 100px;	
+}
+
+/* iPad tweaks */
+@media only screen and (max-device-width: 1024px) 
+{
+	input
+	{
+		-webkit-appearance: none;
+	}
+
+	.characterSheet .attributeContainerBox .favouredAttributeBox input{
+		/*font-size: 10pt;*/
+		-webkit-appearance: none;
+	}
+
+	.characterSheet .roundStatBox > input{
+		/*font-size: 18pt;*/
+		-webkit-appearance: none;
+	}
+
+	.characterSheet .subRoundStatBox input{
+		/*font-size: 10pt;*/
+		-webkit-appearance: none;
+	}
+
+}
+
+
+.wizardWindow,
+.tutorialSlideWindow
+{
+	position: absolute;
+	
+	z-index: 50;
+	max-width: 1000px;
+	left: 100px;
+	top: 100px;
+	border-style: solid;
+	border-width: 2px;
+	padding: 5px;
+	margin: 5px;
+	
+	
+	border-radius: 20px;	
+	box-shadow: 3px 2px 3px #555555; 
+    
+	background-color: #fff;
+	
+}
+
+.wizardWindow fieldset,
+fieldset.tutorialSlideWindow
+{	
+	border-style: solid;
+	border-width: 2px;
+	border-color: #000;
+	padding: 5px;
+	margin: 5px;		
+	
+	border-radius: 10px;
+	vertical-align: middle;
+	font-family: 'AloisLightRegular', "Palatino Linotype", "Book Antiqua3", Palatino, serif;
+}
+.wizardWindow fieldset legend,
+.tutorialSlideWindow legend
+{
+	border-style: solid;
+	border-width: 2px;
+	border-color: #000;	
+	background-color: #fff;
+	font-family: 'LibraRegular', "Palatino Linotype", "Book Antiqua3", Palatino, serif;
+	
+	border-radius: 10px;		
+}
+
+.wizardWindow button,
+.tutorialSlideWindow button
+{
+	cursor: pointer;
+	padding: 3px 10px 3px 10px;
+	margin: 3px 10px 3px 10px;
+	display: inline-block;
+	border-style: solid;
+	border-width: 2px;
+	border-color: #000;	
+	width: auto;
+	background-color: #fff;
+	font-family: 'LibraRegular', "Palatino Linotype", "Book Antiqua3", Palatino, serif;	
+	font-size: 12pt;
+	border-radius: 10px;
+	text-align: center;
+	box-shadow: 1px 1px 3px #000;
+}
+
+.wizardWindow label,
+.alternateFont .characterSheet label,
+.tutorialSlideWindow label
+{
+	font-weight: bold;
+}
+
+.wizardWindow button.previous,
+.tutorialSlideWindow button.previous
+{
+	background-color: #eea;
+	float: left;
+}
+.wizardWindow button.next,
+.tutorialSlideWindow button.next
+{
+	background-color: #aae;
+	float: right;
+}
+.wizardWindow button.cancel,
+.tutorialSlideWindow button.cancel
+{
+	background-color: #eaa;
+	float: left;
+}
+
+.wizardWindow .selector
+{
+	padding: 3px 3px 3px 3px;
+	margin: 3px 3px 3px 3px;
+	display: inline-block;
+	border-style: solid;
+	border-width: 1px;
+	border-color: #000;	
+	width: auto;
+	background-color: #fff;
+	font-family: 'AloisLightRegular', "Palatino Linotype", "Book Antiqua3", Palatino, serif;
+	font-size: 10pt;
+	border-radius: 10px;
+	text-align: center;
+}
+
+
+
+.wizardWindow button:hover, .wizardWindow .selector:hover{		
+	border-color: #000;
+	background-color: #ddd;	
+}
+
+.wizardWindow .selector[chosen=true]
+{	
+	box-shadow: 0px 0px 20px #000; 
+}
+
+.wizardWindow .cultureSelectionButton, .wizardWindow .backgroundButtonDiv, .wizardWindow .callingButton{
+	width: 300px;
+}
+
+
+#tooltipDiv.popupTooltips
+{
+	z-index: 75;
+	padding: 10px 10px 10px 10px;
+	position: absolute;
+	width: 550px;
+	left: 0;
+	top: 0;
+	background-color: #fff;
+	border-color: #000;
+	box-shadow: 0px 0px 10px #000; 
+	border-radius: 5px;
+	font-family: 'AloisLightRegular', "Palatino Linotype", "Book Antiqua3", Palatino, serif;
+	font-size: 10pt;
+	border-style: none;
+	border-width: 1px;
+}
+
+
+#tooltipDiv.popupButtons
+{
+	z-index: 75;
+	padding: 1px 1px 1px 1px;
+	position: absolute;		
+}
+
+.action.encouragedButton, .selector.encouragedButton{	
+	border-width: 2px;
+}
+
+.action.discouragedButton, .selector.discouragedButton{
+	border-style: dotted;	
+}
+
+/*.localizable{
+	border-style: solid;
+	border-width: 1px;
+	border-color: #ddd;
+	border-radius: 5px;	
+}*/
+.localizable:hover{
+	text-shadow:2px 2px 8px #000000;
+}
+
+.localizable .commentText{
+	font-size: 9pt;
+	letter-spacing: -1px;	
+	text-shadow:0px 0px 0px #000000;
+}
+
+#rollerDiv{
+	top: 550px;
+}
+#rollerDiv span, 
+#rollerDiv label
+{
+	font-family: 'AloisLightRegular', "Palatino Linotype", "Book Antiqua3", Palatino, serif;
+	font-size: 10pt;
+}
+#rollerDiv .action{
+	padding: 2px 2px 2px 2px;
+	margin: 0 0 0 0;
+}
+
+#rollerDiv  #rollerControlsDiv > div{
+	display: inline-block;
+	vertical-align: middle;
+	text-align: left;
+}
+
+#rollerDiv .successDiv div{
+	display: inline-block;	
+}
+
+#rollerDiv input{
+	font-family: 'AloisLightRegular', "Palatino Linotype", "Book Antiqua3", Palatino, serif;
+	font-size: 10pt;
+	width: 25px;
+}
+
+#rollerResultsDiv{
+	vertical-align: middle;
+}
+
+.dieDiv
+{
+	display: inline-block;
+	text-align: center;	
+	height: 32px;
+	width: 32px;
+	margin: 1px 1px 1px 1px;
+	padding: 0 0 0 0;
+	font-family: 'aaaorRegular', Arial, Helvetica, serif;
+	font-size: 18pt;
+	background-repeat: no-repeat;
+	background-position:center center;
+	line-height:32px;		
+	vertical-align: middle;
+}
+
+
+.dieDiv.d6DieDiv
+{
+	background-image:url('d6.png');
+}
+
+.dieDiv.d12DieDiv
+{
+	background-image:url('d12.png');
+}
+
+.dieDiv.d12DieDiv.discarded
+{
+	background-image:url('d12discarded.png');
+}
+
+
+#rollerTotal img{
+	width: 16px;
+	height: 16px;
+}
+
+.rollerTitle
+{
+	display: inline-block;
+	font-family: 'aaaorRegular', "Palatino Linotype", "Book Antiqua3", Palatino, serif;
+	font-variant: small-caps;
+	font-size: 12pt;
+}
+
+#onlineCharacterList{
+	max-width: 550px;
+	max-height: 250px;
+	overflow-y: auto;
+}
+#onlineCharacterListLoadingIndicator
+{
+	position: absolute;
+	top: 120px;
+	left: 275px;
+	text-align: center;
+	z-index: 100;
+}
+#onlineDiv
+{
+	top: 10px;
+	left: 10px;
+	width: 700px;
+	max-width: 750px;
+}
+#onlineDiv .characterSection
+{
+	position: relative;
+	height: 350px;
+}
+
+#onlineDiv .characterList
+{	
+	position: absolute;
+	display: inline-block;
+	width: 75%;	
+	top: 0;
+	left: 0;
+	font-size: 10pt;
+}
+
+#onlineDiv .characterControls
+{
+	top: 0;
+	right: 0;
+	position: absolute;
+	display: inline-block;
+	width: 25%;
+}
+#onlineCharacterList
+{
+	border: 2px solid #000;
+	border-radius: 10px 0 0 10px;
+	min-height: 300px;
+}
+#onlineDiv .header{
+	cursor: move;
+}
+
+#onlineDiv .input{
+	font-family: 'AloisLightRegular', "Palatino Linotype", "Book Antiqua3", Palatino, serif;
+	font-size: 12pt;
+	border-style: solid;	
+	border-width: 2px;
+	border-radius: 12px;
+	border-top-color: #999;
+	border-bottom-color: #ddd;
+	border-left-color: #999;
+	border-right-color: #ddd;
+	padding: 0px 6px 0px 6px;
+}
+
+#onlineOnlineExplanationButton,
+#onlineRegisterButton
+{
+	float: right;
+}
+
+.actions
+{
+	white-space: nowrap;
+}
+
+#chatDiv{
+	position: absolute;
+	width: 400px;
+	height: 300px;
+	left: 100px;
+	top: 100px;
+}
+
+#chatDiv input{
+	font-family: 'AloisLightRegular', "Palatino Linotype", "Book Antiqua3", Palatino, serif;
+	font-size: 12pt;
+	border-style: solid;	
+	border-width: 2px;
+	border-radius: 12px;
+	border-top-color: #999;
+	border-bottom-color: #ddd;
+	border-left-color: #999;
+	border-right-color: #ddd;
+	padding: 0px 6px 0px 6px;
+}
+
+#chatDiv #chatAliasLabel{
+	font-family: 'AloisLightRegular', "Palatino Linotype", "Book Antiqua3", Palatino, serif;
+	font-size: 12pt;
+	position: absolute; 
+	top: 15px;
+	left: 15px;	
+}
+
+#chatDiv #chatCloseButton{
+	position: absolute; 
+	top: 10px;
+	right: 10px;	
+}
+
+#chatDiv #chatAliasInput{
+	position: absolute; 
+	top: 10px;
+	left: 90px;
+	right: 90px;
+}
+
+#chatDiv #chatMessageInput{
+	position: absolute; 
+	bottom: 5px;
+	left: 10px;
+	width: 95%;
+	right: 10px;	
+}
+
+#chatDiv #chatDragHandle{
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	right: 0px;
+	height: 40px;
+	cursor: move;
+}
+
+#chatDiv  #chatContentsDiv{
+	border-width: 2px;
+	border-style: solid;
+	border-color: #000;
+	border-radius: 15px 0 0 15px;
+	position: absolute;
+	left: 5px;
+	right: 5px;
+	top: 40px;
+	bottom: 35px;
+	overflow-y: auto;
+	overflow: auto;
+}
+
+.chatMessage{
+	display: block;
+}
+.chatMessage fieldset{
+	border-top-style: solid;
+	border-left-style: none;
+	border-right-style: none;
+	border-bottom-style: none;
+	border-width: 1px;
+	border-color: #555;
+	display: block;
+}
+
+.chatMessage fieldset legend{
+	border-style: none;
+	font-family: 'AloisLightRegular', "Palatino Linotype", "Book Antiqua3", Palatino, serif;
+	font-size: 8pt;
+
+}
+
+.chatMessage fieldset legend .chatMessageDateSpan{
+	display: none;
+}
+
+.chatMessage fieldset:hover legend .chatMessageDateSpan{
+	display: inline;
+}
+
+.logoContainer{
+	text-align: center;
+}
+
+.logoContainer img{
+	width: 150px;
+}
+
+#helpDiv
+{
+	position: absolute;
+	top: 10px;
+	left: 10px;	
+	padding: 15px;
+	min-height: 200px;
+	width: 100%;
+}
+
+#helpDiv .helpText
+{
+	font-family: 'AloisLightRegular', "Palatino Linotype", "Book Antiqua3", Palatino, serif;				
+}
+#helpDiv .helpTextContainer
+{
+	font-family: 'AloisLightRegular', "Palatino Linotype", "Book Antiqua3", Palatino, serif;				
+	overflow-y: scroll;
+	height: 100%;
+}
+
+#helpDiv fieldset
+{	
+	margin-top: 10px;
+	padding: 10px;	
+	height: 80%;
+}
+
+
+.helpButton
+{
+	cursor: pointer;
+	color: #aaa;	
+	border: 1px solid transparent;
+	display: inline-block;
+	border-radius: 20px;
+	min-width: 10px;
+	text-align: center;
+	font-family: 'AloisLightRegular', "Palatino Linotype", "Book Antiqua3", Palatino, serif;
+	font-size: 8pt;
+}
+
+.helpButton:hover,
+.helpButton.floating
+{	
+	border: 1px solid #aaa;
+	background-color: #eee;
+	color: #000;
+	box-shadow: 2px 1px 2px #555555;     
+}
+
+.notification
+{
+	position: absolute;	
+	background-color: #ee8;
+	left: 0;
+	top: 0;
+	z-index: 100;
+}
+
+#changesDiv 
+{
+	top: 0px;
+	left: 0px;
+	width: 100%;
+}
+
+#changesDiv .textContainer
+{
+	overflow-y: scroll;
+	max-height: 400px;
+}
+
+.noPrint > input,
+.noPrint > img
+{	
+	opacity: 0.1;
+}
+
+.tutorialHighlight
+{
+	box-shadow: 0 0 50px #000;	
+}
+.tutorialHighlight.blink
+{
+	box-shadow: 0 0 10px #000;	
+}
+
+.tutorialSlideWindow legend
+{
+	background-color: #cc9;
+	cursor: move;
+}
+.tutorialSlideWindow 
+{
+	left: 0px;
+	top: 0px;
+	width: auto;
+	height: auto;
+	background-color: #eea;	
+}

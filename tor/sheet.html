@@ -1,0 +1,852 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>		
+        <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE9" />
+		<link href='css/characterSheet.css' rel='stylesheet' type='text/css'>
+		<link href='css/print.css' rel='stylesheet' type='text/css' media="print">		
+		<link type="text/css" href="css/smoothness/jquery-ui-1.8.16.custom.css" rel="Stylesheet" />	
+		<script src="js/jquery-1.7.min.js" type="text/javascript"></script>		
+		<script src="js/jquery.linq.min.js" type="text/javascript"></script>
+		<script src="js/jquery.cookies.js" type="text/javascript"></script>
+		<script src="js/json-serialization.js" type="text/javascript"></script>
+		<script src="js/code.js" type="text/javascript"></script>						
+		<script type="text/javascript" src="js/jquery-ui-1.8.16.custom.min.js"></script>
+		<!-- Google Analytics -->
+		<script type="text/javascript">
+		  var _gaq = _gaq || [];
+		  _gaq.push(['_setAccount', 'UA-1707341-2']);
+		  _gaq.push(['_trackPageview']);
+
+		  (function() {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		  })();
+		</script>
+		<title>The One Ring - Online Character Sheet</title>
+		<link rel="shortcut icon" href="favicon.ico">
+        <meta name="Description" content="Web Character Sheet and Generator for The One Ring roleplaying game. A freeware application to create and share your The One Ring characters online. Author: David Esparza-Guerrero" />
+	</head>
+
+	<body>
+		<div class="actionMenu" style="display: none;">
+			<button id="startButton" class="action uiText">uiCreateNewCharacter</button>
+			<br />
+			<button id="descriptionsToggleButton" class="action uiText popupButtons">uiPopupHelpButtons</button>
+			<br />
+			<button id="fontToggleButton" class="action uiText">uiFontToggle</button>
+			<br />
+			<button id="hideVolatileButton" class="action uiText">uiHideVolatile</button>
+			<br />
+			<button id="saveButton" class="action uiText">uiSaveCharacter</button>
+			<br />
+			<button id="loadButton" class="action uiText">uiLoadCharacter</button>
+			<br />	
+			<button id="forumCodeButton" class="action uiText">uiForumCode</button>
+			<br />
+			<button id="onlineButton" class="action uiText">uiOnline</button>
+			<br />
+			<button id="synchedToggleButton" class="action uiText discouragedButton">uiSynched</button>
+			<br />
+			<br />
+			<button id="changesButton" class="action uiText" latest="20140131">uiWhatsNew</button>
+			<br />
+			<button id="aboutButton" class="action uiText">uiAbout</button>            
+		</div>
+		<div class="contextMenu" style="display: none;"></div>
+
+		<!-- Character Sheet -->
+		<div class="characterSheet front" style="display: none;">
+			<input type="hidden" id="edition" value="" />
+			<div class="logoContainer">
+				<img src="css/TorLogoEn.jpg" />
+			</div>
+			<table class="basicInformationTable">
+				<tr>
+					<td>
+						<table>
+							<tr>
+								<td class="labelCell cell">
+									<label class='uiText'>uiName</label>
+								</td>
+								<td class="inputCell cell">
+									<input type="text" id="nameInput" />
+								</td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<table>
+							<tr>
+								<td class="labelCell cell">
+									<label class="uiText">uiCulture</label>
+								</td>
+								<td class="inputCell cell">
+									<div class="input narrow" id="cultureInput" ></div>
+								</td>
+								<td class="labelCell cell">
+									<label class="narrowLabel uiText">uiStandardofLiving</label>
+								</td>
+								<td class="inputCell cell">
+									<div class="input" id="standardInput" ></div>
+								</td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<table>
+							<tr>
+								<td class="labelCell cell">
+									<label class="narrowLabel uiText">uiCulturalblessing</label>
+								</td>
+								<td class="inputCell cell">
+									<div class="input" id="culturalBlessingInput"></div>
+								</td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<table>
+							<tr>
+								<td class="labelCell cell">
+									<label class="uiText">uiCalling</label>
+								</td>
+								<td class="inputCell cell">
+									<div class="input" id="callingInput"></div>
+								</td>
+								<td class="labelCell cell">
+									<label class="narrowLabel uiText">uiShadowweakness</label>
+								</td>
+								<td class="inputCell cell">
+									<div class="input narrow" id="shadowWeaknessInput"></div>
+								</td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+			</table>
+			<div class="heading uiText">
+				uiTraits
+			</div>
+			<table class="basicInformationTable">
+				<tr>
+					<td class="labelCell cell">
+						<label class="narrowLabel uiText">uiSpecialties</label>
+					</td>		
+					<td class="inputCell cell">
+						<div class="input" id="specialtiesInput"></div>
+					</td>
+				</tr>
+				<tr>
+					<td class="labelCell cell">
+						<label class="narrowLabel uiText">uiDistinctivefeatures</label>
+					</td>		
+					<td class="inputCell cell">
+						<div class="input" id="distinctiveFeaturesInput" />
+					</td>
+				</tr>
+			</table>
+			<div class="heading uiText">
+				uiAttributes
+			</div>
+			<div class="attributeContainerBox">		
+					<div class="bodyBox attributeBox" attribute="body">
+						<label class="localizable">body</label>
+						<input type="text" id="bodyScoreInput" />
+					</div>
+					<div class="favouredBodyBox favouredAttributeBox" attribute="body">
+						<label class="uiText">uiFavoured</label>
+						<input type="text" id="favouredBodyScoreInput" />
+					</div>		
+					
+					<div class="heartBox attributeBox" attribute="heart">
+						<label class="localizable">heart</label>
+						<input type="text" id="heartScoreInput" />
+					</div>
+					<div class="favouredHeartBox favouredAttributeBox" attribute="heart">
+						<label  class="uiText">uiFavoured</label>
+						<input type="text" id="favouredHeartScoreInput" />
+					</div>		
+					
+					<div class="witsBox attributeBox" attribute="wits">
+						<label class="localizable">wits</label>
+						<input type="text" id="witsScoreInput" />
+					</div>
+					<div class="favouredWitsBox favouredAttributeBox" attribute="wits">
+						<label class="uiText">uiFavoured</label>
+						<input type="text" id="favouredWitsScoreInput" />
+					</div>		
+			</div>
+			
+			<div class="heading uiText">
+				uiCommonSkills
+			</div>
+			<div class="skillsBox">
+				<table class="skillTable">
+					
+				</table>
+			</div>
+			<div class="heading uiText">
+				uiWeaponSkills
+			</div>
+			<div class="weaponSkillsBox">
+				<table id="weaponSkillsTable">
+				</table>
+			</div>
+			<div class="virtuesRewardsContainer">
+				<div class="rewardsContainer">
+					<div class="heading uiText">
+						uiRewards
+					</div>
+					<div class="rewardsContent" >				
+						<div class="input"></div>
+					</div>
+				</div>
+				<div class="virtuesContainer">
+					<div class="heading uiText">
+						uiVirtues
+					</div>
+					<div class="virtuesContent" >				
+						<div class="input"></div>
+					</div>
+				</div>
+			</div>
+			<div class="weaponGearBox">
+				<div class="heading uiText">
+					uiGear
+				</div>
+				<table id="weaponGearTable">
+				</table>
+			</div>
+			<div class="gearContainer">
+				<table class="gearTable">
+				</table>		
+			</div>
+			
+			<div class="roundStatBox" stat="endurance">
+				<label class="uiText">uiEndurance</label>
+				<input type="text" />
+				<div class="top left subRoundStatBox" stat="startingEndurance">
+					<label class="uiText">uiEndStartingScore</label>
+					<input type="text" />
+				</div>
+				<div class="bottom left subRoundStatBox" stat="fatigue">
+					<label class="uiText">uiFatigue</label>
+					<input type="text" />
+				</div>
+				<div class="subbottom left subRoundStatBox" stat="fatigueTravel">
+					<label class="uiText">uiFatigueTravel</label>
+					<input type="text" />
+				</div>
+				<div class="bottom right subRoundStatBox" stat="fatigueTotal">
+					<label class="uiText">uiFatigueTotal</label>
+					<input type="text" readonly="readonly" />
+				</div>
+
+		</div>
+			<div class="roundStatBox" stat="hope">
+				<label class="uiText">uiHope</label>
+				<input type="text" />
+				<div class="top left subRoundStatBox" stat="startingHope">
+					<label class="uiText">uiHopeStartingScore</label>
+					<input type="text" />
+				</div>
+				<div class="bottom left subRoundStatBox" stat="shadow">
+					<label class="uiText">uiShadow</label>
+					<input type="text" />
+				</div>
+				<div class="subbottom left subRoundStatBox" stat="permanentShadow">
+					<label class="uiText">uipermanentShadow</label>
+					<input type="text" />
+				</div>
+				<div class="bottom right subRoundStatBox" stat="totalShadow">
+					<label class="uiText">uitotalShadow</label>
+					<input type="text" readonly="readonly" />
+				</div>
+			</div>
+			<div class="roundStatBox" stat="armour">
+				<label class="uiText">uiArmour</label>
+				<input type="text" />
+				<div class="bottom left subRoundStatBox" stat="headgear">
+					<label class="uiText">uiHeadgear</label>
+					<input type="text" />
+				</div>
+			</div>
+
+			<div class="roundStatBox" stat="parry">
+				<label class="uiText">uiParry</label>
+				<input type="text" />
+				<div class="bottom left subRoundStatBox" stat="shield">
+					<label class="uiText">uiShield</label>
+					<input type="text" />
+				</div>
+			</div>
+			<div class="roundStatBox" stat="damage">
+				<label class="uiText">uiDamage</label>
+				<input type="text" />
+				<div class="bottom left subRoundStatBox" stat="ranged">
+					<label class="uiText">uiRanged</label>
+					<input type="text" />
+				</div>
+			</div>
+			<div class="roundStatBox" stat="wisdom">
+				<label class="uiText">uiWisdom</label>
+				<input type="text" />		
+			</div>
+			<div class="roundStatBox" stat="valour">
+				<label class="uiText">uiValour</label>
+				<input type="text" />		
+			</div>
+			<div class="roundStatBox" stat="experience">
+				<label class="uiText">uiExperience</label>
+				<input type="text" />
+				<div class="top left subRoundStatBox" stat="total">
+					<label class="uiText">uiTotal</label>
+					<input type="text" />
+				</div>
+			</div>
+
+			<div class="statusBox" stat="weary">
+				<label class="uiText">uiWeary</label>
+			</div>
+			<div class="statusBox" stat="miserable">
+				<label class="uiText">uiMiserable</label>
+			</div>
+			<div class="statusBox" stat="wounded">
+				<label class="uiText">uiWounded</label>
+			</div>
+			<div class="statusBox" stat="woundTreated">
+				<label class="uiText">uiWoundTreated</label>
+			</div>
+		</div>
+
+		<!-- Backsheet -->
+		<div class="characterSheet back" style="display: none;">
+			<div class="roundStatBox" stat="fellowshipPoints">
+				<label class="uiText">uifellowshipPoints</label>
+				<input type="text" />		
+			</div>
+			<div class="roundStatBox" stat="advancementPoints">
+				<label class="uiText">uiadvancementPoints</label>
+				<input type="text" />		
+			</div>
+			<div class="roundStatBox" stat="treasurePoints">
+				<label class="uiText">uitreasurePoints</label>
+				<input type="text" />		
+			</div>
+			<div class="roundStatBox" stat="standing">
+				<label class="uiText">uistanding</label>
+				<input type="text" />		
+			</div>
+			
+			<table class="basicInformationTable coinTable">
+				<tr>
+					<td class="labelCell">
+						<label class="uiText">
+							uiGoldCoins
+						</label>
+					</td>
+					<td>
+						<input type="text" id="goldCoinsInput" />
+					</td>
+					<td class="labelCell">
+						<label class="uiText">
+							uiSilverCoins
+						</label>
+					</td>
+					<td>
+						<input type="text" id="silverCoinsInput" />
+					</td>
+					<td class="labelCell">
+						<label class="uiText">
+							uiCopperCoins
+						</label>
+					</td>
+					<td>
+						<input type="text" id="copperCoinsInput" />
+					</td>
+				</tr>
+			</table>
+			
+			<div class="inventory">
+				<div class="heading uiText">
+					uiInventory
+				</div>
+				<table class="basicInformationTable" id="inventoryTable">
+					<tr>
+						<td>
+							<input type="text" class="input"/>
+						</td>
+						<td>
+							<input type="text" class="input"/>
+						</td>							
+					</tr>					
+				</table>
+			</div>
+			
+			<div class="bigText" stat="backgroundText">
+				<div class="heading uiText">
+					uiBackground
+				</div>
+				<textarea class="input"></textarea>
+			</div>
+			<div class="heading uiText">
+					uiCompany
+			</div>
+			<table class="basicInformationTable fellowshipTable">
+				<tr>
+					<td class="labelCell">
+						<label class='uiText'>uiGuide</label>
+					</td>
+					<td>
+						<input type="text" id="guideInput" />
+					</td>				
+					<td class="labelCell">
+						<label class='uiText'>uiScout</label>
+					</td>
+					<td>
+						<input type="text" id="scoutInput" />
+					</td>				
+					<td class="labelCell">
+						<label class='uiText'>uiHuntsman</label>
+					</td>
+					<td>
+						<input type="text" id="huntsmanInput" />
+					</td>
+				</tr>
+				<tr>
+					<td class="labelCell">
+						<label class='uiText'>uiLookout</label>
+					</td>
+					<td>
+						<input type="text" id="lookoutInput" />
+					</td>				
+					<td class="labelCell">
+						<label class='uiText'>uiFellowshipFocus</label>
+					</td>
+					<td>
+						<input type="text" id="fellowshipFocusInput" />
+					</td>
+					<td colspan="2">
+						&nbsp;
+					</td>
+				</tr>
+				<tr>
+					<td colspan="6">
+						<textarea class="input" id="fellowshipNotesInput"></textarea>
+					</td>
+				</tr>
+			</table>
+			<div class="heading uiText">
+					uiFellowshipPhase
+			</div>
+			<table class="basicInformationTable fellowshipPhaseTable">
+				<tr>
+					<td class="labelCell">
+						<label class='uiText'>uiSanctuaries</label>
+					</td>
+					<td>
+						<input type="text" id="sanctuariesInput" />
+					</td>
+				</tr>
+				<tr>
+					<td class="labelCell">
+						<label class='uiText'>uiPatron</label>
+					</td>
+					<td>
+						<input type="text" id="patronInput" />
+					</td>
+				</tr>
+			</table>
+			<div class="heading uiText">
+					uiTaleOfYears
+			</div>
+			<table class="basicInformationTable" id="taleOfYearsTable">
+				<tr class="yearTale" number="0">
+					<td>
+						<input type="text" class="year input"/>
+					</td>
+					<td>
+						<input type="text" class="events input"/>
+					</td>			
+				</tr>
+			</table>
+		</div>
+
+		<!-- Character Creation Wizard Elements -->
+		<div id="wizardCultureDiv" class="wizardWindow" style="display: none;">
+			<fieldset>
+				<legend class="uiText">uiCulture</legend>
+				<div id="wizardCultureButtonsDiv"></div>
+				<div class="buttonContainer">
+					<button id="cultureNextButton" style="display: none;" class="uiText next">uiNext</button>
+					<button class="uiText cancel">uiCancelCreation</button>
+				</div>
+			</fieldset>
+		</div>
+		<div id="wizardWeaponSkillsPackageDiv" class="wizardWindow" style="display: none;">
+			<fieldset>
+				<legend class="uiText">uiWeaponSkillPackage</legend>
+				<span class="uiText">uiWSPChooseone</span>
+				<div id="wizardWeaponSkillsPackageButtonsDiv"></div>
+				<div class="buttonContainer">
+					<button id="weaponSkillsPackagePrevButton" class="uiText previous">uiPrevious</button>
+					<button id="weaponSkillsPackageNextButton" style="display: none;" class="uiText next">uiNext</button>
+					<button class="uiText cancel">uiCancelCreation</button>
+				</div>
+			</fieldset>
+		</div>
+		<div id="wizardSpecialtiesDiv" class="wizardWindow" style="display: none;">
+			<fieldset>
+				<legend class="uiText">uiSpecialties</legend>
+				<span class="uiText">uiSpeChoosetwo</span>
+				<div id="wizardSpecialtiesButtonsDiv"></div>
+				<div class="buttonContainer">
+					<button id="SpecialtiesPrevButton" class="uiText previous">uiPrevious</button>
+					<button id="SpecialtiesNextButton" style="display: none;" class="uiText next">uiNext</button>
+					<button class="uiText cancel">uiCancelCreation</button>
+				</div>
+			</fieldset>
+		</div>
+		<div id="wizardBackgroundDiv" class="wizardWindow" style="display: none;">
+			<fieldset>
+				<legend class="uiText">uiBackground</legend>
+				<span class="uiText">uiBackChooseone</span>
+				<div id="wizardBackgroundButtonsDiv"></div>
+				<div class="buttonContainer">
+					<button id="BackgroundPrevButton" class="uiText previous">uiPrevious</button>
+					<button id="BackgroundNextButton" style="display: none;" class="uiText next">uiNext</button>
+					<button class="uiText cancel">uiCancelCreation</button>
+				</div>
+			</fieldset>
+		</div>
+
+		<div id="wizardCallingDiv" class="wizardWindow" style="display: none;">
+			<fieldset>
+				<legend class="uiText">uiCalling</legend>
+				<span class="uiText">uiCallChooseone</span>
+				<div id="wizardCallingButtonsDiv"></div>
+				<div class="buttonContainer">
+					<button id="callingPrevButton" class="uiText previous">uiPrevious</button>
+					<button id="callingNextButton" style="display: none;" class="uiText next">uiNext</button>
+					<button id="callingNextToAdditionalTraitButton" style="display: none;" class="uiText next">uiNext</button>
+					<button class="uiText cancel">uiCancelCreation</button>
+				</div>
+			</fieldset>
+		</div>
+
+		<div id="wizardFavouredSkillGroupsDiv" class="wizardWindow" style="display: none;">
+			<fieldset>
+				<legend class="uiText">uiFavouredSkills</legend>
+				<span class="uiText">uiFSGChoosetwo</span>
+				<div id="wizardFavouredSkillGroupsButtonsDiv"></div>
+				<div class="buttonContainer">
+					<button id="favouredSkillGroupsPrevButton" class="uiText previous">uiPrevious</button>
+					<button id="favouredSkillGroupsNextButton" style="display: none;" class="uiText next">uiNext</button>
+					<button class="uiText cancel">uiCancelCreation</button>
+				</div>
+			</fieldset>
+		</div>
+		<div id="wizardAdditionalTraitDiv" class="wizardWindow" style="display: none;">
+			<fieldset>
+				<legend class="uiText">uiAdditionalTraitfromCalling</legend>
+				<span class="uiText">uiATChooseone</span>
+				<div id="wizardAdditionalTraitButtonsDiv"></div>
+				<div class="buttonContainer">
+					<button id="additionalTraitPrevButton" class="uiText previous">uiPrevious</button>
+					<button id="additionalTraitNextButton" style="display: none;" class="uiText next">uiNext</button>
+					<button class="uiText cancel">uiCancelCreation</button>
+				</div>
+				</fieldset>
+		</div>
+
+		<div id="wizardFavouredAttributesDiv" class="wizardWindow" style="display: none;">
+			<fieldset>
+				<legend class="uiText">uiFavouredAttributes</legend>
+				<span id="FAChooseTextId"></span>
+				<br />
+				<span class="uiText">uiFSChoose3</span>
+				<div class="favouredAttributes3Div">
+					<div class="favouredAttribute3 selector localizable" attribute="body">body</div>
+					<div class="favouredAttribute3 selector localizable" attribute="heart">heart</div>
+					<div class="favouredAttribute3 selector localizable" attribute="wits">wits</div>
+				</div>
+				<span class="uiText">uiFSChoose2</span>
+				<div class="favouredAttributes2Div">
+					<div class="favouredAttribute2 selector localizable" attribute="body">body</div>
+					<div class="favouredAttribute2 selector localizable" attribute="heart">heart</div>
+					<div class="favouredAttribute2 selector localizable" attribute="wits">wits</div>
+				</div>
+				<span class="uiText">uiFSChoose1</span>
+				<div class="favouredAttributes1Div">
+					<div class="favouredAttribute1 selector localizable" attribute="body">body</div>
+					<div class="favouredAttribute1 selector localizable" attribute="heart">heart</div>
+					<div class="favouredAttribute1 selector localizable" attribute="wits">wits</div>
+				</div>		
+				
+				<div class="buttonContainer">
+					<button id="favouredAttributePrevButton" class="uiText previous">uiPrevious</button>
+					<button id="favouredAttributeNextButton" style="display: none;" class="uiText next">uiNext</button>
+					<button class="uiText cancel">uiCancelCreation</button>
+				</div>
+			</fieldset>
+		</div>
+		<div id="wizardValourWisdomDiv" class="wizardWindow" style="display: none;">
+			<fieldset>
+				<legend class="uiText">uiValourandWisdom</legend>
+				<span class="uiText">uiVWChoose</span>
+				<div class="valourWisdomDiv">
+					<div class="valourWisdomSelector selector uiText" attribute="valour">uiVWValour2</div>
+					<div class="valourWisdomSelector selector uiText" attribute="wisdom">uiVWWisdom2</div>
+				</div>
+				<div class="buttonContainer">
+					<button id="valourWisdomPrevButton" class="uiText previous">uiPrevious</button>
+					<button id="valourWisdomNextButton" style="display: none;" class="uiText next">uiNext</button>
+					<button class="uiText cancel">uiCancelCreation</button>
+				</div>
+			</fieldset>
+		</div>
+
+		<div id="wizardVirtuesDiv" class="wizardWindow" style="display: none;">
+			<fieldset>
+				<legend class="uiText">uiVirtuesandMasteries</legend>
+				<span class="uiText">uiVMChoose</span>
+				<div class="virtuesDiv">
+				</div>
+				<div class="buttonContainer">
+					<button id="virtuesPrevButton" class="uiText previous">uiPrevious</button>
+					<button id="virtuesNextButton" style="display: none;" class="uiText next">uiNext</button>
+					<button class="uiText cancel">uiCancelCreation</button>
+				</div>
+			</fieldset>
+		</div>
+
+		<div id="wizardRewardsDiv" class="wizardWindow" style="display: none;">
+			<fieldset>
+				<legend class="uiText">uiRewardsQualities</legend>
+				<span class="uiText">uiRQChoose</span>
+				<div class="rewardsDiv">
+				</div>
+				<div class="buttonContainer">
+					<button id="rewardsPrevButton" class="uiText previous">uiPrevious</button>
+					<button id="rewardsNextButton" style="display: none;" class="uiText next">uiNext</button>
+					<button class="uiText cancel">uiCancelCreation</button>
+				</div>
+			</fieldset>
+		</div>
+
+		<div id="wizardPreviousExperienceDiv" class="wizardWindow" style="display: none;">
+			<fieldset>
+				<legend class="uiText">uiPrevExp</legend>
+				<span class="uiText">uiPXChoose</span>
+				<div class="remainingXP" XPLeft="10" class="uiText">uiPX10XPLeft</div>
+				<div class="rankableSkillsDiv"></div>		
+				<div class="buttonContainer">
+					<button id="previousExperiencePrevButton" class="uiText previous">uiPrevious</button>
+					<button id="previousExperienceResetButton" class="uiText reset">uiReset</button>
+					<button id="previousExperienceNextButton" class="uiText next">uiNext</button>
+					<button class="uiText cancel">uiCancelCreation</button>
+				</div>
+			</fieldset>
+		</div>
+
+		<div id="wizardFinishDiv" class="wizardWindow" style="display: none;">
+			<fieldset>
+				<legend class="uiText">uiFinalTouches</legend>
+				<span class="uiText">uiFTText</span>
+				<div class="buttonContainer">
+					<button id="finishCloseButton" class="uiText next">uiFinish</button>
+					<button class="uiText cancel">uiCancelCreation</button>
+				</div>
+			</fieldset>
+		</div>
+
+		<!-- Serialization Window -->
+		<div id="serializeDiv" class="wizardWindow" style="display: none;">
+			<fieldset>
+				<legend class="uiText">uiCharacterData</legend>
+				<span class="uiText">uiSaveText</span>
+				<textarea class="serializeDataDiv" style="width: 500px; height: 200px;">
+				</textarea>
+				<br/>
+				<button id="serializeCloseButton" class="uiText">uiClose</button>
+				
+			</fieldset>
+		</div>
+
+		<!-- Deserialization Window -->
+		<div id="deserializeDiv" class="wizardWindow" style="display: none;">
+			<fieldset>
+				<legend class="uiText">uiCharacterData</legend>
+				<span class="uiText">uiLoadText</span>
+				<textarea class="deserializeDataDiv" style="width: 500px; height: 200px;">
+				</textarea>
+				<br/>
+				<button id="deserializeNextButton" class="uiText">uiNext</button>
+				<button id="deserializeCloseButton" class="uiText">uiClose</button>		
+			</fieldset>
+		</div>
+
+		<div id="changesDiv" class="wizardWindow noDraggable" style="display: none;">
+			<fieldset>
+				<legend class="uiText">uiLatestChanges</legend>
+				<div class="textContainer">
+					<span class="uiText">uiLCText</span>
+				</div>
+				<button id="changesCloseButton" class="uiText">uiClose</button>
+			</fieldset>
+		</div>
+
+		<div id="rollerDiv" class="actionMenu" style="display: none;">
+			<div class="rollerTitle uiText">
+				uiDiceRoller
+			</div>
+			<div class="helpButton" helptopic="uiDiceRollerHelp">?</div>
+			<div id="rollerControlsDiv">
+				<div class="featDiv uiText action">uiFeat</div>
+				+
+				<div class="successDiv">
+					<div class="action" number="1">1</div>
+					<div class="action" number="2">2</div>
+					<div class="action" number="3">3</div>
+					<br />
+					<div class="action" number="4">4</div>
+					<div class="action" number="5">5</div>
+					<div class="action" number="6">6</div>
+				</div>
+				+
+				<input type="text" id="rollerBonusInput" />
+				<input type="checkbox" id="rollerWearyCheckbox" /><label for="rollerWearyCheckbox" class="uiText">uiWeary</label>
+				<div class="keepOneOfTwo">
+					<span class="uiText">uiFeatRoll</span>
+					<br />
+					<input type="checkbox" case="best" id="rollTwiceKeepBest" /><label for="rollTwiceKeepBest" class="uiText">uiFeatRollBest</label>
+					<br />
+					<input type="checkbox" case="worst" id="rollTwiceKeepWorst" /><label for="rollTwiceKeepWorst" class="uiText">uiFeatRollWorst</label>
+				
+				</div>
+
+			</div>
+			<div id="rollerResultsDiv"></div>
+		</div>
+
+		<!-- Forum code Window -->
+		<div id="forumCodeDiv" class="wizardWindow" style="display: none;">
+			<fieldset>
+				<legend class="uiText">uiForumCode</legend>
+				<span class="uiText">uiForumCodeText</span>
+				<textarea class="forumCodeDiv" style="width: 500px; height: 200px;">
+				</textarea>
+				<br/>
+				<button id="forumCodeCloseButton" class="uiText">uiClose</button>
+			</fieldset>
+		</div>
+
+
+		<!-- About Window -->
+		<div id="aboutDiv" class="wizardWindow" style="display: none;">
+			<fieldset>
+				<legend class="uiText">uiAbout</legend>
+				<span class="uiText">uiAboutText</span>
+				<br/>
+				<button id="aboutCloseButton" class="uiText">uiClose</button>
+			</fieldset>
+		</div>
+
+
+		<!-- Server Load Window -->
+		<div id="onlineDiv" class="wizardWindow" style="display: none;">
+			<fieldset id="onlineCredentials">
+				<legend class="uiText">uiOnlineTitle</legend>
+				<div class="header">
+					<div>
+						<button id="onlineOnlineExplanationButton" class="uiText">uiOnlineExplanation</button>
+						<span class="uiText">uiOnlineText</span>					
+					</div>
+					<div>
+						<button id="onlineRegisterButton" class="uiText">uiOnlineRegister</button>	
+						<table>
+							<tr>
+								<td>		
+									<label for="serverUsernameInput" class="uiText">uiUsername</label>
+								</td>
+								<td>
+									<input type="text" class="input" id="serverUsernameInput" />
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<label for="serverPasswordInput" class="uiText">uiPassword</label>
+								</td>
+								<td>
+									<input type="text" class="input" id="serverPasswordInput" />
+								</td>
+							</tr>
+						</table>
+						
+					</div>
+				</div>
+				<section class="characterSection">
+					<div class="characterList">
+						<span class="uiText">uiOnlineCharacterList</span>:<br/>
+						<div>
+							<div id="onlineCharacterListLoadingIndicator" style="display: none;" class="uiText selector">uiLoading</div>
+							<div id="onlineCharacterList"></div>
+							<div id="onlineMessageBox"></div>
+						</div>						
+					</div>
+					<div class="characterControls">						
+						<span class="uiText">uiOnlineCharacters</span>:<br/>
+						<button id="onlineListOwnButton" class="uiText">uiOnlineGetMyCharacters</button>		
+						<button id="onlineListPublicButton" class="uiText">uiOnlineGetPublicCharacters</button>										
+						<button id="onlineSavePrivateButton" class="uiText">uiSavePrivate</button>
+						<br/>
+						<span class="uiText">uiOnlineGaming</span>:<br/>
+						<button id="chatButton" class="uiText">uiChat</button>		
+						<button id="chatHistoryButton" class="uiText">uiChatHistory</button>
+						<button id="downloadChatHistoryButton" class="uiText">uiDownloadChatHistory</button>
+					</div>
+				</section>
+				<div>
+					<button id="onlineCloseButton" class="uiText cancel">uiClose</button>
+				</div>
+			</fieldset>
+		</div>
+
+		<!-- Chat Window -->
+		<div id="chatDiv" class="wizardWindow" style="display: none;">		
+			<div id="chatDragHandle">
+				<label id="chatAliasLabel" for="chatAliasInput" class="uiText">uiChatAlias</label>
+				<input type="text" id="chatAliasInput" />		
+				<button id="chatCloseButton" class="action uiText cancel">uiClose</button>
+			</div>
+			<div id="chatContentsDiv">				
+			</div>	
+			<input type="text" id="chatMessageInput" />
+		</div>
+
+
+		<!-- Tooltip window -->
+		<div id="tooltipDiv" class="popupButtons" style="display: none;"></div>
+
+		<div id="helpDiv" class="wizardWindow noDraggable" style="display: none;">
+			<fieldset><div class="helpTextContainer"></div></fieldset>
+			<div class='buttonContainer'>
+				<button class="uiText closeButton">uiClose</button>
+			</div>
+		</div>
+
+		<!-- Data elements -->
+		<div style="display: none;">
+			<div id="characterData" style="display: none;"></div>
+			<div id="internalDataContainer" style="display: none;"></div>	
+			<div id="locale" style="display: none;"></div>
+		</div>
+	</body>
+</html>
