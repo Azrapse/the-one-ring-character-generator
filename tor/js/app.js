@@ -7,7 +7,8 @@ requirejs.config({
         "jquery.linq": "jquery.linq.min",
         "jquery.migrate": "jquery-migrate-1.2.1",
         "modernizr": "modernizr-1.7.min",
-        "json": "json-serialization"
+        "json": "json-serialization",
+        "gamedata": "../app/gamedata"
     },
     "shim": {
         "jquery.linq": ["jquery"],
