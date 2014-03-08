@@ -1,5 +1,5 @@
 ﻿<?php	
 	foreach($users as $user):
 ?>
-<? echo $user['User']['username'] ?>: <? echo $user['User']['display_name'] ?>
-<? endforeach; ?>
+<?php echo $user['User']['username'] ?>: <?php echo $user['User']['display_name'] ?>
+<?php endforeach; ?>

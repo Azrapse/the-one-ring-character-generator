@@ -34,12 +34,12 @@
 		</style>
 	</head>
 	<body>	
-		<? foreach($messages as $message): ?>
-		<? echo $message['Message']['sender_name']?> - <? echo $message['Message']['sent_date'] ?>
+		<?php foreach($messages as $message): ?>
+		<?php echo $message['Message']['sender_name']?> - <?php echo $message['Message']['sent_date'] ?>
 		<br />
-		<? echo $message['Message']['text'] ?>
+		<?php echo $message['Message']['text'] ?>
 		<hr />
-		<? endforeach; ?>
+		<?php endforeach; ?>
 	</body> 
 </html>
 <script>

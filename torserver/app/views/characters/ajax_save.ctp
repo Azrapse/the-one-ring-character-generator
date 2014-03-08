@@ -1,1 +1,1 @@
-<span class="uiText"><? echo $message ?></span>
+<span class="uiText"><?php echo $message ?></span>

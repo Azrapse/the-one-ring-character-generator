@@ -24,7 +24,7 @@ class CharactersController extends AppController {
 			"order" => array("Character.culture", "Character.calling", "Character.name", "Character.user_id")
 		));
 		$this->set('characters', $characters);	
-		$this->render("ajax_list_own");
+		$this->render('ajax_list_own');
 	}
 
 	function ajax_save(){
