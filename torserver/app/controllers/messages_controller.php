@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 class MessagesController extends AppController {
     /*var $scaffold;*/
 	var $name = 'Messages';    
@@ -84,4 +84,3 @@ class MessagesController extends AppController {
 		$this->set("message", $message);
 	}
 }
-?>

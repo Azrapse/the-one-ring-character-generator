@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 class CharactersController extends AppController {
     /*var $scaffold;*/
 	var $name = 'Characters';    
@@ -154,4 +154,3 @@ class CharactersController extends AppController {
 
 }
 
-?>

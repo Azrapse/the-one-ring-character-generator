@@ -1,9 +1,39 @@
-define(["jquery", "jquery.linq"], function ($) {
+﻿define(["jquery", "jquery.linq"], function ($) {
     var Gamedata = {};
     Gamedata.HtmlToJson = function (selector) {
         var root = $(selector);
         var data = {};
         // Cultures
+        this.parseCultures(root, data);
+        this.parseCallings(root, data);
+        this.parseDegenerations(root, data);
+        this.parseSkillGroups(root, data);
+        this.parseMasteries(root, data);
+        this.parseQualities(root, data);
+        this.parseWeapons(root, data);
+        this.parseWeaponGroups(root, data);
+        this.parseShields(root, data);
+        this.parseArmours(root, data);
+        this.parseStandardsOfLiving(root, data);
+
+        Gamedata.cultures = data.cultures;
+        Gamedata.callings = data.callings;
+        Gamedata.degenerations = data.degenerations;
+        Gamedata.degenerationGroups = data.degenerationGroups;
+        Gamedata.skillGroups = data.skillGroups;
+        Gamedata.skills = data.skills;
+        Gamedata.masteries = data.masteries;
+        Gamedata.qualities = data.qualities;
+        Gamedata.weapons = data.weapons;
+        Gamedata.weaponGroups = data.weaponGroups;
+        Gamedata.shields = data.shields;
+        Gamedata.armours = data.armours;
+        Gamedata.standardsOfLiving = data.standardsOfLiving;
+
+        return data;
+    };
+
+    Gamedata.parseCultures = function (root, data) {
         data.cultures = {};
         root.find(".cultures > .culture").each(function () {
             var cultureDiv = $(this);
@@ -90,8 +120,150 @@ define(["jquery", "jquery.linq"], function ($) {
             });
             data.cultures[name] = culture;
         });
-        return data;
+
     };
+
+    Gamedata.parseCallings = function (root, data) {
+        data.callings = {};
+        root.find(".callings > .calling").each(function () {
+            var callingDiv = $(this);
+            var name = callingDiv.attr("name");
+            var favouredSkillGroups = callingDiv.find(".favouredSkillGroups > div").toEnumerable()
+                .Select("x=>x.html()")
+                .ToArray();
+            var additionalTrait = callingDiv.find(".additionalTrait > div").toEnumerable()
+                .Select("x=>x.html()")
+                .ToArray();
+            var shadowWeakness = callingDiv.find(".shadowWeakness > div").toEnumerable()
+                .Select("x=>x.html()")
+                .ToArray();
+            data.callings[name] = {
+                name: name,
+                favouredSkillGroups: favouredSkillGroups,
+                additionalTrait: additionalTrait,
+                shadowWeakness: shadowWeakness
+            };
+        });
+    };
+
+    Gamedata.parseDegenerations = function (root, data) {
+        data.degenerations = {};
+        root.find(".degenerations > .degeneration").each(function () {
+            var degenerationDiv = $(this);
+            var name = degenerationDiv.attr("name");
+            var group = degenerationDiv.attr("group");
+            var rank = degenerationDiv.attr("rank");
+            data.degenerations[name] = { name: name, group: group, rank: rank };
+        });
+        data.degenerationGroups = {};
+        for (var dname in data.degenerations) {
+            var d = data.degenerations[dname];
+            if (!(d.group in data.degenerationGroups)) {
+                data.degenerationGroups[d.group] = {};
+            }
+            data.degenerationGroups[d.group][d.rank] = d.name;
+        };
+    };
+
+    Gamedata.parseSkillGroups = function (root, data) {
+        data.skillGroups = {};
+        root.find(".skillGroups > .skillGroup").each(function () {
+            var skillGroupDiv = $(this);
+            var name = skillGroupDiv.attr("name");
+            var skillGroupSkills = skillGroupDiv.find("div").toEnumerable()
+                .ToObject("x=>x.attr('attribute')", "x=>x.html()");
+            data.skillGroups[name] = skillGroupSkills;
+        });
+        data.skills = {};
+        for (var group in data.skillGroups) {
+            for (var attribute in data.skillGroups[group]) {
+                var skill = data.skillGroups[group][attribute];
+                data.skills[skill] = { name: skill, group: group, attribute: attribute };
+            }
+        }
+    };
+
+    Gamedata.parseMasteries = function (root, data) {
+        data.masteries = {};
+        root.find(".masteries > .mastery").each(function () {
+            var masteryDiv = $(this);
+            var name = masteryDiv.attr("name");
+            data.masteries[name] = { name: name };
+        });
+    };
+
+    Gamedata.parseQualities = function (root, data) {
+        data.qualities = {};
+        root.find(".qualities > .quality").each(function () {
+            var qualityDiv = $(this);
+            var name = qualityDiv.attr("name");
+            var targets = qualityDiv.find(".qualityTarget").toEnumerable()
+                .Select("x=>x.attr('name')")
+                .ToObject("x=>x", "x=>true");
+            data.qualities[name] = { name: name, targets: targets };
+        });
+    };
+
+    Gamedata.parseWeapons = function (root, data) {
+        data.weapons = {};
+        root.find(".weapons > .weapon").each(function () {
+            var weaponDiv = $(this);
+            var name = weaponDiv.attr("name");
+            var damage = weaponDiv.attr("damage");
+            var edge = weaponDiv.attr("edge");
+            var injury = weaponDiv.attr("injury");
+            var enc = weaponDiv.attr("enc");
+            var group = weaponDiv.attr("group");
+            data.weapons[name] = { name: name, damage: damage, edge: edge, injury: injury, enc: enc, group: group };
+        });
+    };
+
+    Gamedata.parseWeaponGroups = function (root, data) {
+        data.weaponGroups = {};
+        root.find(".weaponGroups > .weaponGroup").each(function () {
+            var weaponGroupDiv = $(this);
+            var name = weaponGroupDiv.attr("name");
+            var cultural = weaponGroupDiv.attr("cultural");
+            var weapons = $.Enumerable.From(data.weapons)
+                .Where(function (x) { return x.Value.group == name; })
+                .Select("x=>x.Key")
+                .ToArray();
+            data.weaponGroups[name] = { name: name, cultural: cultural, weapons: weapons };
+        });
+    };
+
+    Gamedata.parseShields = function (root, data) {
+        data.shields = {};
+        root.find(".shields > .shield").each(function () {
+            var shieldDiv = $(this);
+            var name = shieldDiv.attr("name");
+            var enc = shieldDiv.attr("enc");
+            var parry = shieldDiv.attr("parry");
+            data.shields[name] = { name: name, enc: enc, parry: parry };
+        });
+    };
+
+    Gamedata.parseArmours = function (root, data) {
+        data.armours = {};
+        root.find(".armours > .armour").each(function () {
+            var armourDiv = $(this);
+            var name = armourDiv.attr("name");
+            var enc = armourDiv.attr("enc");
+            var protection = armourDiv.attr("protection");
+            var type = armourDiv.attr("type");
+            data.armours[name] = { name: name, enc: enc, protection: protection, type: type };
+        });
+    };
+
+    Gamedata.parseStandardsOfLiving = function (root, data) {
+        data.standardsOfLiving = {};
+        root.find(".standardsOfLiving > .standardOfLiving").each(function () {
+            var standardOfLivingDiv = $(this);
+            var name = standardOfLivingDiv.attr("name");
+            data.standardsOfLiving[name] = { name: name };
+        });
+    };
+
 
     return Gamedata;
 });
