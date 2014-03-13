@@ -40,14 +40,15 @@ define(["jquery", "gamedata", "jquery.ui", "jquery.linq", "json", "jquery.cookie
             } else {
                 localeFile = "localization-en.html";
             }
-            $.get(localeFile, {}, function (response) {
-                var responseElements = $(response);
-                $(responseElements).find("div").each(function () {
+			var localeDiv = $("#locale");
+            localeDiv.load(localeFile, {}, function () {
+                localeDiv.find("div > div").each(function () {
                     var name = $(this).attr("name");
                     var fullname = $(this).attr("fullname");
                     var contents = $(this).html();
                     localeDict[name] = { fullname: fullname, contents: contents };
                 });
+				localeDiv.remove();
                 mainInitialize();
             });
 
@@ -580,7 +581,7 @@ define(["jquery", "gamedata", "jquery.ui", "jquery.linq", "json", "jquery.cookie
             });
 
             // Skill ranks
-            $(".skillRankIcon").live("click", function (e) {
+            $(".characterSheet.front").on("click", ".skillRankIcon", function (e) {
                 if ($(this).attr("filled") != "true") {
                     $(this).attr("filled", "true");
                 } else {
@@ -636,36 +637,36 @@ define(["jquery", "gamedata", "jquery.ui", "jquery.linq", "json", "jquery.cookie
             });
 
             // Common Skill names
-            $(".skillNameCell.localizable").live("click", commonSkillMenu);
+            $(".characterSheet.front").on("click", ".skillNameCell.localizable", commonSkillMenu);
 
             // Virtues box
-            $(".virtuesContent > div").live("click", virtuesMenu);
+            $(".characterSheet.front").on("click", ".virtuesContent > div", virtuesMenu);
 
             // Rewards box
-            $(".rewardsContent > div").live("click", rewardsMenu);
+            $(".characterSheet.front").on("click", ".rewardsContent > div", rewardsMenu);
 
             // Virtues and Rewards themselves
-            $(".virtuesContent > div .localizable, .rewardsContent > div .localizable").live("click", oneVirtueRewardMenu);
+            $(".characterSheet.front").on("click", ".virtuesContent > div .localizable, .rewardsContent > div .localizable", oneVirtueRewardMenu);
 
             // Weapon skills
-            $("#weaponSkillsTable td.skillNameCell .weaponSkillNameInput").live("click", weaponSkillMenu);
+            $(".characterSheet.front").on("click", "#weaponSkillsTable td.skillNameCell .weaponSkillNameInput", weaponSkillMenu);
 
             // Weapon gear
-            $("#weaponGearTable .weaponGearNameInput").live("click", weaponGearMenu);
+            $(".characterSheet.front").on("click", "#weaponGearTable .weaponGearNameInput", weaponGearMenu);
 
             // Gear
-            $(".gearTable .gearName").live("click", gearMenu);
+            $(".characterSheet.front").on("click", ".gearTable .gearName", gearMenu);
 
             // Degenerations
-            $("#distinctiveFeaturesInput").live("click", featuresMenu);
+            $("#distinctiveFeaturesInput").on("click", featuresMenu);
 
             // Standard of living
-            $("#standardInput").live("click", standardOfLivingMenu);
+            $("#standardInput").on("click", standardOfLivingMenu);
 
             // Cultural Blessing
-            $("#culturalBlessingInput .localizable").live("click", simpleCommentMenu);
+            $("#culturalBlessingInput").on("click", ".localizable", simpleCommentMenu);
             // Specialties
-            $("#specialtiesInput .localizable").live("click", simpleCommentMenu);
+            $("#specialtiesInput").on("click", ".localizable", simpleCommentMenu);
             // Distinctive features
             $("#distinctiveFeaturesInput").on("click", ".localizable", changeFeatureMenu);
 
@@ -1768,7 +1769,10 @@ define(["jquery", "gamedata", "jquery.ui", "jquery.linq", "json", "jquery.cookie
             });
 
             // Backgound text
-            var text = $("#locale div[name=" + cultureId + "Background" + backgroundNo + "]").html() || "";
+			var backgroundId = cultureId + "Background" + backgroundNo;
+            var text = backgroundId in localeDict
+				? localeDict[backgroundId].contents 
+				: "";
             // Remove line breaks
             text = text.replace(/(\r\n|\n|\r)/gm, " ");
             $(".characterSheet.back div[stat=backgroundText] .input").val(text);
