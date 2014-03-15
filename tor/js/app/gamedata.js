@@ -2,7 +2,14 @@
     var Gamedata = {};
     Gamedata.HtmlToJson = function (selector) {
         var root = $(selector);
-        var data = {};
+        var data = {
+            attributes: {
+                "body": true,
+                "heart": true,
+                "wits": true
+            }
+        };
+
         // Cultures
         this.parseCultures(root, data);
         this.parseCallings(root, data);
@@ -16,6 +23,7 @@
         this.parseArmours(root, data);
         this.parseStandardsOfLiving(root, data);
 
+        Gamedata.attributes = data.attributes;
         Gamedata.cultures = data.cultures;
         Gamedata.callings = data.callings;
         Gamedata.degenerations = data.degenerations;

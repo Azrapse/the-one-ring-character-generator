@@ -1,8 +1,8 @@
 ﻿/// <reference path="lib/jquery-1.11.0.js" />
 /// <reference path="lib/jquery.linq.min.js" />
 
-define(["jquery", "gamedata", "jquery.ui", "jquery.linq", "json", "jquery.cookies", "jquery.migrate", "modernizr"],
-    function ($, Gamedata) {
+define(["jquery", "gamedata", "pj", "jquery.ui", "jquery.linq", "json", "jquery.cookies", "jquery.migrate", "modernizr"],
+    function ($, Gamedata, Pj) {
 
         // Main function
         $(function () {
@@ -40,7 +40,7 @@ define(["jquery", "gamedata", "jquery.ui", "jquery.linq", "json", "jquery.cookie
             } else {
                 localeFile = "localization-en.html";
             }
-			var localeDiv = $("#locale");
+            var localeDiv = $("#locale");
             localeDiv.load(localeFile, {}, function () {
                 localeDiv.find("div > div").each(function () {
                     var name = $(this).attr("name");
@@ -48,11 +48,15 @@ define(["jquery", "gamedata", "jquery.ui", "jquery.linq", "json", "jquery.cookie
                     var contents = $(this).html();
                     localeDict[name] = { fullname: fullname, contents: contents };
                 });
-				localeDiv.remove();
+                localeDiv.remove();
                 mainInitialize();
             });
 
             var data = Gamedata.HtmlToJson("#internalData");
+            var json = '{"version":"2","edition":"184","name":"Abredul","culture":"beorning","standard":"martial","culturalBlessing":"furious","calling":"warden","shadowWeakness":"lureOfPower","specialties":["anduinLore","storyTelling","shadowLore"],"features":["grim","hardy","resentful"],"favoured":["awe","athletics","explore","lore"],"awe":3,"inspire":1,"persuade":1,"athletics":2,"travel":2,"stealth":1,"awareness":2,"insight":3,"search":1,"explore":2,"healing":1,"hunting":3,"riddle":2,"craft":1,"battle":2,"lore":1,"personality":1,"movement":1,"survival":1,"custom":2,"body":6,"heart":5,"wits":3,"favouredbody":8,"favouredheart":8,"favouredwits":4,"endurance":"29","startingEndurance":"29","fatigue":"17","fatigueTravel":"2","fatigueTotal":"19","hope":"7","startingHope":"15","shadow":"11","permanentShadow":"1","totalShadow":"12","armour":"3d","headgear":"+1","parry":"3","shield":"","damage":"6","ranged":"6","wisdom":"3","valour":"3","experience":"8","total":"46","fellowshipPoints":"5","advancementPoints":"0","treasurePoints":"3","standing":"1","carried":false,"weary":false,"miserable":true,"wounded":false,"woundTreated":false,"virtues":["nightGoer","confidence"],"rewards":["giantSlayingSpear","keen"],"weaponSkills":[{"id":"greatSpear","favoured":true,"rank":4},{"id":"axe","favoured":false,"rank":1},{"id":"dagger","favoured":false,"rank":2},{"id":"bow","favoured":false,"rank":1}],"weaponGear":[{"id":"greatSpear","stats":{"damage":"9","edge":"8","injury":"16","enc":"4"},"carried":true},{"id":"axe","stats":{"damage":"5","edge":"G","injury":"18","enc":"2"},"carried":false},{"id":"dagger","stats":{"damage":"3","edge":"G","injury":"12","enc":"0"},"carried":true},{"id":"bow","stats":{"damage":"5","edge":"10","injury":"14","enc":"1"},"carried":true}],"gear":[{"id":"mailShirt","enc":"12","carried":true,"specificSlot":0},{"id":"capOfIronAndLeather","enc":"2","carried":false,"specificSlot":1}],"backgroundText":"","guideText":"Abredul","scoutText":"Pelo","huntsmanText":"","lookoutText":"Nileth","fellowshipFocusText":"Nileth","fellowshipNotesText":"Estatus%20con%20%E1guilas%201%0A-------------------------------------%0A%C1guila%20perdida%20en%20el%20bosque%20negro%3A%20Lintirith%0ARey%20de%20Rhovannion%20%28autoproclamado%29%3A%20Rey%20Balter%0AHombre%20criatura%20-%20Sigmund%0ANi%F1o%20desaparecido%3A%20en%20la%20caba%F1a%20del%20cu%F1ado%20de%20Sigmund%0AIndividuo%20misterioso%20nos%20persigue%0ABeornidas%20corrompidos%0ASe%F1or%20fam%E9lico%20/%20procurador%20de%20la%20muerte%20/%20Urcheron","sanctuariesText":"Esgaroth","patronText":"Gl%F3in","coins":{"gold":"","silver":"","copper":""},"inventory":[],"taleOfYears":[],"comments":[{"for":"keen","text":"Lanza"}]}';
+            var pj = new Pj(json);
+            
+            debugger;
 
             $(".characterSheet, .actionMenu, #rollerDiv").show();
         }
@@ -1769,9 +1773,9 @@ define(["jquery", "gamedata", "jquery.ui", "jquery.linq", "json", "jquery.cookie
             });
 
             // Backgound text
-			var backgroundId = cultureId + "Background" + backgroundNo;
+            var backgroundId = cultureId + "Background" + backgroundNo;
             var text = backgroundId in localeDict
-				? localeDict[backgroundId].contents 
+				? localeDict[backgroundId].contents
 				: "";
             // Remove line breaks
             text = text.replace(/(\r\n|\n|\r)/gm, " ");
@@ -3892,7 +3896,7 @@ define(["jquery", "gamedata", "jquery.ui", "jquery.linq", "json", "jquery.cookie
 		        alert("Error: " + xhr.status);
 		        return;
 		    }
-		    var characters = $(response);
+		    var characters = $.parseHTML(response);
 		    $("#onlineCharacterList").empty();
 		    var characterTable = $("<table></table>");
 		    $("#onlineCharacterList").append(characterTable);
@@ -3940,7 +3944,7 @@ define(["jquery", "gamedata", "jquery.ui", "jquery.linq", "json", "jquery.cookie
 		        alert("Error: " + xhr.status);
 		        return;
 		    }
-		    var characters = $(response);
+		    var characters = $.parseHTML(response);
 		    $("#onlineCharacterList").empty();
 		    var characterTable = $("<table></table>");
 		    $("#onlineCharacterList").append(characterTable);
@@ -4252,7 +4256,7 @@ define(["jquery", "gamedata", "jquery.ui", "jquery.linq", "json", "jquery.cookie
 		        return;
 		    }
 		    // All new messages
-		    var messages = $(response);
+		    var messages = $.parseHTML(response);
 		    // For each one of them, we add them at the end of the chat
 		    $(messages).filter("div").each(function () {
 		        // In case we have just logged into the chat, chatLastIdWas is going to be "?". That makes the server

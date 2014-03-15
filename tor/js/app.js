@@ -8,7 +8,10 @@
         "jquery.migrate": "jquery-migrate-1.2.1",
         "modernizr": "modernizr-1.7.min",
         "json": "json-serialization",
-        "gamedata": "../app/gamedata"
+        "gamedata": "../app/gamedata",
+        "extends": "../app/extends",
+        "character": "../app/character",
+        "pj": "../app/pj"
     },
     "shim": {
         "jquery.linq": ["jquery"],
