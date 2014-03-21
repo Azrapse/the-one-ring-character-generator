@@ -9,6 +9,8 @@
         "modernizr": "modernizr-1.7.min",
         "json": "json-serialization",
         "gamedata": "../app/gamedata",
+        "text": "../app/text",
+        "tutorial": "../app/tutorial",
         "extends": "../app/extends",
         "character": "../app/character",
         "pj": "../app/pj"

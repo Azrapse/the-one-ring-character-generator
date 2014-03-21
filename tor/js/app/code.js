@@ -1,8 +1,8 @@
 ﻿/// <reference path="lib/jquery-1.11.0.js" />
 /// <reference path="lib/jquery.linq.min.js" />
 
-define(["jquery", "gamedata", "pj", "jquery.ui", "jquery.linq", "json", "jquery.cookies", "jquery.migrate", "modernizr"],
-    function ($, Gamedata, Pj) {
+define(["jquery", "gamedata", "text", "pj", "jquery.ui", "jquery.linq", "json", "jquery.cookies", "jquery.migrate", "modernizr"],
+    function ($, Gamedata, Text, Pj) {
 
         // Main function
         $(function () {
@@ -31,34 +31,13 @@ define(["jquery", "gamedata", "pj", "jquery.ui", "jquery.linq", "json", "jquery.
         // Localization and tooltips 
         var localeDict = {};
         function initializeLocale() {
-            var language = window.navigator.userLanguage || window.navigator.language;
-            // spanish
-            var localeFile;
-            if (language.indexOf("es") != -1) {
-                localeFile = "localization-es.html";
-                $(".logoContainer img").attr("src", "css/TorLogoEs.jpg");
-            } else {
-                localeFile = "localization-en.html";
-            }
-            var localeDiv = $("#locale");
-            localeDiv.load(localeFile, {}, function () {
-                localeDiv.find("div > div").each(function () {
-                    var name = $(this).attr("name");
-                    var fullname = $(this).attr("fullname");
-                    var contents = $(this).html();
-                    localeDict[name] = { fullname: fullname, contents: contents };
-                });
-                localeDiv.remove();
-                mainInitialize();
+            Text.initialize(function () {
+                $(".logoContainer img").attr("src", Text.logoFile);
+                localeDict = Text.textDict;
+                localize();
+                $(".characterSheet, .actionMenu, #rollerDiv").show();
             });
-
             var data = Gamedata.HtmlToJson("#internalData");
-            var json = '{"version":"2","edition":374,"name":"Fromgal%2C%20the%20Minstrel","culture":"elf","standard":"prosperous","culturalBlessing":"folkOfTheDusk","calling":"scholar","shadowWeakness":"lureOfSecrets","specialties":["elvenLore","fireMaking","rhymesOfLore"],"features":["cautious","fairSpoken","haughty"],"favoured":["awareness","insight","courtesy","lore"],"awe":2,"persuade":1,"athletics":3,"travel":2,"stealth":2,"awareness":2,"insight":1,"healing":1,"hunting":1,"song":3,"courtesy":1,"riddle":1,"battle":2,"lore":3,"body":5,"heart":4,"wits":5,"favouredbody":6,"favouredheart":7,"favouredwits":7,"endurance":"24","startingEndurance":"26","fatigue":"11","fatigueTravel":"","fatigueTotal":"11","hope":"12","startingHope":"12","shadow":"1","permanentShadow":"1","totalShadow":"2","armour":"1d","headgear":"+4","parry":"5","shield":"+1","damage":"","ranged":"","wisdom":"2","valour":"1","experience":"1","total":"0","fellowshipPoints":"1","advancementPoints":"2","treasurePoints":"3","standing":"4","carried":false,"weary":false,"miserable":false,"wounded":false,"woundTreated":false,"virtues":["theSpeakers"],"rewards":[],"weaponSkills":[{"id":"bow","favoured":false,"rank":3},{"id":"sword","favoured":true,"rank":2},{"id":"dagger","favoured":false,"rank":1}],"weaponGear":[{"id":"bow","stats":{"damage":"5","edge":"10","injury":"14","enc":"1"},"carried":false},{"id":"sword","stats":{"damage":"5","edge":"10","injury":"16","enc":"2"},"carried":false},{"id":"dagger","stats":{"damage":"3","edge":"G","injury":"12","enc":"0"},"carried":false}],"gear":[{"id":"leatherShirt","enc":"4","carried":true,"specificSlot":0},{"id":"helm","enc":"6","carried":true,"specificSlot":1},{"id":"buckler","enc":"1","carried":true,"specificSlot":2}],"backgroundText":"Fromgal%20viv%EDa%20en%20las%20monta%F1as%20tan%20contento.","guideText":"Abredul","scoutText":"Neriel","huntsmanText":"Olostasule","lookoutText":"Pelo","fellowshipFocusText":"Misse","fellowshipNotesText":"Otras%20notas%20variadas","sanctuariesText":"Rivendell","patronText":"Elrond","coins":{"gold":"1","silver":"2","copper":"3"},"inventory":[{"slotNo":"1","value":"1"},{"slotNo":"4","value":"2"},{"slotNo":"5","value":"3"}],"taleOfYears":[{"year":"1992","events":"Olimpiadas%20de%20Barcelona"},{"year":"1993","events":"La%20supercrisis"},{"year":"1994","events":"Instituto"},{"year":"1995","events":"Windows%2095"},{"year":"1996","events":"Algo%20importante%20suceder%EDa%20este%20a%F1o%2C%20digo%20yo..."},{"year":"...","events":"..."},{"year":"2012","events":"Fin%20del%20Mundo"},{"year":"2013","events":"El%20Mundo%20es%20apagado%20y%20vuelto%20a%20encender"}],"comments":[{"for":"folkOfTheDusk","text":"Quien%20se%20come%20el%20pollo%20caga%20las%20plumas."}]}';
-            var pj = new Pj(json);
-            
-            debugger;
-
-            $(".characterSheet, .actionMenu, #rollerDiv").show();
         }
 
         function initializeInternalData() {
