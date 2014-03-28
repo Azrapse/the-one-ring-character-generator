@@ -1,18 +1,41 @@
 ﻿define(["extends", "jquery", "text", "jquery.linq"], function (_extends, $, Text) {
     var Tutorial = (function () {
-        function Tutorial() {
+        function Tutorial(name) {
             this.slides = {};
-            this.name = "";
+            this.name = name;
         }
+
+        Tutorial.fromElement = function(tutorialElement){
+            var tutorialElement = $(tutorialElement);
+            var name = tutorialElement.attr("name");
+            var tutorial = new Tutorial(name);
+            // Slides
+            tutorialElement.find("div.slide").each(function(){
+                var slideElement = $(this);
+                var slide = Slide.fromElement(slideElement);
+                this.slides[slide.name] = slide;
+            });
+        };
 
         return Tutorial;
     })();
     
     var Slide = (function () {
-        function Slide() {
-            this.name = "";
+        function Slide(name) {
+            this.name = name;
             this.elements = [];
         }
+
+        Slide.fromElement = function(slideElement){
+                slideElement = $(slideElement);
+                var name = slideElement.attr("name");
+                var slide = new Slide(name);
+                slideElement.find("div.elements > hr").each(function(){
+                    var elementElement = $(this);
+                    var element = SlideElement.fromElement(elementElement);
+                    this.elements.push(element);
+                });
+        };
 
         return Slide;
     })();
@@ -22,17 +45,31 @@
             this.classes = "";
         }
 
-        SlideElement.fromElement(element){
+        SlideElement.fromElement = function(element){
             var type = element.attr("class");
             var classes = element.attr("classes");
             var se = null;
             switch(type){
                 case "topic":
                     var key = element.attr("key");
-                    se =  new TopicSlideElement(key);
+                    se = new TopicSlideElement(key, classes);
+                    break;
+                case "button":
+                    var label = element.attr("label");
+                    var verb = element.attr("verb");
+                    var target = element.attr("target");
+                    var triggerOverseer = element.attr("triggerOverseer");
+                    var triggerSelector = element.attr("triggerSelector");
+                    var triggerEvent = element.attr("triggerEvent");
+                    se = new ButtonSlideElement(label, verb, target, classes, triggerOverseer, triggerSelector, triggerEvent);
+                    break;
+
+                case "highlight":
+                    var target = element.attr("target");
+                    se = new HighlightSlideElement(target);
                     break;
             }
-            se.classes = classes;
+            return se;
         }
 
         SlideElement.prototype.toString = function () {
