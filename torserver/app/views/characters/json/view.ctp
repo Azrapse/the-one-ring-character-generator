@@ -1,0 +1,1 @@
+<?php echo $character['Character']['data'] ?>

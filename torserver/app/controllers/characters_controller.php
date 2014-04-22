@@ -125,6 +125,26 @@ class CharactersController extends AppController {
 		$this->set("character", $character);
 	}
 	
+	function index() {
+        $characters = $this->Character->find('all', array(			
+			"order" => array("Character.culture", "Character.calling", "Character.name", "Character.user_id")
+		));
+        $this->set(compact('characters'));
+    }
+	
+	function view($id) {
+        if ($id != null){
+			$character = $this->Character->find('first', array(
+				"conditions" => array(
+					"Character.id" => $id
+				)			
+			));	
+		}
+        $this->set(compact('character'));
+    }
+	
+	
+	
 	function ajax_get_public_character(){
 		$this->layout = 'ajax';
 		if(array_key_exists("characterName", $this->params['form'])){
