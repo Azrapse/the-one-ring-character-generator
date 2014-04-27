@@ -92,6 +92,11 @@
         return data;
     };
 
+    Gamedata.LoadJson = function (data) {
+        $.extend(Gamedata, data);
+        return data;
+    };
+
     Gamedata.parseCultures = function (root, data) {
         data.cultures = {};
         root.find(".cultures > .culture").each(function () {

@@ -6,63 +6,76 @@ define(["jquery", "gamedata", "text", "pj", "jquery.ui", "jquery.linq", "json", 
 
         // Main function
         $(function () {
-            initializeInternalData();
+            mainInitialize();
         });
 
         function mainInitialize() {
+            $.when(initializeLocale(), initializeGamedata())
+                .done(function () {
+                    fillSkillTable();
+                    fillWeaponSkillTable();
+                    fillWeaponGearTable();
+                    fillGearTable();
+                    fillInventoryTable();
+                    fillTaleOfYearsTable();
+                                setClickablesEvents();
+                    //            updateCharacterSheetAfterInputs();
+                                iconImageUpdate();
+                                localize();
+                                tooltipShow();
+                                initializeRoller();
+//                                localizeUI();
 
-            fillSkillTable();
-            fillWeaponSkillTable();
-            fillWeaponGearTable();
-            fillGearTable();
-            fillInventoryTable();
-            fillTaleOfYearsTable();
-            setClickablesEvents();
-            updateCharacterSheetAfterInputs();
-            iconImageUpdate();
-            localize();
-            tooltipShow();
-            initializeRoller();
-            localizeUI();
-
-            initializeCookieData();
+                    //            initializeCookieData();
+                })
+                .fail(function (response) {
+                    console.log("Error initializing: " + response);
+                });
         }
 
         // Localization and tooltips 
         var localeDict = {};
         function initializeLocale() {
-            Text.initialize(function () {
-                $(".logoContainer img").attr("src", Text.logoFile);
-                localeDict = Text.textDict;
-                localize();
-                $(".characterSheet, .actionMenu, #rollerDiv").show();
-            });
-            var data = Gamedata.HtmlToJson("#internalData");
+            return Text.initialize()
+                .done(function () {
+                    $(".logoContainer img").attr("src", Text.logoFile);
+                    localeDict = Text.textDict;
+                    localize();
+                    $(".characterSheet, .actionMenu, #rollerDiv").show();
+                });
         }
 
-        function initializeInternalData() {
-            $("#internalDataContainer").load("internalData.html #internalData", initializeLocale);
+        function initializeGamedata() {
+            return $.get("/tor/js/data/gamedata.json", {})
+                .done(function (response) {
+                    Gamedata.LoadJson(response);
+                })
+                .error(function (response) {
+                    console.log("Error loading gamedata.json");
+                });
         }
-
         function localize() {
-            $(".localizable").each(function () {
+            $(".localizable, .uiText").each(function () {
                 localizeOne($(this));
             });
         }
 
         function localizeOne(element) {
-            var localizeKey = $(element).attr('localizeKey');
-            if (localizeKey == undefined) {
-                localizeKey = $(element).html();
-                $(element).attr('localizeKey', localizeKey);
+            var textKey = $(element).attr('data-textKey');
+            //            if (textKey == undefined) {
+            //                textKey = $(element).html();
+            //                $(element).attr('localizeKey', localizeKey);
+            //            }
+            if (!textKey) {
+                return;
             }
 
-            var locale = localeDict[localizeKey];
+            var locale = localeDict[textKey];
             if (!locale) {
                 return;
             }
             // We get the full name 
-            var fullName = locale.fullname;
+            var fullName = locale.getText();
             // If there is a commentText, we get it;
             var commentText = $(element).attr("commentText");
             if (!commentText) {
@@ -191,59 +204,61 @@ define(["jquery", "gamedata", "text", "pj", "jquery.ui", "jquery.linq", "json", 
         // Character Sheet building functions
         function fillSkillTable() {
             var skillTable = $(".skillTable");
-            $("#internalData .skillGroups .skillGroup").each(function () {
-                var skillGroup = $(this);
-                var skillGroupName = $(this).attr("name");
-                var bodySkill = skillGroup.find("div[attribute=body]");
-                var heartSkill = skillGroup.find("div[attribute=heart]");
-                var witsSkill = skillGroup.find("div[attribute=wits]");
-                var bodySkillName = $(bodySkill).html();
-                var heartSkillName = $(heartSkill).html();
-                var witsSkillName = $(witsSkill).html();
+
+            for (var skillGroupName in Gamedata.skillGroups) {
+                var skillGroup = Gamedata.skillGroups[skillGroupName];
+                var bodySkillName = skillGroup.body;
+                var heartSkillName = skillGroup.heart;
+                var witsSkillName = skillGroup.wits;
+
                 var newTr = $("<tr></tr>");
                 // Body skill
                 var td = $("<td></td>");
                 td.attr("class", bodySkillName + "Skill skillNameCell localizable");
-                td.attr("skill", bodySkillName);
-                td.html(bodySkillName);
+                td.attr("data-skill", bodySkillName);
+                td.attr("data-textKey", bodySkillName);
+                localizeOne(td);
                 newTr.append(td);
                 td = $("<td></td>");
                 td.attr("class", bodySkillName + "Skill skillRankCell");
-                td.attr("skill", bodySkillName);
+                td.attr("data-skill", bodySkillName);
                 newTr.append(td);
                 // Heart skill
                 td = $("<td></td>");
                 td.attr("class", heartSkillName + "Skill skillNameCell  localizable");
-                td.attr("skill", heartSkillName);
-                td.html(heartSkillName);
+                td.attr("data-skill", heartSkillName);
+                td.attr("data-textKey", heartSkillName);
+                localizeOne(td);
                 newTr.append(td);
                 td = $("<td></td>");
                 td.attr("class", heartSkillName + "Skill skillRankCell");
-                td.attr("skill", heartSkillName);
+                td.attr("data-skill", heartSkillName);
                 newTr.append(td);
                 // Wits skill
                 td = $("<td></td>");
                 td.attr("class", witsSkillName + "Skill skillNameCell  localizable");
-                td.attr("skill", witsSkillName);
-                td.html(witsSkillName);
+                td.attr("data-skill", witsSkillName);
+                td.attr("data-textKey", witsSkillName);
+                localizeOne(td);
                 newTr.append(td);
                 td = $("<td></td>");
                 td.attr("class", witsSkillName + "Skill skillRankCell");
-                td.attr("skill", witsSkillName);
+                td.attr("data-skill", witsSkillName);
                 newTr.append(td);
                 // Skill group
                 td = $("<td></td>");
                 td.attr("class", skillGroupName + "SkillGroup skillGroupNameCell  localizable");
-                td.attr("skillGroup", skillGroupName);
-                td.html(skillGroupName);
+                td.attr("data-skillGroup", skillGroupName);
+                td.attr("data-textKey", skillGroupName);
+                localizeOne(td);
                 newTr.append(td);
                 td = $("<td></td>");
                 td.attr("class", skillGroupName + "SkillGroup skillGroupAdvancementCell");
-                td.attr("skillGroup", skillGroupName);
+                td.attr("data-skillGroup", skillGroupName);
                 newTr.append(td);
 
                 $(skillTable).append(newTr);
-            });
+            }
 
             // Rank cells
             $(".skillsBox .skillRankCell").each(function () {
@@ -4455,5 +4470,5 @@ define(["jquery", "gamedata", "text", "pj", "jquery.ui", "jquery.linq", "json", 
             blinkerTimeout = setTimeout(blinkHighlight, 250);
         }
 
-        return initializeInternalData;
+        return initializeLocale;
     });

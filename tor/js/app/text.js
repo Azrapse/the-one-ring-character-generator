@@ -13,7 +13,7 @@
         };
 
         LocalizedText.prototype.getText = function () {
-            return this.fullname;
+            return this.fullname || this.contents;
         };
 
         LocalizedText.prototype.getDescription = function () {
@@ -29,7 +29,7 @@
     };
     Text.languageFiles = languageFiles;
 
-    Text.initialize = function (callback) {
+    Text.initialize = function () {
         var language = window.navigator.userLanguage || window.navigator.language;
 
         // Select preferred language
@@ -53,11 +53,12 @@
         Text.textFile = localeFile;
         Text.logoFile = logoFile;
         Text.textDict = {};
-        Text.load(callback);
+        return Text.load();
     }
 
-    Text.load = function (callback) {
-        $.get(Text.textFile, {}, function (response) {
+    Text.load = function () {
+        var promise = $.get(Text.textFile, {});
+        promise.done(function (response) {
             var localeDiv = $.parseHTML(response);
             localeDiv = $(localeDiv);
             localeDiv.find("div").each(function () {
@@ -66,9 +67,11 @@
                 var contents = $(this).html();
                 Text.textDict[name] = new LocalizedText(name, fullname, contents);
             });
-            callback();
+            if ("" in Text.textDict) {
+                delete Text.textDict[""];
+            }
         });
-
+        return promise;
     };
 
     Text.getText = function (key) {

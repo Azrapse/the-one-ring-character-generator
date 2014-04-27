@@ -568,6 +568,7 @@ div.inventory .input
 	height: 15px;
 	padding: 0px 0px 0px 0px;
 	margin: 0px 0px 0px 0px;
+	border: 0 none transparent;
 }
 
 .characterSheet .virtuesRewardsContainer{

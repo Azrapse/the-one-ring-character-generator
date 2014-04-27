@@ -26,28 +26,28 @@
 
 	<body>
 		<div class="actionMenu" style="display: none;">
-			<button id="startButton" class="action uiText">uiCreateNewCharacter</button>
+			<button id="startButton" class="action uiText" data-textKey="uiCreateNewCharacter">uiCreateNewCharacter</button>
 			<br />
-			<button id="descriptionsToggleButton" class="action uiText popupButtons">uiPopupHelpButtons</button>
+			<button id="descriptionsToggleButton" class="action uiText popupButtons" data-textKey="uiPopupHelpButtons">uiPopupHelpButtons</button>
 			<br />
-			<button id="fontToggleButton" class="action uiText">uiFontToggle</button>
+			<button id="fontToggleButton" class="action uiText" data-textKey="uiFontToggle">uiFontToggle</button>
 			<br />
-			<button id="hideVolatileButton" class="action uiText">uiHideVolatile</button>
+			<button id="hideVolatileButton" class="action uiText" data-textKey="uiHideVolatile">uiHideVolatile</button>
 			<br />
-			<button id="saveButton" class="action uiText">uiSaveCharacter</button>
+			<button id="saveButton" class="action uiText" data-textKey="uiSaveCharacter">uiSaveCharacter</button>
 			<br />
-			<button id="loadButton" class="action uiText">uiLoadCharacter</button>
+			<button id="loadButton" class="action uiText" data-textKey="uiLoadCharacter">uiLoadCharacter</button>
 			<br />	
-			<button id="forumCodeButton" class="action uiText">uiForumCode</button>
+			<button id="forumCodeButton" class="action uiText" data-textKey="uiForumCode">uiForumCode</button>
 			<br />
-			<button id="onlineButton" class="action uiText">uiOnline</button>
+			<button id="onlineButton" class="action uiText" data-textKey="uiOnline">uiOnline</button>
 			<br />
-			<button id="synchedToggleButton" class="action uiText discouragedButton">uiSynched</button>
+			<button id="synchedToggleButton" class="action uiText discouragedButton" data-textKey="uiSynched">uiSynched</button>
 			<br />
 			<br />
-			<button id="changesButton" class="action uiText" latest="20140131">uiWhatsNew</button>
+			<button id="changesButton" class="action uiText"  latest="20140131" data-textKey="uiWhatsNew">uiWhatsNew</button>
 			<br />
-			<button id="aboutButton" class="action uiText">uiAbout</button>            
+			<button id="aboutButton" class="action uiText"  data-textKey="uiAbout">uiAbout</button>            
 		</div>
 		<div class="contextMenu" style="display: none;"></div>
 
@@ -63,7 +63,7 @@
 						<table>
 							<tr>
 								<td class="labelCell cell">
-									<label class='uiText'>uiName</label>
+									<label class='uiText' data-textKey="uiName">uiName</label>
 								</td>
 								<td class="inputCell cell">
 									<input type="text" id="nameInput" />
@@ -77,13 +77,13 @@
 						<table>
 							<tr>
 								<td class="labelCell cell">
-									<label class="uiText">uiCulture</label>
+									<label class="uiText"  data-textKey="uiCulture">uiCulture</label>
 								</td>
 								<td class="inputCell cell">
 									<div class="input narrow" id="cultureInput" ></div>
 								</td>
 								<td class="labelCell cell">
-									<label class="narrowLabel uiText">uiStandardofLiving</label>
+									<label class="narrowLabel uiText"  data-textKey="uiStandardofLiving">uiStandardofLiving</label>
 								</td>
 								<td class="inputCell cell">
 									<div class="input" id="standardInput" ></div>
@@ -97,7 +97,7 @@
 						<table>
 							<tr>
 								<td class="labelCell cell">
-									<label class="narrowLabel uiText">uiCulturalblessing</label>
+									<label class="narrowLabel uiText"  data-textKey="uiCulturalblessing">uiCulturalblessing</label>
 								</td>
 								<td class="inputCell cell">
 									<div class="input" id="culturalBlessingInput"></div>
@@ -111,13 +111,13 @@
 						<table>
 							<tr>
 								<td class="labelCell cell">
-									<label class="uiText">uiCalling</label>
+									<label class="uiText"  data-textKey="uiCalling">uiCalling</label>
 								</td>
 								<td class="inputCell cell">
 									<div class="input" id="callingInput"></div>
 								</td>
 								<td class="labelCell cell">
-									<label class="narrowLabel uiText">uiShadowweakness</label>
+									<label class="narrowLabel uiText"  data-textKey="uiShadowweakness">uiShadowweakness</label>
 								</td>
 								<td class="inputCell cell">
 									<div class="input narrow" id="shadowWeaknessInput"></div>
@@ -127,13 +127,13 @@
 					</td>
 				</tr>
 			</table>
-			<div class="heading uiText">
+			<div class="heading uiText" data-textKey="uiTraits">
 				uiTraits
 			</div>
 			<table class="basicInformationTable">
 				<tr>
 					<td class="labelCell cell">
-						<label class="narrowLabel uiText">uiSpecialties</label>
+						<label class="narrowLabel uiText"  data-textKey="uiSpecialties">uiSpecialties</label>
 					</td>		
 					<td class="inputCell cell">
 						<div class="input" id="specialtiesInput"></div>
@@ -141,46 +141,46 @@
 				</tr>
 				<tr>
 					<td class="labelCell cell">
-						<label class="narrowLabel uiText">uiDistinctivefeatures</label>
+						<label class="narrowLabel uiText"  data-textKey="uiDistinctivefeatures">uiDistinctivefeatures</label>
 					</td>		
 					<td class="inputCell cell">
 						<div class="input" id="distinctiveFeaturesInput" />
 					</td>
 				</tr>
 			</table>
-			<div class="heading uiText">
+			<div class="heading uiText" data-textKey="uiAttributes">
 				uiAttributes
 			</div>
 			<div class="attributeContainerBox">		
 					<div class="bodyBox attributeBox" attribute="body">
-						<label class="localizable">body</label>
+						<label class="localizable"  data-textKey="body">body</label>
 						<input type="text" id="bodyScoreInput" />
 					</div>
 					<div class="favouredBodyBox favouredAttributeBox" attribute="body">
-						<label class="uiText">uiFavoured</label>
+						<label class="uiText"  data-textKey="uiFavoured">uiFavoured</label>
 						<input type="text" id="favouredBodyScoreInput" />
 					</div>		
 					
 					<div class="heartBox attributeBox" attribute="heart">
-						<label class="localizable">heart</label>
+						<label class="localizable"  data-textKey="heart">heart</label>
 						<input type="text" id="heartScoreInput" />
 					</div>
 					<div class="favouredHeartBox favouredAttributeBox" attribute="heart">
-						<label  class="uiText">uiFavoured</label>
+						<label  class="uiText"  data-textKey="uiFavoured">uiFavoured</label>
 						<input type="text" id="favouredHeartScoreInput" />
 					</div>		
 					
 					<div class="witsBox attributeBox" attribute="wits">
-						<label class="localizable">wits</label>
+						<label class="localizable"  data-textKey="wits">wits</label>
 						<input type="text" id="witsScoreInput" />
 					</div>
 					<div class="favouredWitsBox favouredAttributeBox" attribute="wits">
-						<label class="uiText">uiFavoured</label>
+						<label class="uiText"  data-textKey="uiFavoured">uiFavoured</label>
 						<input type="text" id="favouredWitsScoreInput" />
 					</div>		
 			</div>
 			
-			<div class="heading uiText">
+			<div class="heading uiText" data-textKey="uiCommonSkills">
 				uiCommonSkills
 			</div>
 			<div class="skillsBox">
@@ -188,7 +188,7 @@
 					
 				</table>
 			</div>
-			<div class="heading uiText">
+			<div class="heading uiText" data-textKey="uiWeaponSkills">
 				uiWeaponSkills
 			</div>
 			<div class="weaponSkillsBox">
@@ -197,7 +197,7 @@
 			</div>
 			<div class="virtuesRewardsContainer">
 				<div class="rewardsContainer">
-					<div class="heading uiText">
+					<div class="heading uiText" data-textKey="uiRewards">
 						uiRewards
 					</div>
 					<div class="rewardsContent" >				
@@ -205,7 +205,7 @@
 					</div>
 				</div>
 				<div class="virtuesContainer">
-					<div class="heading uiText">
+					<div class="heading uiText" data-textKey="uiVirtues">
 						uiVirtues
 					</div>
 					<div class="virtuesContent" >				
@@ -214,7 +214,7 @@
 				</div>
 			</div>
 			<div class="weaponGearBox">
-				<div class="heading uiText">
+				<div class="heading uiText" data-textKey="uiGear">
 					uiGear
 				</div>
 				<table id="weaponGearTable">
@@ -226,143 +226,137 @@
 			</div>
 			
 			<div class="roundStatBox" stat="endurance">
-				<label class="uiText">uiEndurance</label>
+				<label class="uiText"  data-textKey="uiEndurance">uiEndurance</label>
 				<input type="text" />
 				<div class="top left subRoundStatBox" stat="startingEndurance">
-					<label class="uiText">uiEndStartingScore</label>
+					<label class="uiText"  data-textKey="uiEndStartingScore">uiEndStartingScore</label>
 					<input type="text" />
 				</div>
 				<div class="bottom left subRoundStatBox" stat="fatigue">
-					<label class="uiText">uiFatigue</label>
+					<label class="uiText"  data-textKey="uiFatigue">uiFatigue</label>
 					<input type="text" />
 				</div>
 				<div class="subbottom left subRoundStatBox" stat="fatigueTravel">
-					<label class="uiText">uiFatigueTravel</label>
+					<label class="uiText"  data-textKey="uiFatigueTravel">uiFatigueTravel</label>
 					<input type="text" />
 				</div>
 				<div class="bottom right subRoundStatBox" stat="fatigueTotal">
-					<label class="uiText">uiFatigueTotal</label>
+					<label class="uiText"  data-textKey="uiFatigueTotal">uiFatigueTotal</label>
 					<input type="text" readonly="readonly" />
 				</div>
 
 		</div>
 			<div class="roundStatBox" stat="hope">
-				<label class="uiText">uiHope</label>
+				<label class="uiText"  data-textKey="uiHope">uiHope</label>
 				<input type="text" />
 				<div class="top left subRoundStatBox" stat="startingHope">
-					<label class="uiText">uiHopeStartingScore</label>
+					<label class="uiText"  data-textKey="uiHopeStartingScore">uiHopeStartingScore</label>
 					<input type="text" />
 				</div>
 				<div class="bottom left subRoundStatBox" stat="shadow">
-					<label class="uiText">uiShadow</label>
+					<label class="uiText"  data-textKey="uiShadow">uiShadow</label>
 					<input type="text" />
 				</div>
 				<div class="subbottom left subRoundStatBox" stat="permanentShadow">
-					<label class="uiText">uipermanentShadow</label>
+					<label class="uiText"  data-textKey="uipermanentShadow">uipermanentShadow</label>
 					<input type="text" />
 				</div>
 				<div class="bottom right subRoundStatBox" stat="totalShadow">
-					<label class="uiText">uitotalShadow</label>
+					<label class="uiText"  data-textKey="uitotalShadow">uitotalShadow</label>
 					<input type="text" readonly="readonly" />
 				</div>
 			</div>
 			<div class="roundStatBox" stat="armour">
-				<label class="uiText">uiArmour</label>
+				<label class="uiText"  data-textKey="uiArmour">uiArmour</label>
 				<input type="text" />
 				<div class="bottom left subRoundStatBox" stat="headgear">
-					<label class="uiText">uiHeadgear</label>
+					<label class="uiText"  data-textKey="uiHeadgear">uiHeadgear</label>
 					<input type="text" />
 				</div>
 			</div>
 
 			<div class="roundStatBox" stat="parry">
-				<label class="uiText">uiParry</label>
+				<label class="uiText"  data-textKey="uiParry">uiParry</label>
 				<input type="text" />
 				<div class="bottom left subRoundStatBox" stat="shield">
-					<label class="uiText">uiShield</label>
+					<label class="uiText"  data-textKey="uiShield">uiShield</label>
 					<input type="text" />
 				</div>
 			</div>
 			<div class="roundStatBox" stat="damage">
-				<label class="uiText">uiDamage</label>
+				<label class="uiText"  data-textKey="uiDamage">uiDamage</label>
 				<input type="text" />
 				<div class="bottom left subRoundStatBox" stat="ranged">
-					<label class="uiText">uiRanged</label>
+					<label class="uiText"  data-textKey="uiRanged">uiRanged</label>
 					<input type="text" />
 				</div>
 			</div>
 			<div class="roundStatBox" stat="wisdom">
-				<label class="uiText">uiWisdom</label>
+				<label class="uiText"  data-textKey="uiWisdom">uiWisdom</label>
 				<input type="text" />		
 			</div>
 			<div class="roundStatBox" stat="valour">
-				<label class="uiText">uiValour</label>
+				<label class="uiText"  data-textKey="uiValour">uiValour</label>
 				<input type="text" />		
 			</div>
 			<div class="roundStatBox" stat="experience">
-				<label class="uiText">uiExperience</label>
+				<label class="uiText"  data-textKey="uiExperience">uiExperience</label>
 				<input type="text" />
 				<div class="top left subRoundStatBox" stat="total">
-					<label class="uiText">uiTotal</label>
+					<label class="uiText"  data-textKey="uiTotal">uiTotal</label>
 					<input type="text" />
 				</div>
 			</div>
 
 			<div class="statusBox" stat="weary">
-				<label class="uiText">uiWeary</label>
+				<label class="uiText"  data-textKey="uiWeary">uiWeary</label>
 			</div>
 			<div class="statusBox" stat="miserable">
-				<label class="uiText">uiMiserable</label>
+				<label class="uiText"  data-textKey="uiMiserable">uiMiserable</label>
 			</div>
 			<div class="statusBox" stat="wounded">
-				<label class="uiText">uiWounded</label>
+				<label class="uiText"  data-textKey="uiWounded">uiWounded</label>
 			</div>
 			<div class="statusBox" stat="woundTreated">
-				<label class="uiText">uiWoundTreated</label>
+				<label class="uiText"  data-textKey="uiWoundTreated">uiWoundTreated</label>
 			</div>
 		</div>
 
 		<!-- Backsheet -->
 		<div class="characterSheet back" style="display: none;">
 			<div class="roundStatBox" stat="fellowshipPoints">
-				<label class="uiText">uifellowshipPoints</label>
+				<label class="uiText"  data-textKey="uifellowshipPoints">uifellowshipPoints</label>
 				<input type="text" />		
 			</div>
 			<div class="roundStatBox" stat="advancementPoints">
-				<label class="uiText">uiadvancementPoints</label>
+				<label class="uiText"  data-textKey="uiadvancementPoints">uiadvancementPoints</label>
 				<input type="text" />		
 			</div>
 			<div class="roundStatBox" stat="treasurePoints">
-				<label class="uiText">uitreasurePoints</label>
+				<label class="uiText"  data-textKey="uitreasurePoints">uitreasurePoints</label>
 				<input type="text" />		
 			</div>
 			<div class="roundStatBox" stat="standing">
-				<label class="uiText">uistanding</label>
+				<label class="uiText"  data-textKey="uistanding">uistanding</label>
 				<input type="text" />		
 			</div>
 			
 			<table class="basicInformationTable coinTable">
 				<tr>
 					<td class="labelCell">
-						<label class="uiText">
-							uiGoldCoins
-						</label>
+						<label class="uiText"  data-textKey="uiGoldCoins">uiGoldCoins</label>
 					</td>
 					<td>
 						<input type="text" id="goldCoinsInput" />
 					</td>
 					<td class="labelCell">
-						<label class="uiText">
-							uiSilverCoins
-						</label>
+						<label class="uiText"  data-textKey="uiSilverCoins">uiSilverCoins</label>
 					</td>
 					<td>
 						<input type="text" id="silverCoinsInput" />
 					</td>
 					<td class="labelCell">
-						<label class="uiText">
-							uiCopperCoins
-						</label>
+						<label class="uiText"  data-textKey="uiCopperCoins">uiCopperCoins</label>
 					</td>
 					<td>
 						<input type="text" id="copperCoinsInput" />
@@ -371,7 +365,7 @@
 			</table>
 			
 			<div class="inventory">
-				<div class="heading uiText">
+				<div class="heading uiText" data-textKey="uiInventory">
 					uiInventory
 				</div>
 				<table class="basicInformationTable" id="inventoryTable">
@@ -387,30 +381,30 @@
 			</div>
 			
 			<div class="bigText" stat="backgroundText">
-				<div class="heading uiText">
+				<div class="heading uiText" data-textKey="uiBackground">
 					uiBackground
 				</div>
 				<textarea class="input"></textarea>
 			</div>
-			<div class="heading uiText">
+			<div class="heading uiText" data-textKey="uiCompany">
 					uiCompany
 			</div>
 			<table class="basicInformationTable fellowshipTable">
 				<tr>
 					<td class="labelCell">
-						<label class='uiText'>uiGuide</label>
+						<label class='uiText'  data-textKey="uiGuide">uiGuide</label>
 					</td>
 					<td>
 						<input type="text" id="guideInput" />
 					</td>				
 					<td class="labelCell">
-						<label class='uiText'>uiScout</label>
+						<label class='uiText'  data-textKey="uiScout">uiScout</label>
 					</td>
 					<td>
 						<input type="text" id="scoutInput" />
 					</td>				
 					<td class="labelCell">
-						<label class='uiText'>uiHuntsman</label>
+						<label class='uiText'  data-textKey="uiHuntsman">uiHuntsman</label>
 					</td>
 					<td>
 						<input type="text" id="huntsmanInput" />
@@ -418,13 +412,13 @@
 				</tr>
 				<tr>
 					<td class="labelCell">
-						<label class='uiText'>uiLookout</label>
+						<label class='uiText'  data-textKey="uiLookout">uiLookout</label>
 					</td>
 					<td>
 						<input type="text" id="lookoutInput" />
 					</td>				
 					<td class="labelCell">
-						<label class='uiText'>uiFellowshipFocus</label>
+						<label class='uiText'  data-textKey="uiFellowshipFocus">uiFellowshipFocus</label>
 					</td>
 					<td>
 						<input type="text" id="fellowshipFocusInput" />
@@ -439,13 +433,13 @@
 					</td>
 				</tr>
 			</table>
-			<div class="heading uiText">
+			<div class="heading uiText" data-textKey="uiFellowshipPhase">
 					uiFellowshipPhase
 			</div>
 			<table class="basicInformationTable fellowshipPhaseTable">
 				<tr>
 					<td class="labelCell">
-						<label class='uiText'>uiSanctuaries</label>
+						<label class='uiText'  data-textKey="uiSanctuaries">uiSanctuaries</label>
 					</td>
 					<td>
 						<input type="text" id="sanctuariesInput" />
@@ -453,14 +447,14 @@
 				</tr>
 				<tr>
 					<td class="labelCell">
-						<label class='uiText'>uiPatron</label>
+						<label class='uiText'  data-textKey="uiPatron">uiPatron</label>
 					</td>
 					<td>
 						<input type="text" id="patronInput" />
 					</td>
 				</tr>
 			</table>
-			<div class="heading uiText">
+			<div class="heading uiText" data-textKey="uiTaleOfYears">
 					uiTaleOfYears
 			</div>
 			<table class="basicInformationTable" id="taleOfYearsTable">
@@ -478,187 +472,187 @@
 		<!-- Character Creation Wizard Elements -->
 		<div id="wizardCultureDiv" class="wizardWindow" style="display: none;">
 			<fieldset>
-				<legend class="uiText">uiCulture</legend>
+				<legend class="uiText"  data-textKey="uiCulture">uiCulture</legend>
 				<div id="wizardCultureButtonsDiv"></div>
 				<div class="buttonContainer">
-					<button id="cultureNextButton" style="display: none;" class="uiText next">uiNext</button>
-					<button class="uiText cancel">uiCancelCreation</button>
+					<button id="cultureNextButton" style="display: none;" class="uiText next"  data-textKey="uiNext">uiNext</button>
+					<button class="uiText cancel"  data-textKey="uiCancelCreation">uiCancelCreation</button>
 				</div>
 			</fieldset>
 		</div>
 		<div id="wizardWeaponSkillsPackageDiv" class="wizardWindow" style="display: none;">
 			<fieldset>
-				<legend class="uiText">uiWeaponSkillPackage</legend>
-				<span class="uiText">uiWSPChooseone</span>
+				<legend class="uiText"  data-textKey="uiWeaponSkillPackage">uiWeaponSkillPackage</legend>
+				<span class="uiText"  data-textKey="uiWSPChooseone">uiWSPChooseone</span>
 				<div id="wizardWeaponSkillsPackageButtonsDiv"></div>
 				<div class="buttonContainer">
-					<button id="weaponSkillsPackagePrevButton" class="uiText previous">uiPrevious</button>
-					<button id="weaponSkillsPackageNextButton" style="display: none;" class="uiText next">uiNext</button>
-					<button class="uiText cancel">uiCancelCreation</button>
+					<button id="weaponSkillsPackagePrevButton" class="uiText previous"  data-textKey="uiPrevious">uiPrevious</button>
+					<button id="weaponSkillsPackageNextButton" style="display: none;" class="uiText next"  data-textKey="uiNext">uiNext</button>
+					<button class="uiText cancel"  data-textKey="uiCancelCreation">uiCancelCreation</button>
 				</div>
 			</fieldset>
 		</div>
 		<div id="wizardSpecialtiesDiv" class="wizardWindow" style="display: none;">
 			<fieldset>
-				<legend class="uiText">uiSpecialties</legend>
-				<span class="uiText">uiSpeChoosetwo</span>
+				<legend class="uiText"  data-textKey="uiSpecialties">uiSpecialties</legend>
+				<span class="uiText"  data-textKey="uiSpeChoosetwo">uiSpeChoosetwo</span>
 				<div id="wizardSpecialtiesButtonsDiv"></div>
 				<div class="buttonContainer">
-					<button id="SpecialtiesPrevButton" class="uiText previous">uiPrevious</button>
-					<button id="SpecialtiesNextButton" style="display: none;" class="uiText next">uiNext</button>
-					<button class="uiText cancel">uiCancelCreation</button>
+					<button id="SpecialtiesPrevButton" class="uiText previous"  data-textKey="uiPrevious">uiPrevious</button>
+					<button id="SpecialtiesNextButton" style="display: none;" class="uiText next"  data-textKey="uiNext">uiNext</button>
+					<button class="uiText cancel"  data-textKey="uiCancelCreation">uiCancelCreation</button>
 				</div>
 			</fieldset>
 		</div>
 		<div id="wizardBackgroundDiv" class="wizardWindow" style="display: none;">
 			<fieldset>
-				<legend class="uiText">uiBackground</legend>
-				<span class="uiText">uiBackChooseone</span>
+				<legend class="uiText"  data-textKey="uiBackground">uiBackground</legend>
+				<span class="uiText"  data-textKey="uiBackChooseone">uiBackChooseone</span>
 				<div id="wizardBackgroundButtonsDiv"></div>
 				<div class="buttonContainer">
-					<button id="BackgroundPrevButton" class="uiText previous">uiPrevious</button>
-					<button id="BackgroundNextButton" style="display: none;" class="uiText next">uiNext</button>
-					<button class="uiText cancel">uiCancelCreation</button>
+					<button id="BackgroundPrevButton" class="uiText previous"  data-textKey="uiPrevious">uiPrevious</button>
+					<button id="BackgroundNextButton" style="display: none;" class="uiText next"  data-textKey="uiNext">uiNext</button>
+					<button class="uiText cancel"  data-textKey="uiCancelCreation">uiCancelCreation</button>
 				</div>
 			</fieldset>
 		</div>
 
 		<div id="wizardCallingDiv" class="wizardWindow" style="display: none;">
 			<fieldset>
-				<legend class="uiText">uiCalling</legend>
-				<span class="uiText">uiCallChooseone</span>
+				<legend class="uiText"  data-textKey="uiCalling">uiCalling</legend>
+				<span class="uiText"  data-textKey="uiCallChooseone">uiCallChooseone</span>
 				<div id="wizardCallingButtonsDiv"></div>
 				<div class="buttonContainer">
-					<button id="callingPrevButton" class="uiText previous">uiPrevious</button>
-					<button id="callingNextButton" style="display: none;" class="uiText next">uiNext</button>
-					<button id="callingNextToAdditionalTraitButton" style="display: none;" class="uiText next">uiNext</button>
-					<button class="uiText cancel">uiCancelCreation</button>
+					<button id="callingPrevButton" class="uiText previous"  data-textKey="uiPrevious">uiPrevious</button>
+					<button id="callingNextButton" style="display: none;" class="uiText next"  data-textKey="uiNext">uiNext</button>
+					<button id="callingNextToAdditionalTraitButton" style="display: none;" class="uiText next"  data-textKey="uiNext">uiNext</button>
+					<button class="uiText cancel"  data-textKey="uiCancelCreation">uiCancelCreation</button>
 				</div>
 			</fieldset>
 		</div>
 
 		<div id="wizardFavouredSkillGroupsDiv" class="wizardWindow" style="display: none;">
 			<fieldset>
-				<legend class="uiText">uiFavouredSkills</legend>
-				<span class="uiText">uiFSGChoosetwo</span>
+				<legend class="uiText"  data-textKey="uiFavouredSkills">uiFavouredSkills</legend>
+				<span class="uiText"  data-textKey="uiFSGChoosetwo">uiFSGChoosetwo</span>
 				<div id="wizardFavouredSkillGroupsButtonsDiv"></div>
 				<div class="buttonContainer">
-					<button id="favouredSkillGroupsPrevButton" class="uiText previous">uiPrevious</button>
-					<button id="favouredSkillGroupsNextButton" style="display: none;" class="uiText next">uiNext</button>
-					<button class="uiText cancel">uiCancelCreation</button>
+					<button id="favouredSkillGroupsPrevButton" class="uiText previous"  data-textKey="uiPrevious">uiPrevious</button>
+					<button id="favouredSkillGroupsNextButton" style="display: none;" class="uiText next"  data-textKey="uiNext">uiNext</button>
+					<button class="uiText cancel"  data-textKey="uiCancelCreation">uiCancelCreation</button>
 				</div>
 			</fieldset>
 		</div>
 		<div id="wizardAdditionalTraitDiv" class="wizardWindow" style="display: none;">
 			<fieldset>
-				<legend class="uiText">uiAdditionalTraitfromCalling</legend>
-				<span class="uiText">uiATChooseone</span>
+				<legend class="uiText"  data-textKey="uiAdditionalTraitfromCalling">uiAdditionalTraitfromCalling</legend>
+				<span class="uiText"  data-textKey="uiATChooseone">uiATChooseone</span>
 				<div id="wizardAdditionalTraitButtonsDiv"></div>
 				<div class="buttonContainer">
-					<button id="additionalTraitPrevButton" class="uiText previous">uiPrevious</button>
-					<button id="additionalTraitNextButton" style="display: none;" class="uiText next">uiNext</button>
-					<button class="uiText cancel">uiCancelCreation</button>
+					<button id="additionalTraitPrevButton" class="uiText previous"  data-textKey="uiPrevious">uiPrevious</button>
+					<button id="additionalTraitNextButton" style="display: none;" class="uiText next"  data-textKey="uiNext">uiNext</button>
+					<button class="uiText cancel"  data-textKey="uiCancelCreation">uiCancelCreation</button>
 				</div>
 				</fieldset>
 		</div>
 
 		<div id="wizardFavouredAttributesDiv" class="wizardWindow" style="display: none;">
 			<fieldset>
-				<legend class="uiText">uiFavouredAttributes</legend>
+				<legend class="uiText"  data-textKey="uiFavouredAttributes">uiFavouredAttributes</legend>
 				<span id="FAChooseTextId"></span>
 				<br />
-				<span class="uiText">uiFSChoose3</span>
+				<span class="uiText"  data-textKey="uiFSChoose3">uiFSChoose3</span>
 				<div class="favouredAttributes3Div">
-					<div class="favouredAttribute3 selector localizable" attribute="body">body</div>
-					<div class="favouredAttribute3 selector localizable" attribute="heart">heart</div>
-					<div class="favouredAttribute3 selector localizable" attribute="wits">wits</div>
+					<div class="favouredAttribute3 selector localizable"  attribute="body" data-textKey="body">body</div>
+					<div class="favouredAttribute3 selector localizable"  attribute="heart" data-textKey="heart">heart</div>
+					<div class="favouredAttribute3 selector localizable"  attribute="wits" data-textKey="wits">wits</div>
 				</div>
-				<span class="uiText">uiFSChoose2</span>
+				<span class="uiText"  data-textKey="uiFSChoose2">uiFSChoose2</span>
 				<div class="favouredAttributes2Div">
-					<div class="favouredAttribute2 selector localizable" attribute="body">body</div>
-					<div class="favouredAttribute2 selector localizable" attribute="heart">heart</div>
-					<div class="favouredAttribute2 selector localizable" attribute="wits">wits</div>
+					<div class="favouredAttribute2 selector localizable"  attribute="body" data-textKey="body">body</div>
+					<div class="favouredAttribute2 selector localizable"  attribute="heart" data-textKey="heart">heart</div>
+					<div class="favouredAttribute2 selector localizable"  attribute="wits" data-textKey="wits">wits</div>
 				</div>
-				<span class="uiText">uiFSChoose1</span>
+				<span class="uiText"  data-textKey="uiFSChoose1">uiFSChoose1</span>
 				<div class="favouredAttributes1Div">
-					<div class="favouredAttribute1 selector localizable" attribute="body">body</div>
-					<div class="favouredAttribute1 selector localizable" attribute="heart">heart</div>
-					<div class="favouredAttribute1 selector localizable" attribute="wits">wits</div>
+					<div class="favouredAttribute1 selector localizable"  attribute="body" data-textKey="body">body</div>
+					<div class="favouredAttribute1 selector localizable"  attribute="heart" data-textKey="heart">heart</div>
+					<div class="favouredAttribute1 selector localizable"  attribute="wits" data-textKey="wits">wits</div>
 				</div>		
 				
 				<div class="buttonContainer">
-					<button id="favouredAttributePrevButton" class="uiText previous">uiPrevious</button>
-					<button id="favouredAttributeNextButton" style="display: none;" class="uiText next">uiNext</button>
-					<button class="uiText cancel">uiCancelCreation</button>
+					<button id="favouredAttributePrevButton" class="uiText previous"  data-textKey="uiPrevious">uiPrevious</button>
+					<button id="favouredAttributeNextButton" style="display: none;" class="uiText next"  data-textKey="uiNext">uiNext</button>
+					<button class="uiText cancel"  data-textKey="uiCancelCreation">uiCancelCreation</button>
 				</div>
 			</fieldset>
 		</div>
 		<div id="wizardValourWisdomDiv" class="wizardWindow" style="display: none;">
 			<fieldset>
-				<legend class="uiText">uiValourandWisdom</legend>
-				<span class="uiText">uiVWChoose</span>
+				<legend class="uiText"  data-textKey="uiValourandWisdom">uiValourandWisdom</legend>
+				<span class="uiText"  data-textKey="uiVWChoose">uiVWChoose</span>
 				<div class="valourWisdomDiv">
-					<div class="valourWisdomSelector selector uiText" attribute="valour">uiVWValour2</div>
-					<div class="valourWisdomSelector selector uiText" attribute="wisdom">uiVWWisdom2</div>
+					<div class="valourWisdomSelector selector uiText"  attribute="valour" data-textKey="uiVWValour2">uiVWValour2</div>
+					<div class="valourWisdomSelector selector uiText"  attribute="wisdom" data-textKey="uiVWWisdom2">uiVWWisdom2</div>
 				</div>
 				<div class="buttonContainer">
-					<button id="valourWisdomPrevButton" class="uiText previous">uiPrevious</button>
-					<button id="valourWisdomNextButton" style="display: none;" class="uiText next">uiNext</button>
-					<button class="uiText cancel">uiCancelCreation</button>
+					<button id="valourWisdomPrevButton" class="uiText previous"  data-textKey="uiPrevious">uiPrevious</button>
+					<button id="valourWisdomNextButton" style="display: none;" class="uiText next"  data-textKey="uiNext">uiNext</button>
+					<button class="uiText cancel"  data-textKey="uiCancelCreation">uiCancelCreation</button>
 				</div>
 			</fieldset>
 		</div>
 
 		<div id="wizardVirtuesDiv" class="wizardWindow" style="display: none;">
 			<fieldset>
-				<legend class="uiText">uiVirtuesandMasteries</legend>
-				<span class="uiText">uiVMChoose</span>
+				<legend class="uiText"  data-textKey="uiVirtuesandMasteries">uiVirtuesandMasteries</legend>
+				<span class="uiText"  data-textKey="uiVMChoose">uiVMChoose</span>
 				<div class="virtuesDiv">
 				</div>
 				<div class="buttonContainer">
-					<button id="virtuesPrevButton" class="uiText previous">uiPrevious</button>
-					<button id="virtuesNextButton" style="display: none;" class="uiText next">uiNext</button>
-					<button class="uiText cancel">uiCancelCreation</button>
+					<button id="virtuesPrevButton" class="uiText previous"  data-textKey="uiPrevious">uiPrevious</button>
+					<button id="virtuesNextButton" style="display: none;" class="uiText next"  data-textKey="uiNext">uiNext</button>
+					<button class="uiText cancel"  data-textKey="uiCancelCreation">uiCancelCreation</button>
 				</div>
 			</fieldset>
 		</div>
 
 		<div id="wizardRewardsDiv" class="wizardWindow" style="display: none;">
 			<fieldset>
-				<legend class="uiText">uiRewardsQualities</legend>
-				<span class="uiText">uiRQChoose</span>
+				<legend class="uiText"  data-textKey="uiRewardsQualities">uiRewardsQualities</legend>
+				<span class="uiText"  data-textKey="uiRQChoose">uiRQChoose</span>
 				<div class="rewardsDiv">
 				</div>
 				<div class="buttonContainer">
-					<button id="rewardsPrevButton" class="uiText previous">uiPrevious</button>
-					<button id="rewardsNextButton" style="display: none;" class="uiText next">uiNext</button>
-					<button class="uiText cancel">uiCancelCreation</button>
+					<button id="rewardsPrevButton" class="uiText previous"  data-textKey="uiPrevious">uiPrevious</button>
+					<button id="rewardsNextButton" style="display: none;" class="uiText next"  data-textKey="uiNext">uiNext</button>
+					<button class="uiText cancel"  data-textKey="uiCancelCreation">uiCancelCreation</button>
 				</div>
 			</fieldset>
 		</div>
 
 		<div id="wizardPreviousExperienceDiv" class="wizardWindow" style="display: none;">
 			<fieldset>
-				<legend class="uiText">uiPrevExp</legend>
-				<span class="uiText">uiPXChoose</span>
-				<div class="remainingXP" XPLeft="10" class="uiText">uiPX10XPLeft</div>
+				<legend class="uiText"  data-textKey="uiPrevExp">uiPrevExp</legend>
+				<span class="uiText"  data-textKey="uiPXChoose">uiPXChoose</span>
+				<div class="remainingXP" XPLeft="10" class="uiText"  data-textKey="uiPX10XPLeft">uiPX10XPLeft</div>
 				<div class="rankableSkillsDiv"></div>		
 				<div class="buttonContainer">
-					<button id="previousExperiencePrevButton" class="uiText previous">uiPrevious</button>
-					<button id="previousExperienceResetButton" class="uiText reset">uiReset</button>
-					<button id="previousExperienceNextButton" class="uiText next">uiNext</button>
-					<button class="uiText cancel">uiCancelCreation</button>
+					<button id="previousExperiencePrevButton" class="uiText previous"  data-textKey="uiPrevious">uiPrevious</button>
+					<button id="previousExperienceResetButton" class="uiText reset"  data-textKey="uiReset">uiReset</button>
+					<button id="previousExperienceNextButton" class="uiText next"  data-textKey="uiNext">uiNext</button>
+					<button class="uiText cancel"  data-textKey="uiCancelCreation">uiCancelCreation</button>
 				</div>
 			</fieldset>
 		</div>
 
 		<div id="wizardFinishDiv" class="wizardWindow" style="display: none;">
 			<fieldset>
-				<legend class="uiText">uiFinalTouches</legend>
-				<span class="uiText">uiFTText</span>
+				<legend class="uiText"  data-textKey="uiFinalTouches">uiFinalTouches</legend>
+				<span class="uiText"  data-textKey="uiFTText">uiFTText</span>
 				<div class="buttonContainer">
-					<button id="finishCloseButton" class="uiText next">uiFinish</button>
-					<button class="uiText cancel">uiCancelCreation</button>
+					<button id="finishCloseButton" class="uiText next"  data-textKey="uiFinish">uiFinish</button>
+					<button class="uiText cancel"  data-textKey="uiCancelCreation">uiCancelCreation</button>
 				</div>
 			</fieldset>
 		</div>
@@ -666,12 +660,12 @@
 		<!-- Serialization Window -->
 		<div id="serializeDiv" class="wizardWindow" style="display: none;">
 			<fieldset>
-				<legend class="uiText">uiCharacterData</legend>
-				<span class="uiText">uiSaveText</span>
+				<legend class="uiText"  data-textKey="uiCharacterData">uiCharacterData</legend>
+				<span class="uiText"  data-textKey="uiSaveText">uiSaveText</span>
 				<textarea class="serializeDataDiv" style="width: 500px; height: 200px;">
 				</textarea>
 				<br/>
-				<button id="serializeCloseButton" class="uiText">uiClose</button>
+				<button id="serializeCloseButton" class="uiText"  data-textKey="uiClose">uiClose</button>
 				
 			</fieldset>
 		</div>
@@ -679,33 +673,33 @@
 		<!-- Deserialization Window -->
 		<div id="deserializeDiv" class="wizardWindow" style="display: none;">
 			<fieldset>
-				<legend class="uiText">uiCharacterData</legend>
-				<span class="uiText">uiLoadText</span>
+				<legend class="uiText"  data-textKey="uiCharacterData">uiCharacterData</legend>
+				<span class="uiText"  data-textKey="uiLoadText">uiLoadText</span>
 				<textarea class="deserializeDataDiv" style="width: 500px; height: 200px;">
 				</textarea>
 				<br/>
-				<button id="deserializeNextButton" class="uiText">uiNext</button>
-				<button id="deserializeCloseButton" class="uiText">uiClose</button>		
+				<button id="deserializeNextButton" class="uiText"  data-textKey="uiNext">uiNext</button>
+				<button id="deserializeCloseButton" class="uiText"  data-textKey="uiClose">uiClose</button>		
 			</fieldset>
 		</div>
 
 		<div id="changesDiv" class="wizardWindow noDraggable" style="display: none;">
 			<fieldset>
-				<legend class="uiText">uiLatestChanges</legend>
+				<legend class="uiText"  data-textKey="uiLatestChanges">uiLatestChanges</legend>
 				<div class="textContainer">
-					<span class="uiText">uiLCText</span>
+					<span class="uiText"  data-textKey="uiLCText">uiLCText</span>
 				</div>
-				<button id="changesCloseButton" class="uiText">uiClose</button>
+				<button id="changesCloseButton" class="uiText"  data-textKey="uiClose">uiClose</button>
 			</fieldset>
 		</div>
 
 		<div id="rollerDiv" class="actionMenu" style="display: none;">
-			<div class="rollerTitle uiText">
+			<div class="rollerTitle uiText" data-textKey="uiDiceRoller">
 				uiDiceRoller
 			</div>
 			<div class="helpButton" helptopic="uiDiceRollerHelp">?</div>
 			<div id="rollerControlsDiv">
-				<div class="featDiv uiText action">uiFeat</div>
+				<div class="featDiv uiText action"  data-textKey="uiFeat">uiFeat</div>
 				+
 				<div class="successDiv">
 					<div class="action" number="1">1</div>
@@ -718,13 +712,13 @@
 				</div>
 				+
 				<input type="text" id="rollerBonusInput" />
-				<input type="checkbox" id="rollerWearyCheckbox" /><label for="rollerWearyCheckbox" class="uiText">uiWeary</label>
+				<input type="checkbox" id="rollerWearyCheckbox" /><label for="rollerWearyCheckbox" class="uiText"  data-textKey="uiWeary">uiWeary</label>
 				<div class="keepOneOfTwo">
-					<span class="uiText">uiFeatRoll</span>
+					<span class="uiText"  data-textKey="uiFeatRoll">uiFeatRoll</span>
 					<br />
-					<input type="checkbox" case="best" id="rollTwiceKeepBest" /><label for="rollTwiceKeepBest" class="uiText">uiFeatRollBest</label>
+					<input type="checkbox" case="best" id="rollTwiceKeepBest" /><label for="rollTwiceKeepBest" class="uiText"  data-textKey="uiFeatRollBest">uiFeatRollBest</label>
 					<br />
-					<input type="checkbox" case="worst" id="rollTwiceKeepWorst" /><label for="rollTwiceKeepWorst" class="uiText">uiFeatRollWorst</label>
+					<input type="checkbox" case="worst" id="rollTwiceKeepWorst" /><label for="rollTwiceKeepWorst" class="uiText"  data-textKey="uiFeatRollWorst">uiFeatRollWorst</label>
 				
 				</div>
 
@@ -735,12 +729,12 @@
 		<!-- Forum code Window -->
 		<div id="forumCodeDiv" class="wizardWindow" style="display: none;">
 			<fieldset>
-				<legend class="uiText">uiForumCode</legend>
-				<span class="uiText">uiForumCodeText</span>
+				<legend class="uiText"  data-textKey="uiForumCode">uiForumCode</legend>
+				<span class="uiText"  data-textKey="uiForumCodeText">uiForumCodeText</span>
 				<textarea class="forumCodeDiv" style="width: 500px; height: 200px;">
 				</textarea>
 				<br/>
-				<button id="forumCodeCloseButton" class="uiText">uiClose</button>
+				<button id="forumCodeCloseButton" class="uiText"  data-textKey="uiClose">uiClose</button>
 			</fieldset>
 		</div>
 
@@ -748,10 +742,10 @@
 		<!-- About Window -->
 		<div id="aboutDiv" class="wizardWindow" style="display: none;">
 			<fieldset>
-				<legend class="uiText">uiAbout</legend>
-				<span class="uiText">uiAboutText</span>
+				<legend class="uiText"  data-textKey="uiAbout">uiAbout</legend>
+				<span class="uiText"  data-textKey="uiAboutText">uiAboutText</span>
 				<br/>
-				<button id="aboutCloseButton" class="uiText">uiClose</button>
+				<button id="aboutCloseButton" class="uiText"  data-textKey="uiClose">uiClose</button>
 			</fieldset>
 		</div>
 
@@ -759,18 +753,18 @@
 		<!-- Server Load Window -->
 		<div id="onlineDiv" class="wizardWindow" style="display: none;">
 			<fieldset id="onlineCredentials">
-				<legend class="uiText">uiOnlineTitle</legend>
+				<legend class="uiText"  data-textKey="uiOnlineTitle">uiOnlineTitle</legend>
 				<div class="header">
 					<div>
-						<button id="onlineOnlineExplanationButton" class="uiText">uiOnlineExplanation</button>
-						<span class="uiText">uiOnlineText</span>					
+						<button id="onlineOnlineExplanationButton" class="uiText"  data-textKey="uiOnlineExplanation">uiOnlineExplanation</button>
+						<span class="uiText"  data-textKey="uiOnlineText">uiOnlineText</span>					
 					</div>
 					<div>
-						<button id="onlineRegisterButton" class="uiText">uiOnlineRegister</button>	
+						<button id="onlineRegisterButton" class="uiText"  data-textKey="uiOnlineRegister">uiOnlineRegister</button>	
 						<table>
 							<tr>
 								<td>		
-									<label for="serverUsernameInput" class="uiText">uiUsername</label>
+									<label for="serverUsernameInput" class="uiText"  data-textKey="uiUsername">uiUsername</label>
 								</td>
 								<td>
 									<input type="text" class="input" id="serverUsernameInput" />
@@ -778,7 +772,7 @@
 							</tr>
 							<tr>
 								<td>
-									<label for="serverPasswordInput" class="uiText">uiPassword</label>
+									<label for="serverPasswordInput" class="uiText"  data-textKey="uiPassword">uiPassword</label>
 								</td>
 								<td>
 									<input type="text" class="input" id="serverPasswordInput" />
@@ -790,27 +784,27 @@
 				</div>
 				<section class="characterSection">
 					<div class="characterList">
-						<span class="uiText">uiOnlineCharacterList</span>:<br/>
+						<span class="uiText"  data-textKey="uiOnlineCharacterList">uiOnlineCharacterList</span>:<br/>
 						<div>
-							<div id="onlineCharacterListLoadingIndicator" style="display: none;" class="uiText selector">uiLoading</div>
+							<div id="onlineCharacterListLoadingIndicator" style="display: none;" class="uiText selector"  data-textKey="uiLoading">uiLoading</div>
 							<div id="onlineCharacterList"></div>
 							<div id="onlineMessageBox"></div>
 						</div>						
 					</div>
 					<div class="characterControls">						
-						<span class="uiText">uiOnlineCharacters</span>:<br/>
-						<button id="onlineListOwnButton" class="uiText">uiOnlineGetMyCharacters</button>		
-						<button id="onlineListPublicButton" class="uiText">uiOnlineGetPublicCharacters</button>										
-						<button id="onlineSavePrivateButton" class="uiText">uiSavePrivate</button>
+						<span class="uiText"  data-textKey="uiOnlineCharacters">uiOnlineCharacters</span>:<br/>
+						<button id="onlineListOwnButton" class="uiText"  data-textKey="uiOnlineGetMyCharacters">uiOnlineGetMyCharacters</button>		
+						<button id="onlineListPublicButton" class="uiText"  data-textKey="uiOnlineGetPublicCharacters">uiOnlineGetPublicCharacters</button>										
+						<button id="onlineSavePrivateButton" class="uiText"  data-textKey="uiSavePrivate">uiSavePrivate</button>
 						<br/>
-						<span class="uiText">uiOnlineGaming</span>:<br/>
-						<button id="chatButton" class="uiText">uiChat</button>		
-						<button id="chatHistoryButton" class="uiText">uiChatHistory</button>
-						<button id="downloadChatHistoryButton" class="uiText">uiDownloadChatHistory</button>
+						<span class="uiText"  data-textKey="uiOnlineGaming">uiOnlineGaming</span>:<br/>
+						<button id="chatButton" class="uiText"  data-textKey="uiChat">uiChat</button>		
+						<button id="chatHistoryButton" class="uiText"  data-textKey="uiChatHistory">uiChatHistory</button>
+						<button id="downloadChatHistoryButton" class="uiText"  data-textKey="uiDownloadChatHistory">uiDownloadChatHistory</button>
 					</div>
 				</section>
 				<div>
-					<button id="onlineCloseButton" class="uiText cancel">uiClose</button>
+					<button id="onlineCloseButton" class="uiText cancel"  data-textKey="uiClose">uiClose</button>
 				</div>
 			</fieldset>
 		</div>
@@ -818,9 +812,9 @@
 		<!-- Chat Window -->
 		<div id="chatDiv" class="wizardWindow" style="display: none;">		
 			<div id="chatDragHandle">
-				<label id="chatAliasLabel" for="chatAliasInput" class="uiText">uiChatAlias</label>
+				<label id="chatAliasLabel" for="chatAliasInput" class="uiText"  data-textKey="uiChatAlias">uiChatAlias</label>
 				<input type="text" id="chatAliasInput" />		
-				<button id="chatCloseButton" class="action uiText cancel">uiClose</button>
+				<button id="chatCloseButton" class="action uiText cancel"  data-textKey="uiClose">uiClose</button>
 			</div>
 			<div id="chatContentsDiv">				
 			</div>	
@@ -834,7 +828,7 @@
 		<div id="helpDiv" class="wizardWindow noDraggable" style="display: none;">
 			<fieldset><div class="helpTextContainer"></div></fieldset>
 			<div class='buttonContainer'>
-				<button class="uiText closeButton">uiClose</button>
+				<button class="uiText closeButton"  data-textKey="uiClose">uiClose</button>
 			</div>
 		</div>
 
