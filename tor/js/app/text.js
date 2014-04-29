@@ -27,8 +27,11 @@
         "es": { text: "localization-es.html", logo: "css/TorLogoEs.jpg" },
         "en": { text: "localization-en.html", logo: "css/TorLogoEn.jpg" }
     };
-    Text.languageFiles = languageFiles;
+    var textDict = {};
 
+    Text.languageFiles = languageFiles;
+    
+    
     Text.initialize = function () {
         var language = window.navigator.userLanguage || window.navigator.language;
 
@@ -52,7 +55,7 @@
         logoFile = languageFiles[preferred].logo;
         Text.textFile = localeFile;
         Text.logoFile = logoFile;
-        Text.textDict = {};
+        Text.textDict = textDict;
         return Text.load();
     }
 
@@ -76,7 +79,7 @@
 
     Text.getText = function (key) {
         if (key in Text.textDict) {
-            return Text.textDict(key).getText();
+            return Text.textDict[key].getText();
         }
         else {
             return "Missing:" + key;
@@ -92,6 +95,52 @@
         }
     };
 
+    Text.localizeAll = function () {
+        $(".localizable, .uiText").each(function () {
+            Text.localizeOne($(this));
+        });
+    }
+
+    Text.localizeOne = function(element) {
+        var textKey = $(element).attr('data-textKey');
+        
+        if (!textKey) {
+            return;
+        }
+
+        var locale = textDict[textKey];
+        if (!locale) {
+            return;
+        }
+        // We get the full name 
+        var fullName = locale.getText();
+        // If there is a commentText, we get it;
+        var commentText = $(element).attr("commentText");
+        if (!commentText) {
+            commentText = "";
+        } else {
+            commentText = " <span class='commentText'>(" + commentText + ")</span>";
+        }
+
+        $(element).html(fullName + commentText);
+    }
+
+    /// Returns a localized text, replacing appearances of {0}, {1}, ... with the second, third, ... arguments.
+    function write() {
+        var textKey = write.arguments[0];
+        if (!textKey) {
+            return textKey;
+        }
+        var localizedText = Text.getText(textKey);
+        // We substitute rest of parameters into the text            
+        for (var i = 1; i < arguments.length; i++) {
+            localizedText = localizedText.replace("{" + (i - 1) + "}", args[i].toString());
+        }
+
+        return localizedText;
+    }
+
+    Text.write = write;
 
     return Text;
 });

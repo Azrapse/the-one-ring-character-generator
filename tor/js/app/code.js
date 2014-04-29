@@ -1,8 +1,13 @@
 ﻿/// <reference path="lib/jquery-1.11.0.js" />
 /// <reference path="lib/jquery.linq.min.js" />
 
-define(["jquery", "gamedata", "text", "pj", "jquery.ui", "jquery.linq", "json", "jquery.cookies", "jquery.migrate", "modernizr"],
-    function ($, Gamedata, Text, Pj) {
+define(["jquery", "gamedata", "text", "pj", "pjsheet", "jquery.ui", "jquery.linq", "json", "jquery.cookies", "jquery.migrate", "modernizr"],
+    function ($, Gamedata, Text, Pj, PjSheet) {
+        // Aliases
+        var localizeOne = Text.localizeOne;
+        var localize = Text.localizeAll;
+        var _loc_ = Text.write;
+
 
         // Main function
         $(function () {
@@ -12,21 +17,14 @@ define(["jquery", "gamedata", "text", "pj", "jquery.ui", "jquery.linq", "json", 
         function mainInitialize() {
             $.when(initializeLocale(), initializeGamedata())
                 .done(function () {
-                    fillSkillTable();
-                    fillWeaponSkillTable();
-                    fillWeaponGearTable();
-                    fillGearTable();
-                    fillInventoryTable();
-                    fillTaleOfYearsTable();
-                                setClickablesEvents();
-                    //            updateCharacterSheetAfterInputs();
-                                iconImageUpdate();
-                                localize();
-                                tooltipShow();
-                                initializeRoller();
-//                                localizeUI();
-
-                    //            initializeCookieData();
+                    PjSheet.build();
+                    setClickablesEvents();
+//                  updateCharacterSheetAfterInputs();                    
+                    localize();
+                    tooltipShow();
+                    initializeRoller();
+//                  localizeUI();
+//                  initializeCookieData();
                 })
                 .fail(function (response) {
                     console.log("Error initializing: " + response);
@@ -40,7 +38,7 @@ define(["jquery", "gamedata", "text", "pj", "jquery.ui", "jquery.linq", "json", 
                 .done(function () {
                     $(".logoContainer img").attr("src", Text.logoFile);
                     localeDict = Text.textDict;
-                    localize();
+                    Text.localizeAll();
                     $(".characterSheet, .actionMenu, #rollerDiv").show();
                 });
         }
@@ -53,38 +51,6 @@ define(["jquery", "gamedata", "text", "pj", "jquery.ui", "jquery.linq", "json", 
                 .error(function (response) {
                     console.log("Error loading gamedata.json");
                 });
-        }
-        function localize() {
-            $(".localizable, .uiText").each(function () {
-                localizeOne($(this));
-            });
-        }
-
-        function localizeOne(element) {
-            var textKey = $(element).attr('data-textKey');
-            //            if (textKey == undefined) {
-            //                textKey = $(element).html();
-            //                $(element).attr('localizeKey', localizeKey);
-            //            }
-            if (!textKey) {
-                return;
-            }
-
-            var locale = localeDict[textKey];
-            if (!locale) {
-                return;
-            }
-            // We get the full name 
-            var fullName = locale.getText();
-            // If there is a commentText, we get it;
-            var commentText = $(element).attr("commentText");
-            if (!commentText) {
-                commentText = "";
-            } else {
-                commentText = " <span class='commentText'>(" + commentText + ")</span>";
-            }
-
-            $(element).html(fullName + commentText);
         }
 
         var tooltipTimeout = null;
@@ -201,277 +167,6 @@ define(["jquery", "gamedata", "text", "pj", "jquery.ui", "jquery.linq", "json", 
             $("#tooltipDiv").hide();
         }
 
-        // Character Sheet building functions
-        function fillSkillTable() {
-            var skillTable = $(".skillTable");
-
-            for (var skillGroupName in Gamedata.skillGroups) {
-                var skillGroup = Gamedata.skillGroups[skillGroupName];
-                var bodySkillName = skillGroup.body;
-                var heartSkillName = skillGroup.heart;
-                var witsSkillName = skillGroup.wits;
-
-                var newTr = $("<tr></tr>");
-                // Body skill
-                var td = $("<td></td>");
-                td.attr("class", bodySkillName + "Skill skillNameCell localizable");
-                td.attr("data-skill", bodySkillName);
-                td.attr("data-textKey", bodySkillName);
-                localizeOne(td);
-                newTr.append(td);
-                td = $("<td></td>");
-                td.attr("class", bodySkillName + "Skill skillRankCell");
-                td.attr("data-skill", bodySkillName);
-                newTr.append(td);
-                // Heart skill
-                td = $("<td></td>");
-                td.attr("class", heartSkillName + "Skill skillNameCell  localizable");
-                td.attr("data-skill", heartSkillName);
-                td.attr("data-textKey", heartSkillName);
-                localizeOne(td);
-                newTr.append(td);
-                td = $("<td></td>");
-                td.attr("class", heartSkillName + "Skill skillRankCell");
-                td.attr("data-skill", heartSkillName);
-                newTr.append(td);
-                // Wits skill
-                td = $("<td></td>");
-                td.attr("class", witsSkillName + "Skill skillNameCell  localizable");
-                td.attr("data-skill", witsSkillName);
-                td.attr("data-textKey", witsSkillName);
-                localizeOne(td);
-                newTr.append(td);
-                td = $("<td></td>");
-                td.attr("class", witsSkillName + "Skill skillRankCell");
-                td.attr("data-skill", witsSkillName);
-                newTr.append(td);
-                // Skill group
-                td = $("<td></td>");
-                td.attr("class", skillGroupName + "SkillGroup skillGroupNameCell  localizable");
-                td.attr("data-skillGroup", skillGroupName);
-                td.attr("data-textKey", skillGroupName);
-                localizeOne(td);
-                newTr.append(td);
-                td = $("<td></td>");
-                td.attr("class", skillGroupName + "SkillGroup skillGroupAdvancementCell");
-                td.attr("data-skillGroup", skillGroupName);
-                newTr.append(td);
-
-                $(skillTable).append(newTr);
-            }
-
-            // Rank cells
-            $(".skillsBox .skillRankCell").each(function () {
-                var i;
-                for (i = 1; i <= 6; i++) {
-                    var iconDiv = $("<div><img /></div>");
-                    iconDiv.attr("class", $(this).attr("skill") + "Skill skillRankIcon");
-                    iconDiv.attr("skill", $(this).attr("skill"));
-                    iconDiv.attr("rank", i);
-                    $(this).append(iconDiv);
-                }
-            });
-            // Advancement cells
-            $(".skillGroupAdvancementCell").each(function () {
-                var i;
-                for (i = 1; i <= 3; i++) {
-                    var iconDiv = $("<div><img /></div>");
-                    iconDiv.attr("class", $(this).attr("skillGroup") + "SkillGroup skillGroupIcon");
-                    iconDiv.attr("skillGroup", $(this).attr("skillGroup"));
-                    iconDiv.attr("rank", i);
-                    $(this).append(iconDiv);
-                }
-            });
-
-        }
-
-        function fillWeaponSkillTable(rows) {
-            var weaponSkillTable = $("#weaponSkillsTable").empty();
-            var i, j, rowCount = (rows || 2), columnCount = 3;
-            var tr = $("<tr></tr>");
-            for (i = 0; i < rowCount; i++) {
-                tr = $("<tr></tr>");
-                for (j = 0; j < columnCount; j++) {
-                    // Name
-                    var td = $("<td></td>");
-                    td.attr("class", "skillNameCell");
-                    td.attr("weaponSkillNo", i + j * rowCount);
-                    var nameInput = $("<div class='input weaponSkillNameInput' ></div>");
-                    td.append(nameInput);
-                    tr.append(td);
-                    // Rank
-                    td = $("<td></td>");
-                    td.attr("class", "skillRankCell");
-                    td.attr("weaponSkillNo", i + j * rowCount);
-                    tr.append(td);
-                }
-                weaponSkillTable.append(tr);
-            }
-
-            // Rank cells
-            $(".weaponSkillsBox .skillRankCell").each(function () {
-                for (i = 1; i <= 6; i++) {
-                    var iconDiv = $("<div><img /></div>");
-                    iconDiv.attr("class", "skillRankIcon");
-                    iconDiv.attr("weaponSkillNo", $(this).attr("weaponSkillNo"));
-                    iconDiv.attr("rank", i);
-                    $(this).append(iconDiv);
-                }
-            });
-        }
-
-        function fillWeaponGearTable(rows) {
-            var weaponGearTable = $("#weaponGearTable").empty();
-            var i;
-            for (i = 0; i < (rows || 4); i++) {
-                var tr = $("<tr></tr>");
-                tr.attr("weaponSkillNo", i);
-                // Carried status box
-                td = $("<td></td>");
-                td.attr("class", "weaponGearStatCell");
-                var carriedStatus = $("<div class='weaponGearCarriedStatus statusBox' stat='carried' on='true' />");
-                td.append(carriedStatus);
-                tr.append(td);
-                // Name
-                var td = $("<td></td>");
-                td.attr("class", "weaponGearNameCell");
-                var nameInput = $("<div class='input weaponGearNameInput' ></div>");
-                td.append(nameInput);
-                tr.append(td);
-                // Damage label
-                td = $("<td></td>");
-                td.attr("class", "statNameCell");
-                td.html(_ui_("uiWSDamage"));
-                tr.append(td);
-                // Damage input
-                td = $("<td></td>");
-                td.attr("class", "weaponGearStatCell");
-                var damageInput = $("<input type='text' class='weaponGearDamageInput' stat='damage' />");
-                td.append(damageInput);
-                tr.append(td);
-                // Edge label
-                td = $("<td></td>");
-                td.attr("class", "statNameCell");
-                td.html(_ui_("uiWSEdge"));
-                tr.append(td);
-                // Edge input
-                td = $("<td></td>");
-                td.attr("class", "weaponGearStatCell");
-                var edgeInput = $("<input type='text' class='weaponGearEdgeInput' stat='edge' />");
-                td.append(edgeInput);
-                tr.append(td);
-                // Injury label
-                td = $("<td></td>");
-                td.attr("class", "statNameCell");
-                td.html(_ui_("uiWSInjury"));
-                tr.append(td);
-                // Injury input
-                td = $("<td></td>");
-                td.attr("class", "weaponGearStatCell");
-                var injuryInput = $("<input type='text' class='weaponGearInjuryInput' stat='injury' />");
-                td.append(injuryInput);
-                tr.append(td);
-                // Enc label
-                td = $("<td></td>");
-                td.attr("class", "statNameCell");
-                td.html(_ui_("uiEnc"));
-                tr.append(td);
-                // Enc input
-                td = $("<td></td>");
-                td.attr("class", "weaponGearStatCell");
-                var encInput = $("<input type='text' class='weaponGearEncInput' stat='enc' />");
-                td.append(encInput);
-                tr.append(td);
-
-                weaponGearTable.append(tr);
-            }
-
-        }
-
-        function fillGearTable() {
-            var gearTable = $(".gearTable");
-            // Labeled three
-            var labels = $("<div>" + _ui_("uiGArmour") + "</div><div>" + _ui_("uiGHeadgear") + "</div><div>" + _ui_("uiGShield") + "</div>");
-            // For each label we create a row with label
-            labels.each(function () {
-                var tr = $("<tr></tr>");
-                // Carried status box
-                var td = $("<td></td>");
-                td.attr("class", "gearCarried");
-                var carriedStatus = $("<div class='gearCarriedStatus statusBox' stat='carried' on='true' />");
-                td.append(carriedStatus);
-                tr.append(td);
-                // The label
-                var labelText = $(this).html();
-                td = $("<td><label>" + labelText + "</label></td>");
-                tr.append(td);
-                // The input
-                td = $("<td><div gearType='" + labelText + "' class='gearName input' ></div></td>");
-                tr.append(td);
-                // The enc label
-                td = $("<td><label>" + _ui_("uiEnc") + "</label></td>");
-                tr.append(td);
-                // The enc input
-                td = $("<td><input type='text' gearType='" + labelText + "' class='gearEnc' /></td>");
-                tr.append(td);
-
-                gearTable.append(tr);
-            });
-            // We create a couple more, blank
-            var i;
-            for (i = 1; i <= 2; i++) {
-                var tr = $("<tr></tr>");
-
-                // Carried status box
-                var td = $("<td></td>");
-                td.attr("class", "gearCarried");
-                var carriedStatus = $("<div class='gearCarriedStatus statusBox' stat='carried' on='true' />");
-                td.append(carriedStatus);
-                tr.append(td);
-
-                // No label		
-                td = $("<td>&nbsp;</td>");
-                tr.append(td);
-                // The input
-                td = $("<td><div gearType='other' class='gearName input' ></div></td>");
-                tr.append(td);
-                // The enc label
-                td = $("<td><label>" + _ui_("uiEnc") + "</label></td>");
-                tr.append(td);
-                // The enc input
-                td = $("<td><input type='text' gearType='other' class='gearEnc' /></td>");
-                tr.append(td);
-
-                gearTable.append(tr);
-            }
-        }
-
-        function fillInventoryTable() {
-            var inventoryTable = $("#inventoryTable");
-            // Clone the existing row several times
-            var modelRow = $(inventoryTable).find("tr");
-            var i;
-            for (i = 1; i <= 10; i++) {
-                var clone = $(modelRow).clone();
-                $(inventoryTable).append(clone);
-            }
-            // Number the cells
-            $("#inventoryTable td").each(function (index) {
-                $(this).attr("slotNo", index + 1);
-            });
-        }
-
-        function fillTaleOfYearsTable() {
-            var gearTable = $("#taleOfYearsTable");
-            // Clone the existing row several times
-            var modelRow = $(gearTable).find("tr");
-            var i;
-            for (i = 1; i < 13; i++) {
-                var clone = $(modelRow).clone();
-                $(clone).attr("number", i);
-                $(gearTable).append(clone);
-            }
-        }
 
         var backupOfCurrentSheet = null;
         function setClickablesEvents() {
@@ -728,24 +423,24 @@ define(["jquery", "gamedata", "text", "pj", "jquery.ui", "jquery.linq", "json", 
             if ($("#descriptionsToggleButton").hasClass("popupButtons")) {
                 $("#descriptionsToggleButton, #tooltipDiv").removeClass("popupButtons").addClass("popupTooltips");
                 $("#descriptionsToggleButton").attr("localizeKey", "uiPopupTooltips");
-                $("#descriptionsToggleButton").html(_ui_("uiPopupTooltips"));
+                $("#descriptionsToggleButton").html(_loc_("uiPopupTooltips"));
                 $.cookie('popups', 'tooltips', { expires: 3650 });
             } else if ($("#descriptionsToggleButton").hasClass("popupTooltips")) {
                 $("#descriptionsToggleButton, #tooltipDiv").removeClass("popupTooltips").addClass("popupNothing");
                 $("#descriptionsToggleButton").attr("localizeKey", "uiNoPopupHelp");
-                $("#descriptionsToggleButton").html(_ui_("uiNoPopupHelp"));
+                $("#descriptionsToggleButton").html(_loc_("uiNoPopupHelp"));
                 $.cookie('popups', 'nothing', { expires: 3650 });
             } else if ($("#descriptionsToggleButton").hasClass("popupNothing")) {
                 $("#descriptionsToggleButton, #tooltipDiv").removeClass("popupNothing").addClass("popupButtons");
                 $("#descriptionsToggleButton").attr("localizeKey", "uiPopupHelpButtons");
-                $("#descriptionsToggleButton").html(_ui_("uiPopupHelpButtons"));
+                $("#descriptionsToggleButton").html(_loc_("uiPopupHelpButtons"));
                 $.cookie('popups', 'buttons', { expires: 3650 });
             }
         }
 
         function helpButtonClick(sender) {
             var helpTopic = sender.attr("helptopic");
-            var helpText = _ui_(helpTopic);
+            var helpText = _loc_(helpTopic);
             var helpTitle = _loc_(helpTopic);
             if (helpTitle) {
                 helpText = "<legend>" + helpTitle + "</legend><br/><div class='helpText'>" + helpText + "</div>";
@@ -773,30 +468,6 @@ define(["jquery", "gamedata", "text", "pj", "jquery.ui", "jquery.linq", "json", 
             $(".roundStatBox, .subRoundStatBox,	.statusBox,	.attributeBox, .favouredAttributeBox, .skillGroupIcon").toggleClass("noPrint");
         }
 
-        function iconImageUpdate() {
-            $(".skillRankIcon").each(function () {
-                if ($(this).attr("filled") == "true") {
-                    $(this).find("img").attr("src", "css/skillrankfull.png");
-                } else {
-                    $(this).find("img").attr("src", "css/skillrankempty.png");
-                }
-            });
-            $(".skillGroupIcon").each(function () {
-                if ($(this).attr("filled") == "true") {
-                    $(this).find("img").attr("src", "css/skillgroupfull.png");
-                } else {
-                    $(this).find("img").attr("src", "css/skillgroupempty.png");
-                }
-            });
-            $(".statusBox").each(function () {
-                if ($(this).attr("on") == "true") {
-                    $(this).find("img").remove();
-                    $(this).append($("<img src='css/checked.png' />"));
-                } else {
-                    $(this).find("img").remove();
-                }
-            });
-        }
 
         function resetCreation() {
             // Empty everything.
@@ -851,25 +522,25 @@ define(["jquery", "gamedata", "text", "pj", "jquery.ui", "jquery.linq", "json", 
                 var cultureSelectionDiv = $(
 		"<div id='" + cultureName + "SelectionButton' class='cultureSelectionButton selector' culture='" + cultureName + "'><b><u class='localizable'>" + cultureName + "</u></b></div>"
 		);
-                $(cultureSelectionDiv).append("<br /><b>" + _ui_("uiAge") + "</b>: " + $("#internalData .cultures .culture[name=" + cultureName + "] .ageMin").html() + "-" + $("#internalData .cultures .culture[name=" + cultureName + "] .ageMax").html()
-		+ ", <b>" + _ui_("uiStandardofLiving") + "</b> <span class='localizable'>" + $("#internalData .cultures .culture[name=" + cultureName + "] .standardOfLiving").html() + "</span>"
-		+ ", <b>" + _ui_("uiCulturalblessing") + "</b> <span class='localizable'>" + $("#internalData .cultures .culture[name=" + cultureName + "] .culturalBlessing div").html() + "</span>"
+                $(cultureSelectionDiv).append("<br /><b>" + _loc_("uiAge") + "</b>: " + $("#internalData .cultures .culture[name=" + cultureName + "] .ageMin").html() + "-" + $("#internalData .cultures .culture[name=" + cultureName + "] .ageMax").html()
+		+ ", <b>" + _loc_("uiStandardofLiving") + "</b> <span class='localizable'>" + $("#internalData .cultures .culture[name=" + cultureName + "] .standardOfLiving").html() + "</span>"
+		+ ", <b>" + _loc_("uiCulturalblessing") + "</b> <span class='localizable'>" + $("#internalData .cultures .culture[name=" + cultureName + "] .culturalBlessing div").html() + "</span>"
 		);
-                $(cultureSelectionDiv).append(", <b>" + _ui_("uiEndurance") + "</b> +" + $("#internalData .cultures .culture[name=" + cultureName + "] .enduranceBonus").attr("value")
-		+ ", <b>" + _ui_("uiHope") + "</b> +" + $("#internalData .cultures .culture[name=" + cultureName + "] .hopeBonus").attr("value"));
+                $(cultureSelectionDiv).append(", <b>" + _loc_("uiEndurance") + "</b> +" + $("#internalData .cultures .culture[name=" + cultureName + "] .enduranceBonus").attr("value")
+		+ ", <b>" + _loc_("uiHope") + "</b> +" + $("#internalData .cultures .culture[name=" + cultureName + "] .hopeBonus").attr("value"));
                 var favouredSkill = $("#internalData .cultures .culture[name=" + cultureName + "] .favouredSkill").attr("skill");
-                var favouredSkillText = "<br /><b>" + _ui_("uiFavouredSkill") + "</b>: <span class='localizable'>" + favouredSkill + "</span>";
+                var favouredSkillText = "<br /><b>" + _loc_("uiFavouredSkill") + "</b>: <span class='localizable'>" + favouredSkill + "</span>";
                 $(cultureSelectionDiv).append(favouredSkillText);
-                var startingSkillScoresText = "<br /><b>" + _ui_("uiStartingSkills") + "</b>: ";
+                var startingSkillScoresText = "<br /><b>" + _loc_("uiStartingSkills") + "</b>: ";
                 $("#internalData .cultures .culture[name=" + cultureName + "] .startingSkillScores .skillScore").each(function () {
                     startingSkillScoresText += " <span class='localizable'>" + $(this).attr("skill") + "</span> +" + $(this).attr("score");
                 });
                 $(cultureSelectionDiv).append(startingSkillScoresText);
-                var virtuesText = "<br /><b>" + _ui_("uiUniqueVirtues") + "</b>: ";
+                var virtuesText = "<br /><b>" + _loc_("uiUniqueVirtues") + "</b>: ";
                 $("#internalData .cultures .culture[name=" + cultureName + "] .virtues .virtue").each(function () {
                     virtuesText += " <span class='localizable'>" + $(this).attr("name") + "</span>";
                 });
-                var rewardsText = "<br /><b>" + _ui_("uiUniqueRewards") + "</b>: ";
+                var rewardsText = "<br /><b>" + _loc_("uiUniqueRewards") + "</b>: ";
                 $("#internalData .cultures .culture[name=" + cultureName + "] .rewards .reward").each(function () {
                     rewardsText += " <span class='localizable'>" + $(this).attr("name") + "</span>";
                 });
@@ -1025,7 +696,7 @@ define(["jquery", "gamedata", "text", "pj", "jquery.ui", "jquery.linq", "json", 
                 var favouredSkill = $(this).find(".favouredSkill").attr("skill");
                 var backgroundButtonDivText =
 		"<div id='background" + backgroundValue + "' number='" + backgroundValue + "' class='backgroundButtonDiv selector' ><b class='localizable' localizeKey='" + $(this).attr("localizeKey") + "'>"
-		+ $(this).attr("localizeKey") + "</b><br /> <b>" + _ui_("uiBody") + "</b>: " + bodyScore + ", <b>" + _ui_("uiHeart") + "</b>: " + heartScore + ", <b>" + _ui_("uiWits") + "</b>: " + witsScore + ", <b>" + _ui_("uiFavouredSkill") + "</b>: <span class='localizable'>" + favouredSkill + "</span>.<br /> " + _ui_("uiDistFeaturesChoose2") + " <br /> </div>";
+		+ $(this).attr("localizeKey") + "</b><br /> <b>" + _loc_("uiBody") + "</b>: " + bodyScore + ", <b>" + _loc_("uiHeart") + "</b>: " + heartScore + ", <b>" + _loc_("uiWits") + "</b>: " + witsScore + ", <b>" + _loc_("uiFavouredSkill") + "</b>: <span class='localizable'>" + favouredSkill + "</span>.<br /> " + _loc_("uiDistFeaturesChoose2") + " <br /> </div>";
                 var backgroundButtonDiv = $(backgroundButtonDivText);
 
                 var featureContainer = $("<div class='background" + $(this).attr("value") + "distinctiveFeaturesDiv' />");
@@ -1117,20 +788,20 @@ define(["jquery", "gamedata", "text", "pj", "jquery.ui", "jquery.linq", "json", 
                 }
 
                 var favouredSkillGroups = $(this).find(".favouredSkillGroups div");
-                var fsgText = "<br /><b>" + _ui_("uiCallFSG") + "</b>: ";
+                var fsgText = "<br /><b>" + _loc_("uiCallFSG") + "</b>: ";
                 $(favouredSkillGroups).each(function () {
                     fsgText += "<span class='localizable'>" + $(this).html() + "</span> ";
                 });
 
-                var additionalTraitText = "<br /><b>" + _ui_("uiCallAddTrait") + "</b>: ";
+                var additionalTraitText = "<br /><b>" + _loc_("uiCallAddTrait") + "</b>: ";
                 var additionalTraits = $(this).find(".additionalTrait div");
                 if ($(additionalTraits).length > 1) {
-                    additionalTraitText += _ui_("uiCallAddTraitSeveral") + " ";
+                    additionalTraitText += _loc_("uiCallAddTraitSeveral") + " ";
                 }
                 $(additionalTraits).each(function () {
                     additionalTraitText += "<span class='localizable'>" + $(this).html() + "</span> ";
                 });
-                var shadowWeaknessText = "<br /><b>" + _ui_("uiCallSW") + "</b>: ";
+                var shadowWeaknessText = "<br /><b>" + _loc_("uiCallSW") + "</b>: ";
                 var shadowWeakness = $(this).find(".shadowWeakness div").html();
                 shadowWeaknessText += "<span class='localizable'>" + shadowWeakness + "</span>";
 
@@ -1294,7 +965,7 @@ define(["jquery", "gamedata", "text", "pj", "jquery.ui", "jquery.linq", "json", 
                 var score = $(this).attr("score");
                 attributes[attribute] = score;
             });
-            $("#FAChooseTextId").html(_ui_("uiFAChooseText", attributes["body"], attributes["heart"], attributes["wits"]));
+            $("#FAChooseTextId").html(_loc_("uiFAChooseText", attributes["body"], attributes["heart"], attributes["wits"]));
 
 
             $(".favouredAttributes3Div .favouredAttribute3").click(function (e) {
@@ -1477,7 +1148,7 @@ define(["jquery", "gamedata", "text", "pj", "jquery.ui", "jquery.linq", "json", 
         function initializePreviousExperienceSpending() {
             // Empty window
             $(".rankableSkillsDiv").empty();
-            $(".remainingXP").attr("XPLeft", 10).html(_ui_("uiPX10XPLeft"));
+            $(".remainingXP").attr("XPLeft", 10).html(_loc_("uiPX10XPLeft"));
 
             var cultureId = $("#characterData").data("culture");
             // We save in characterData the skills and ranks
@@ -1596,7 +1267,7 @@ define(["jquery", "gamedata", "text", "pj", "jquery.ui", "jquery.linq", "json", 
                 if (currentRank < 6) {
                     rankUpButton = $("<div class='rankUpButton selector' skill='" + skillId + "' cost='" + rankCost + "' rankToGo='" + (currentRank + 1) + "' type='common'><div class='skillName localizable'></div><div class='skillRankIcons'></div><div class='skillRankCost'></div></div>");
                     $(rankUpButton).find(".skillName").html(skillId);
-                    $(rankUpButton).find(".skillRankCost").html(_ui_("uiPXRankCost", rankCost));
+                    $(rankUpButton).find(".skillRankCost").html(_loc_("uiPXRankCost", rankCost));
                     var i;
                     for (i = 1; i <= 6; i++) {
                         var filled = (i <= currentRank);
@@ -1621,7 +1292,7 @@ define(["jquery", "gamedata", "text", "pj", "jquery.ui", "jquery.linq", "json", 
                 if (currentRank < 3) {
                     rankUpButton = $("<div class='rankUpButton selector' skill='" + skillId + "' cost='" + rankCost + "' rankToGo='" + (currentRank + 1) + "'  type='weapon'><div class='skillName'></div><div class='skillRankIcons'></div><div class='skillRankCost'></div></div>");
                     $(rankUpButton).find(".skillName").html(__(skillId));
-                    $(rankUpButton).find(".skillRankCost").html(_ui_("uiPXRankCost", rankCost));
+                    $(rankUpButton).find(".skillRankCost").html(_loc_("uiPXRankCost", rankCost));
                     var i;
                     for (i = 1; i <= 6; i++) {
                         var filled = (i <= currentRank);
@@ -1648,7 +1319,7 @@ define(["jquery", "gamedata", "text", "pj", "jquery.ui", "jquery.linq", "json", 
                 // Update the XP left
                 xpLeft -= cost;
                 $("#wizardPreviousExperienceDiv .remainingXP").attr("XPLeft", xpLeft);
-                $("#wizardPreviousExperienceDiv .remainingXP").html(_ui_("uiPXXPLeft", xpLeft));
+                $("#wizardPreviousExperienceDiv .remainingXP").html(_loc_("uiPXXPLeft", xpLeft));
                 // We reset the rank-up-buttons
                 $("#wizardPreviousExperienceDiv .rankableSkillsDiv").empty();
                 previousXPGenerateButtons();
@@ -1887,7 +1558,7 @@ define(["jquery", "gamedata", "text", "pj", "jquery.ui", "jquery.linq", "json", 
         }
 
         function updateCharacterSheetAfterInputs() {
-            // Compute Fatigue
+            // Compute Gear Fatigue from Gear Encumbrance
             $(".characterSheet").on("change", ".weaponSkillStatCell input, .gearEnc", computeFatigue);
 
             // Compute Total Shadow
@@ -1899,6 +1570,7 @@ define(["jquery", "gamedata", "text", "pj", "jquery.ui", "jquery.linq", "json", 
                 $(document).attr("title", name);
             });
 
+            // Compute Total Fatigue from Travel Fatige
             $(".subRoundStatBox[stat=fatigue] input, .subRoundStatBox[stat=fatigueTravel] input").on("change", function (event) {
                 computeTotalFatigue();
             });
@@ -2153,75 +1825,18 @@ define(["jquery", "gamedata", "text", "pj", "jquery.ui", "jquery.linq", "json", 
             });
         }
 
+        /// Inserts a localizable span with that textKey
         function __(text) {
-            return "<span class='localizable'>" + text + "</span>";
+            return '<span class="localizable" data-textKey="' + text + '"></span>';
         }
 
+        // Localizes the whole page or only one element
         function localizeUI(optionalElement) {
-            // Defaults to the whole document
-            optionalElement = (typeof optionalElement === "undefined") ? $('body') : optionalElement;
-            $(optionalElement).find(".uiText").each(function () {
-                var localizeKey = $(this).attr("localizeKey");
-                if (!localizeKey) {
-                    localizeKey = $(this).html().replace(/^\s*|\s*$/g, "");
-                    $(this).attr("localizeKey", localizeKey);
-                }
-                $(this).html(_ui_(localizeKey));
-            });
-        }
-
-        function _loc_() {
-            var args = _loc_.arguments;
-
-            if (args.length == 0) {
-                return;
+            if (optionalElement) {
+                localizeOne(optionalElement);
+            } else {
+                localizeAll();
             }
-
-            var localizeKey = args[0];
-            if (!localizeKey) {
-                return "Missing:localizeKey";
-            }
-            var locale = localeDict[localizeKey];
-            if (!locale) {
-                return "Missing:" + localizeKey;
-            }
-            // We get the full name 
-            var localizedText = locale.fullname;
-
-            // We substitute rest of parameters into the text
-            for (i = 1; i < args.length; i++) {
-                localizedText = localizedText.replace("{" + (i - 1) + "}", args[i]);
-            }
-
-            return localizedText;
-        }
-
-        function _ui_(arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10) {
-            var args = $.Enumerable.From([arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10])
-		.TakeWhile("$!=undefined")
-		.ToArray();
-            if (args.length == 0) {
-                return;
-            }
-
-            var localizeKey = args[0];
-            if (localizeKey == undefined) {
-                return "Missing:localizeKey";
-            }
-            var locale = localeDict[localizeKey];
-            if (!locale) {
-                return "Missing:" + localizeKey;
-            }
-            // We get the full name 
-            var localizedText = locale.contents;
-
-            // We substitute rest of parameters into the text
-            var i;
-            for (i = 1; i < args.length; i++) {
-                localizedText = localizedText.replace("{" + (i - 1) + "}", args[i]);
-            }
-
-            return localizedText;
         }
 
         function importCharacterV1(data) {
@@ -2718,7 +2333,7 @@ define(["jquery", "gamedata", "text", "pj", "jquery.ui", "jquery.linq", "json", 
             var sender = $(this);
             // favoured
             if (sender.hasClass("favoured")) {
-                var button = $("<div class='action'>" + _ui_("uiMenuNotFavoured") + "</div>").click(function () {
+                var button = $("<div class='action'>" + _loc_("uiMenuNotFavoured") + "</div>").click(function () {
                     sender.removeClass("favoured");
                     closeContextMenu();
                     performSynch();
@@ -2726,7 +2341,7 @@ define(["jquery", "gamedata", "text", "pj", "jquery.ui", "jquery.linq", "json", 
                 $(menu).append(button);
             }
             if (!sender.hasClass("favoured")) {
-                var button = $("<div class='action'>" + _ui_("uiMenuFavoured") + "</div>").click(function () {
+                var button = $("<div class='action'>" + _loc_("uiMenuFavoured") + "</div>").click(function () {
                     sender.addClass("favoured");
                     closeContextMenu();
                     performSynch();
@@ -2735,7 +2350,7 @@ define(["jquery", "gamedata", "text", "pj", "jquery.ui", "jquery.linq", "json", 
             }
 
             // nevermind button
-            menu.append($("<div class='action'><b>" + _ui_("uiMenuNevermind") + "</b></div>").click(function () { closeContextMenu(); }));
+            menu.append($("<div class='action'><b>" + _loc_("uiMenuNevermind") + "</b></div>").click(function () { closeContextMenu(); }));
 
             showContextMenu(e);
         }
@@ -2750,7 +2365,7 @@ define(["jquery", "gamedata", "text", "pj", "jquery.ui", "jquery.linq", "json", 
             var sender = $(this);
 
             // Add virtue	
-            var button = $("<div class='action'>" + _ui_("uiMenuAdd") + "</div>").click(function () {
+            var button = $("<div class='action'>" + _loc_("uiMenuAdd") + "</div>").click(function () {
                 closeContextMenu();
                 menu.empty();
                 // get culture
@@ -2789,7 +2404,7 @@ define(["jquery", "gamedata", "text", "pj", "jquery.ui", "jquery.linq", "json", 
                     menu.append(button);
                 }
                 // nevermind button
-                menu.append($("<div class='action'><b>" + _ui_("uiMenuNevermind") + "</b></div>").click(function () { closeContextMenu(); }));
+                menu.append($("<div class='action'><b>" + _loc_("uiMenuNevermind") + "</b></div>").click(function () { closeContextMenu(); }));
 
                 localize();
                 showContextMenu(e);
@@ -2797,7 +2412,7 @@ define(["jquery", "gamedata", "text", "pj", "jquery.ui", "jquery.linq", "json", 
             $(menu).append(button);
 
             // nevermind button
-            menu.append($("<div class='action'><b>" + _ui_("uiMenuNevermind") + "</b></div>").click(function () { closeContextMenu(); }));
+            menu.append($("<div class='action'><b>" + _loc_("uiMenuNevermind") + "</b></div>").click(function () { closeContextMenu(); }));
 
             localize();
             showContextMenu(e);
@@ -2810,7 +2425,7 @@ define(["jquery", "gamedata", "text", "pj", "jquery.ui", "jquery.linq", "json", 
             var sender = $(this);
 
             // remove virtue	
-            var button = $("<div class='action'>" + _ui_("uiMenuRemove") + "</div>").click(function () {
+            var button = $("<div class='action'>" + _loc_("uiMenuRemove") + "</div>").click(function () {
                 closeContextMenu();
                 $(sender).remove();
                 performSynch();
@@ -2821,7 +2436,7 @@ define(["jquery", "gamedata", "text", "pj", "jquery.ui", "jquery.linq", "json", 
             addCommentMenuOption(sender);
 
             // nevermind button
-            menu.append($("<div class='action'><b>" + _ui_("uiMenuNevermind") + "</b></div>").click(function () { closeContextMenu(); }));
+            menu.append($("<div class='action'><b>" + _loc_("uiMenuNevermind") + "</b></div>").click(function () { closeContextMenu(); }));
 
             localize();
             showContextMenu(e);
@@ -2837,7 +2452,7 @@ define(["jquery", "gamedata", "text", "pj", "jquery.ui", "jquery.linq", "json", 
             var sender = $(this);
 
             // Add reward	
-            var button = $("<div class='action'>" + _ui_("uiMenuAdd") + "</div>").click(function () {
+            var button = $("<div class='action'>" + _loc_("uiMenuAdd") + "</div>").click(function () {
                 closeContextMenu();
                 menu.empty();
                 // get culture
@@ -2875,7 +2490,7 @@ define(["jquery", "gamedata", "text", "pj", "jquery.ui", "jquery.linq", "json", 
                     menu.append(button);
                 }
                 // nevermind button
-                menu.append($("<div class='action'><b>" + _ui_("uiMenuNevermind") + "</b></div>").click(function () { closeContextMenu(); }));
+                menu.append($("<div class='action'><b>" + _loc_("uiMenuNevermind") + "</b></div>").click(function () { closeContextMenu(); }));
 
                 localize();
                 showContextMenu(e);
@@ -2883,7 +2498,7 @@ define(["jquery", "gamedata", "text", "pj", "jquery.ui", "jquery.linq", "json", 
             $(menu).append(button);
 
             // nevermind button
-            menu.append($("<div class='action'><b>" + _ui_("uiMenuNevermind") + "</b></div>").click(function () { closeContextMenu(); }));
+            menu.append($("<div class='action'><b>" + _loc_("uiMenuNevermind") + "</b></div>").click(function () { closeContextMenu(); }));
 
             localize();
             showContextMenu(e);
@@ -2897,7 +2512,7 @@ define(["jquery", "gamedata", "text", "pj", "jquery.ui", "jquery.linq", "json", 
 
             // favoured
             if (sender.hasClass("favoured")) {
-                var button = $("<div class='action'>" + _ui_("uiMenuNotFavoured") + "</div>").click(function () {
+                var button = $("<div class='action'>" + _loc_("uiMenuNotFavoured") + "</div>").click(function () {
                     sender.removeClass("favoured");
                     closeContextMenu();
                     performSynch();
@@ -2905,7 +2520,7 @@ define(["jquery", "gamedata", "text", "pj", "jquery.ui", "jquery.linq", "json", 
                 $(menu).append(button);
             }
             if (!sender.hasClass("favoured")) {
-                var button = $("<div class='action'>" + _ui_("uiMenuFavoured") + "</div>").click(function () {
+                var button = $("<div class='action'>" + _loc_("uiMenuFavoured") + "</div>").click(function () {
                     sender.addClass("favoured");
                     closeContextMenu();
                     performSynch();
@@ -2914,7 +2529,7 @@ define(["jquery", "gamedata", "text", "pj", "jquery.ui", "jquery.linq", "json", 
             }
 
             // Select weapon skill
-            var button = $("<div class='action'>" + _ui_("uiMenuSelectWSkill") + "</div>").click(function () {
+            var button = $("<div class='action'>" + _loc_("uiMenuSelectWSkill") + "</div>").click(function () {
                 closeContextMenu();
                 $(menu).empty();
 
@@ -2938,7 +2553,7 @@ define(["jquery", "gamedata", "text", "pj", "jquery.ui", "jquery.linq", "json", 
                 });
 
                 // nevermind button
-                menu.append($("<div class='action'><b>" + _ui_("uiMenuNevermind") + "</b></div>").click(function () { closeContextMenu(); }));
+                menu.append($("<div class='action'><b>" + _loc_("uiMenuNevermind") + "</b></div>").click(function () { closeContextMenu(); }));
 
                 localize();
                 showContextMenu(e);
@@ -2946,7 +2561,7 @@ define(["jquery", "gamedata", "text", "pj", "jquery.ui", "jquery.linq", "json", 
             $(menu).append(button);
 
             // Select cultural weapon skill
-            button = $("<div class='action'>" + _ui_("uiMenuSelectWGroup") + "</div>").click(function () {
+            button = $("<div class='action'>" + _loc_("uiMenuSelectWGroup") + "</div>").click(function () {
                 closeContextMenu();
                 $(menu).empty();
 
@@ -2973,7 +2588,7 @@ define(["jquery", "gamedata", "text", "pj", "jquery.ui", "jquery.linq", "json", 
 
 
                 // nevermind button
-                menu.append($("<div class='action'><b>" + _ui_("uiMenuNevermind") + "</b></div>").click(function () { closeContextMenu(); }));
+                menu.append($("<div class='action'><b>" + _loc_("uiMenuNevermind") + "</b></div>").click(function () { closeContextMenu(); }));
 
                 localize();
                 showContextMenu(e);
@@ -2982,7 +2597,7 @@ define(["jquery", "gamedata", "text", "pj", "jquery.ui", "jquery.linq", "json", 
             $(menu).append(button);
 
             // Remove weapon skill	
-            button = $("<div class='action'>" + _ui_("uiMenuRemove") + "</div>").click(function () {
+            button = $("<div class='action'>" + _loc_("uiMenuRemove") + "</div>").click(function () {
                 closeContextMenu();
                 var namecell = sender.parents("#weaponSkillsTable .skillNameCell");
                 var row = namecell.parents("#weaponSkillsTable tr");
@@ -2997,7 +2612,7 @@ define(["jquery", "gamedata", "text", "pj", "jquery.ui", "jquery.linq", "json", 
 
 
             // Add row
-            button = $("<div class='action'>" + _ui_("uiMenuAddRow") + "</div>").click(function () {
+            button = $("<div class='action'>" + _loc_("uiMenuAddRow") + "</div>").click(function () {
                 closeContextMenu();
                 var row = sender.parents("#weaponSkillsTable tr");
                 var table = sender.parents("#weaponSkillsTable");
@@ -3013,7 +2628,7 @@ define(["jquery", "gamedata", "text", "pj", "jquery.ui", "jquery.linq", "json", 
 
             // Remove row - only if at least 3 rows left
             if ($("#weaponSkillsTable tr").length > 2) {
-                button = $("<div class='action'>" + _ui_("uiMenuRemoveRow") + "</div>").click(function () {
+                button = $("<div class='action'>" + _loc_("uiMenuRemoveRow") + "</div>").click(function () {
                     closeContextMenu();
                     var row = sender.parents("#weaponSkillsTable tr");
                     $(row).remove();
@@ -3025,7 +2640,7 @@ define(["jquery", "gamedata", "text", "pj", "jquery.ui", "jquery.linq", "json", 
 
 
             // nevermind button
-            menu.append($("<div class='action'><b>" + _ui_("uiMenuNevermind") + "</b></div>").click(function () { closeContextMenu(); }));
+            menu.append($("<div class='action'><b>" + _loc_("uiMenuNevermind") + "</b></div>").click(function () { closeContextMenu(); }));
 
             localize();
             showContextMenu(e);
@@ -3038,7 +2653,7 @@ define(["jquery", "gamedata", "text", "pj", "jquery.ui", "jquery.linq", "json", 
             var sender = $(this);
 
             // Select weapon 
-            var button = $("<div class='action'>" + _ui_("uiMenuSelectWeapon") + "</div>").click(function () {
+            var button = $("<div class='action'>" + _loc_("uiMenuSelectWeapon") + "</div>").click(function () {
                 closeContextMenu();
                 $(menu).empty();
 
@@ -3075,7 +2690,7 @@ define(["jquery", "gamedata", "text", "pj", "jquery.ui", "jquery.linq", "json", 
                 });
 
                 // nevermind button
-                menu.append($("<div class='action'><b>" + _ui_("uiMenuNevermind") + "</b></div>").click(function () { closeContextMenu(); }));
+                menu.append($("<div class='action'><b>" + _loc_("uiMenuNevermind") + "</b></div>").click(function () { closeContextMenu(); }));
 
                 localize();
                 showContextMenu(e);
@@ -3083,7 +2698,7 @@ define(["jquery", "gamedata", "text", "pj", "jquery.ui", "jquery.linq", "json", 
             $(menu).append(button);
 
             // Add row
-            button = $("<div class='action'>" + _ui_("uiMenuAddRow") + "</div>").click(function () {
+            button = $("<div class='action'>" + _loc_("uiMenuAddRow") + "</div>").click(function () {
                 closeContextMenu();
                 var row = sender.parents("#weaponGearTable tr");
                 var table = sender.parents("#weaponGearTable");
@@ -3101,7 +2716,7 @@ define(["jquery", "gamedata", "text", "pj", "jquery.ui", "jquery.linq", "json", 
 
             // Remove row - only if at least 2 rows left 
             if ($("#weaponGearTable tr").length >= 2) {
-                button = $("<div class='action'>" + _ui_("uiMenuRemoveRow") + "</div>").click(function () {
+                button = $("<div class='action'>" + _loc_("uiMenuRemoveRow") + "</div>").click(function () {
                     closeContextMenu();
                     var row = sender.parents("#weaponGearTable tr");
                     $(row).remove();
@@ -3112,7 +2727,7 @@ define(["jquery", "gamedata", "text", "pj", "jquery.ui", "jquery.linq", "json", 
             }
 
             // nevermind button
-            menu.append($("<div class='action'><b>" + _ui_("uiMenuNevermind") + "</b></div>").click(function () { closeContextMenu(); }));
+            menu.append($("<div class='action'><b>" + _loc_("uiMenuNevermind") + "</b></div>").click(function () { closeContextMenu(); }));
 
             localize();
             showContextMenu(e);
@@ -3127,7 +2742,7 @@ define(["jquery", "gamedata", "text", "pj", "jquery.ui", "jquery.linq", "json", 
             var sender = $(this);
 
             // Select gear
-            button = $("<div class='action'>" + _ui_("uiMenuSelectGear") + "</div>").click(function () {
+            button = $("<div class='action'>" + _loc_("uiMenuSelectGear") + "</div>").click(function () {
                 closeContextMenu();
                 $(menu).empty();
 
@@ -3173,7 +2788,7 @@ define(["jquery", "gamedata", "text", "pj", "jquery.ui", "jquery.linq", "json", 
 
 
                 // nevermind button
-                menu.append($("<div class='action'><b>" + _ui_("uiMenuNevermind") + "</b></div>").click(function () { closeContextMenu(); }));
+                menu.append($("<div class='action'><b>" + _loc_("uiMenuNevermind") + "</b></div>").click(function () { closeContextMenu(); }));
 
                 localize();
                 showContextMenu(e);
@@ -3182,7 +2797,7 @@ define(["jquery", "gamedata", "text", "pj", "jquery.ui", "jquery.linq", "json", 
             $(menu).append(button);
 
             // Remove gear	
-            button = $("<div class='action'>" + _ui_("uiMenuRemove") + "</div>").click(function () {
+            button = $("<div class='action'>" + _loc_("uiMenuRemove") + "</div>").click(function () {
                 closeContextMenu();
                 var row = sender.parents(".gearTable tr");
                 // empty row
@@ -3194,7 +2809,7 @@ define(["jquery", "gamedata", "text", "pj", "jquery.ui", "jquery.linq", "json", 
             $(menu).append(button);
 
             // Add row
-            button = $("<div class='action'>" + _ui_("uiMenuAddRow") + "</div>").click(function () {
+            button = $("<div class='action'>" + _loc_("uiMenuAddRow") + "</div>").click(function () {
                 closeContextMenu();
                 var row = sender.parents(".gearTable tr");
                 var table = sender.parents(".gearTable");
@@ -3213,7 +2828,7 @@ define(["jquery", "gamedata", "text", "pj", "jquery.ui", "jquery.linq", "json", 
 
             // Remove row - only if at least 5 rows left and it isn't one of the first 3
             if ($(".gearTable tr").length > 4 && sender.parents(".gearTable tr").index() > 2) {
-                button = $("<div class='action'>" + _ui_("uiMenuRemoveRow") + "</div>").click(function () {
+                button = $("<div class='action'>" + _loc_("uiMenuRemoveRow") + "</div>").click(function () {
                     closeContextMenu();
                     var row = sender.parents(".gearTable tr");
                     $(row).remove();
@@ -3224,13 +2839,13 @@ define(["jquery", "gamedata", "text", "pj", "jquery.ui", "jquery.linq", "json", 
             }
 
             // Add comment option
-            button = $("<div class='action'>" + _ui_("uiMenuSetComment") + "</div>").click(function () {
+            button = $("<div class='action'>" + _loc_("uiMenuSetComment") + "</div>").click(function () {
                 closeContextMenu();
                 var currentText = $(sender).find(".localizable").attr("commentText");
                 if (currentText == undefined) {
                     currentText = "";
                 }
-                var commentText = prompt(_ui_("uiSetCommentText"), currentText);
+                var commentText = prompt(_loc_("uiSetCommentText"), currentText);
                 $(sender).find(".localizable").attr("commentText", commentText);
 
                 localizeOne($(sender).find(".localizable"));
@@ -3241,7 +2856,7 @@ define(["jquery", "gamedata", "text", "pj", "jquery.ui", "jquery.linq", "json", 
 
 
             // nevermind button
-            menu.append($("<div class='action'><b>" + _ui_("uiMenuNevermind") + "</b></div>").click(function () { closeContextMenu(); }));
+            menu.append($("<div class='action'><b>" + _loc_("uiMenuNevermind") + "</b></div>").click(function () { closeContextMenu(); }));
 
             localize();
             showContextMenu(e);
@@ -3257,7 +2872,7 @@ define(["jquery", "gamedata", "text", "pj", "jquery.ui", "jquery.linq", "json", 
             var sender = $(this);
 
             // Add degeneration	
-            var button = $("<div class='action'>" + _ui_("uiMenuAddDegeneration") + "</div>").click(function () {
+            var button = $("<div class='action'>" + _loc_("uiMenuAddDegeneration") + "</div>").click(function () {
                 closeContextMenu();
                 menu.empty();
                 // get shadow weakness
@@ -3279,7 +2894,7 @@ define(["jquery", "gamedata", "text", "pj", "jquery.ui", "jquery.linq", "json", 
                 });
                 // if there are none left, alert and stop
                 if (degenerations.length == 0) {
-                    alert(_ui_("uiErrorNoMoreDeg"));
+                    alert(_loc_("uiErrorNoMoreDeg"));
                     return;
                 }
 
@@ -3297,7 +2912,7 @@ define(["jquery", "gamedata", "text", "pj", "jquery.ui", "jquery.linq", "json", 
                     menu.append(button);
                 }
                 // nevermind button
-                menu.append($("<div class='action'><b>" + _ui_("uiMenuNevermind") + "</b></div>").click(function () { closeContextMenu(); }));
+                menu.append($("<div class='action'><b>" + _loc_("uiMenuNevermind") + "</b></div>").click(function () { closeContextMenu(); }));
 
                 localize();
                 showContextMenu(e);
@@ -3305,7 +2920,7 @@ define(["jquery", "gamedata", "text", "pj", "jquery.ui", "jquery.linq", "json", 
             $(menu).append(button);
 
             // nevermind button
-            menu.append($("<div class='action'><b>" + _ui_("uiMenuNevermind") + "</b></div>").click(function () { closeContextMenu(); }));
+            menu.append($("<div class='action'><b>" + _loc_("uiMenuNevermind") + "</b></div>").click(function () { closeContextMenu(); }));
 
             localize();
             showContextMenu(e);
@@ -3332,7 +2947,7 @@ define(["jquery", "gamedata", "text", "pj", "jquery.ui", "jquery.linq", "json", 
 			.OrderBy("_loc_($)")
 			.ToArray();
 
-                var button = $("<div class='action'>" + _ui_("uiMenuExchangeFeature") + "</div>").click(function () {
+                var button = $("<div class='action'>" + _loc_("uiMenuExchangeFeature") + "</div>").click(function () {
                     closeContextMenu();
                     menu.empty();
                     // make the buttons
@@ -3349,7 +2964,7 @@ define(["jquery", "gamedata", "text", "pj", "jquery.ui", "jquery.linq", "json", 
                         menu.append(featureButton);
                     }
                     // nevermind button
-                    menu.append($("<div class='action'><b>" + _ui_("uiMenuNevermind") + "</b></div>").click(function () { closeContextMenu(); }));
+                    menu.append($("<div class='action'><b>" + _loc_("uiMenuNevermind") + "</b></div>").click(function () { closeContextMenu(); }));
 
                     localize();
                     showContextMenu(e);
@@ -3360,7 +2975,7 @@ define(["jquery", "gamedata", "text", "pj", "jquery.ui", "jquery.linq", "json", 
             addCommentMenuOption(sender);
 
             // nevermind button
-            menu.append($("<div class='action'><b>" + _ui_("uiMenuNevermind") + "</b></div>").click(function () { closeContextMenu(); }));
+            menu.append($("<div class='action'><b>" + _loc_("uiMenuNevermind") + "</b></div>").click(function () { closeContextMenu(); }));
 
             localize();
             showContextMenu(e);
@@ -3368,7 +2983,7 @@ define(["jquery", "gamedata", "text", "pj", "jquery.ui", "jquery.linq", "json", 
 
         function addCommentMenuOption(sender) {
             var menu = $(".contextMenu");
-            var button = $("<div class='action'>" + _ui_("uiMenuSetComment") + "</div>").click(function () {
+            var button = $("<div class='action'>" + _loc_("uiMenuSetComment") + "</div>").click(function () {
                 closeContextMenu();
                 var currentText = $(sender).attr("commentText");
                 if (currentText == undefined) {
@@ -3413,7 +3028,7 @@ define(["jquery", "gamedata", "text", "pj", "jquery.ui", "jquery.linq", "json", 
 
 
             // nevermind button
-            menu.append($("<div class='action'><b>" + _ui_("uiMenuNevermind") + "</b></div>").click(function () { closeContextMenu(); }));
+            menu.append($("<div class='action'><b>" + _loc_("uiMenuNevermind") + "</b></div>").click(function () { closeContextMenu(); }));
 
             localize();
             showContextMenu(e);
@@ -3430,7 +3045,7 @@ define(["jquery", "gamedata", "text", "pj", "jquery.ui", "jquery.linq", "json", 
             addCommentMenuOption(sender);
 
             // nevermind button
-            menu.append($("<div class='action'><b>" + _ui_("uiMenuNevermind") + "</b></div>").click(function () { closeContextMenu(); }));
+            menu.append($("<div class='action'><b>" + _loc_("uiMenuNevermind") + "</b></div>").click(function () { closeContextMenu(); }));
 
             localize();
             showContextMenu(e);
@@ -3559,17 +3174,17 @@ define(["jquery", "gamedata", "text", "pj", "jquery.ui", "jquery.linq", "json", 
             $(resultsDiv).append($("<br /><span id='rollerTotal'></span>"));
             if (featDie != 11) {
                 if (tengwar == 0) {
-                    $("#rollerTotal").html(_ui_("uiTotal") + ": " + total);
+                    $("#rollerTotal").html(_loc_("uiTotal") + ": " + total);
                 } else {
-                    $("#rollerTotal").html(_ui_("uiTotal") + ": " + total + " + " + tengwar + "<img src='css/6.png' />");
+                    $("#rollerTotal").html(_loc_("uiTotal") + ": " + total + " + " + tengwar + "<img src='css/6.png' />");
                 }
             } else {
                 if (tengwar == 0) {
-                    $("#rollerTotal").html(_ui_("uiSimpleSuccess"));
+                    $("#rollerTotal").html(_loc_("uiSimpleSuccess"));
                 } else if (tengwar == 1) {
-                    $("#rollerTotal").html(_ui_("uiSuperiorSuccess"));
+                    $("#rollerTotal").html(_loc_("uiSuperiorSuccess"));
                 } else if (tengwar >= 2) {
-                    $("#rollerTotal").html(_ui_("uiExtraordinarySuccess"));
+                    $("#rollerTotal").html(_loc_("uiExtraordinarySuccess"));
                 }
 
             }
@@ -3595,24 +3210,24 @@ define(["jquery", "gamedata", "text", "pj", "jquery.ui", "jquery.linq", "json", 
         function renderBBCode() {
             var text = "";
             //Name
-            text += "[b]" + _ui_("uiName") + "[/b] " + $("#nameInput").attr("value").replace(/['"]/g, '');
+            text += "[b]" + _loc_("uiName") + "[/b] " + $("#nameInput").attr("value").replace(/['"]/g, '');
             text += "\n\n";
             // Culture
-            text += "[b]" + _ui_("uiCulture") + "[/b] " + _loc_($("#cultureInput .localizable").attr("localizeKey"));
+            text += "[b]" + _loc_("uiCulture") + "[/b] " + _loc_($("#cultureInput .localizable").attr("localizeKey"));
             // Standard
-            text += "  [b]" + _ui_("uiStandardofLiving") + "[/b] " + _loc_($("#standardInput .localizable").attr("localizeKey"));
+            text += "  [b]" + _loc_("uiStandardofLiving") + "[/b] " + _loc_($("#standardInput .localizable").attr("localizeKey"));
             text += "\n";
             // Blessing
-            text += "[b]" + _ui_("uiCulturalblessing") + "[/b] " + _loc_($("#culturalBlessingInput .localizable").attr("localizeKey"));
+            text += "[b]" + _loc_("uiCulturalblessing") + "[/b] " + _loc_($("#culturalBlessingInput .localizable").attr("localizeKey"));
             text += forumCommentHelper($("#culturalBlessingInput .localizable"));
             text += "\n";
             // Calling
-            text += "  [b]" + _ui_("uiCalling") + "[/b] " + _loc_($("#callingInput .localizable").attr("localizeKey"));
+            text += "  [b]" + _loc_("uiCalling") + "[/b] " + _loc_($("#callingInput .localizable").attr("localizeKey"));
             // Shadow Weakness
-            text += "  [b]" + _ui_("uiShadowweakness") + "[/b] " + _loc_($("#shadowWeaknessInput .localizable").attr("localizeKey"));
+            text += "  [b]" + _loc_("uiShadowweakness") + "[/b] " + _loc_($("#shadowWeaknessInput .localizable").attr("localizeKey"));
             text += "\n";
             // Specialties
-            text += "[b]" + _ui_("uiSpecialties") + "[/b] ";
+            text += "[b]" + _loc_("uiSpecialties") + "[/b] ";
             var array = [];
             $("#specialtiesInput .localizable").each(function () {
                 array.push(_loc_($(this).attr("localizeKey")) + forumCommentHelper($(this)));
@@ -3620,7 +3235,7 @@ define(["jquery", "gamedata", "text", "pj", "jquery.ui", "jquery.linq", "json", 
             text += array.join(", ");
             text += "\n";
             // Distinctive features
-            text += "[b]" + _ui_("uiDistinctivefeatures") + "[/b] ";
+            text += "[b]" + _loc_("uiDistinctivefeatures") + "[/b] ";
             array = [];
             $("#distinctiveFeaturesInput .localizable").each(function () {
                 array.push(_loc_($(this).attr("localizeKey")) + forumCommentHelper($(this)));
@@ -3633,7 +3248,7 @@ define(["jquery", "gamedata", "text", "pj", "jquery.ui", "jquery.linq", "json", 
             });
             text += "\n";
             $(".favouredAttributeBox").each(function () {
-                text += " [b]" + _loc_($(this).attr("attribute")) + " (" + _ui_("uiFavoured") + ")[/b]: " + parseInt($(this).find("input").attr("value") || "0", 10);
+                text += " [b]" + _loc_($(this).attr("attribute")) + " (" + _loc_("uiFavoured") + ")[/b]: " + parseInt($(this).find("input").attr("value") || "0", 10);
             });
 
             text += "\n\n";
@@ -3650,7 +3265,7 @@ define(["jquery", "gamedata", "text", "pj", "jquery.ui", "jquery.linq", "json", 
                 }
             });
             // Common Skills
-            text += "[b]" + _ui_("uiCommonSkills") + "[/b]";
+            text += "[b]" + _loc_("uiCommonSkills") + "[/b]";
             text += "[list]";
             // Skills
             $("#internalData .skillGroups .skillGroup").each(function () {
@@ -3675,7 +3290,7 @@ define(["jquery", "gamedata", "text", "pj", "jquery.ui", "jquery.linq", "json", 
             text += "[/list]";
 
             // Weapon Skills
-            text += "[b]" + _ui_("uiWeaponSkills") + "[/b]";
+            text += "[b]" + _loc_("uiWeaponSkills") + "[/b]";
             text += "[list]";
             array = [];
             $("#weaponSkillsTable .skillNameCell").each(function (index) {
@@ -3705,16 +3320,16 @@ define(["jquery", "gamedata", "text", "pj", "jquery.ui", "jquery.linq", "json", 
                 text += "\n";
                 return true;
                 }
-                text += " [b]"+_ui_("uiWSDamage")+"[/b]: "+ $(this).find(".weaponSkillDamageInput").attr("value");
-                text += " [b]"+_ui_("uiWSEdge")+"[/b]: "+ $(this).find(".weaponSkillEdgeInput").attr("value");
-                text += " [b]"+_ui_("uiWSInjury")+"[/b]: "+$(this).find(".weaponSkillInjuryInput").attr("value");
-                text += " [b]"+_ui_("uiEnc")+"[/b]: "+$(this).find(".weaponSkillEncInput").attr("value");
+                text += " [b]"+_loc_("uiWSDamage")+"[/b]: "+ $(this).find(".weaponSkillDamageInput").attr("value");
+                text += " [b]"+_loc_("uiWSEdge")+"[/b]: "+ $(this).find(".weaponSkillEdgeInput").attr("value");
+                text += " [b]"+_loc_("uiWSInjury")+"[/b]: "+$(this).find(".weaponSkillInjuryInput").attr("value");
+                text += " [b]"+_loc_("uiEnc")+"[/b]: "+$(this).find(".weaponSkillEncInput").attr("value");
                 */
             });
             text += "[/list]";
 
             // Rewards
-            text += " [b]" + _ui_("uiRewards") + "[/b]: ";
+            text += " [b]" + _loc_("uiRewards") + "[/b]: ";
             array = [];
             $(".rewardsContent div .localizable").each(function () {
                 if ($(this).attr("localizeKey").replace(/['"]/g, '') == "") {
@@ -3726,7 +3341,7 @@ define(["jquery", "gamedata", "text", "pj", "jquery.ui", "jquery.linq", "json", 
             text += "\n";
 
             // Virtues
-            text += "[b]" + _ui_("uiVirtues") + "[/b]: ";
+            text += "[b]" + _loc_("uiVirtues") + "[/b]: ";
             array = [];
             $(".virtuesContent div .localizable").each(function () {
                 if ($(this).attr("localizeKey").replace(/['"]/g, '') == "") {
@@ -3739,7 +3354,7 @@ define(["jquery", "gamedata", "text", "pj", "jquery.ui", "jquery.linq", "json", 
 
 
             // Gear
-            text += "[b]" + _ui_("uiGear") + "[/b]";
+            text += "[b]" + _loc_("uiGear") + "[/b]";
             text += "[list]";
             $("#weaponGearTable tr").each(function () {
                 var name = $(this).find(".weaponGearNameInput").text();
@@ -3751,10 +3366,10 @@ define(["jquery", "gamedata", "text", "pj", "jquery.ui", "jquery.linq", "json", 
                 if (name) {
                     text += "[*]";
                     text += name;
-                    text += " [b]" + _ui_("uiWSDamage") + "[/b]: " + damage;
-                    text += " [b]" + _ui_("uiWSEdge") + "[/b]: " + edge;
-                    text += " [b]" + _ui_("uiWSInjury") + "[/b]: " + injury;
-                    text += " [b]" + _ui_("uiEnc") + "[/b]: " + enc;
+                    text += " [b]" + _loc_("uiWSDamage") + "[/b]: " + damage;
+                    text += " [b]" + _loc_("uiWSEdge") + "[/b]: " + edge;
+                    text += " [b]" + _loc_("uiWSInjury") + "[/b]: " + injury;
+                    text += " [b]" + _loc_("uiEnc") + "[/b]: " + enc;
                     text += carried;
                     text += "\n";
                 }
@@ -3768,7 +3383,7 @@ define(["jquery", "gamedata", "text", "pj", "jquery.ui", "jquery.linq", "json", 
                 }
                 text += "[*]";
                 text += _loc_(gear) + forumCommentHelper($(this).find(".gearName .localizable"));
-                text += " [b]" + _ui_("uiEnc") + "[/b]: " + $(this).find(".gearEnc").attr("value");
+                text += " [b]" + _loc_("uiEnc") + "[/b]: " + $(this).find(".gearEnc").attr("value");
                 text += ($(this).find(".gearCarriedStatus").attr("on") == "true") ? "" : " (not carried)";
                 text += "\n";
             });
@@ -3777,7 +3392,7 @@ define(["jquery", "gamedata", "text", "pj", "jquery.ui", "jquery.linq", "json", 
 
             // Round stats
             $(".roundStatBox,.subRoundStatBox").each(function (index) {
-                text += "[b]" + _ui_("ui" + $(this).attr("stat")) + "[/b]: " + parseInt($(this).find("input").attr("value") || "0", 10) + " ";
+                text += "[b]" + _loc_("ui" + $(this).attr("stat")) + "[/b]: " + parseInt($(this).find("input").attr("value") || "0", 10) + " ";
                 if ($.inArray(index, [4, 9, 11, 13, 15, 17, 19]) != -1) {
                     text += "\n";
                 }
@@ -3845,7 +3460,7 @@ define(["jquery", "gamedata", "text", "pj", "jquery.ui", "jquery.linq", "json", 
         function registerUser() {
             var userFullName = "";
             do {
-                userFullName = prompt(_ui_("uiOnlineRegisterFullNameText"));
+                userFullName = prompt(_loc_("uiOnlineRegisterFullNameText"));
             } while (userFullName == "");
 
             if (userFullName == null) {
@@ -3853,14 +3468,14 @@ define(["jquery", "gamedata", "text", "pj", "jquery.ui", "jquery.linq", "json", 
             }
             var username = "";
             do {
-                username = prompt(_ui_("uiOnlineRegisterUsernameText"));
+                username = prompt(_loc_("uiOnlineRegisterUsernameText"));
             } while (username == "");
             if (username == null) {
                 return;
             }
             var password = "";
             do {
-                password = prompt(_ui_("uiOnlineRegisterPasswordText"));
+                password = prompt(_loc_("uiOnlineRegisterPasswordText"));
             } while (password == "");
             if (password == null) {
                 return;
@@ -3909,15 +3524,15 @@ define(["jquery", "gamedata", "text", "pj", "jquery.ui", "jquery.linq", "json", 
 		        $(row).append(cell);
 		        cell = $("<td>" + __(calling) + "</td>");
 		        $(row).append(cell);
-		        cell = $("<td>" + _ui_(isPublic ? "uiPublic" : "uiPrivate") + "</td>");
+		        cell = $("<td>" + _loc_(isPublic ? "uiPublic" : "uiPrivate") + "</td>");
 		        $(row).append(cell);
-		        cell = $("<td class='actions'><button class='characterLoadButton'>" + _ui_("uiLoadOnlineCharacter") + "</button><button class='characterDeleteButton'>" + _ui_("uiDeleteOnlineCharacter") + "</button></td>");
+		        cell = $("<td class='actions'><button class='characterLoadButton'>" + _loc_("uiLoadOnlineCharacter") + "</button><button class='characterDeleteButton'>" + _loc_("uiDeleteOnlineCharacter") + "</button></td>");
 		        $(row).append(cell);
 		        $(row).find(".characterLoadButton").click(function () {
 		            serverLoad(username, password, characterName);
 		        });
 		        $(row).find(".characterDeleteButton").click(function () {
-		            if (confirm(_ui_("uiConfirmDeleteOnlineCharacter"))) {
+		            if (confirm(_loc_("uiConfirmDeleteOnlineCharacter"))) {
 		                serverDelete(username, password, characterName);
 		            }
 		        });
@@ -3959,7 +3574,7 @@ define(["jquery", "gamedata", "text", "pj", "jquery.ui", "jquery.linq", "json", 
 		        $(row).append(cell);
 		        cell = $("<td>" + __(calling) + "</td>");
 		        $(row).append(cell);
-		        cell = $("<td class='actions'><button class='characterLoadButton'>" + _ui_("uiLoadOnlineCharacter") + "</button></td>");
+		        cell = $("<td class='actions'><button class='characterLoadButton'>" + _loc_("uiLoadOnlineCharacter") + "</button></td>");
 		        $(row).append(cell);
 		        $(row).find(".characterLoadButton").click(function () {
 		            serverLoadPublic(characterName, id);
@@ -4055,7 +3670,7 @@ define(["jquery", "gamedata", "text", "pj", "jquery.ui", "jquery.linq", "json", 
 		        return;
 		    }
 		    if (!synchLocalCharacterEdition.edition || synchLocalCharacterEdition.edition < synchRemoteCharacterEdition.edition) {
-		        var message = _ui_("uiRemotelyChanged", synchLocalCharacterEdition.edition, synchRemoteCharacterEdition.edition);
+		        var message = _loc_("uiRemotelyChanged", synchLocalCharacterEdition.edition, synchRemoteCharacterEdition.edition);
 		        showNotification(message, 3000);
 		        synchUpdating = true;
 		        synchLocalCharacterEdition = synchRemoteCharacterEdition;
@@ -4397,13 +4012,13 @@ define(["jquery", "gamedata", "text", "pj", "jquery.ui", "jquery.linq", "json", 
             elements.filter(".topic").each(function () {
                 var key = $(this).attr("key");
                 var title = _loc_(key);
-                var text = _ui_(key);
+                var text = _loc_(key);
                 slideWindow.find("legend").html(title);
                 slideWindow.find(".text").html(text);
             });
             // Buttons
             elements.filter(".button").each(function () {
-                var label = _ui_($(this).attr("label"));
+                var label = _loc_($(this).attr("label"));
                 var verb = $(this).attr("verb");
                 var classes = $(this).attr("classes");
                 var target = $(this).attr("target") || "";

@@ -13,7 +13,8 @@
         "tutorial": "../app/tutorial",
         "extends": "../app/extends",
         "character": "../app/character",
-        "pj": "../app/pj"
+        "pj": "../app/pj",
+        "pjsheet": "../app/pjsheet"
     },
     "shim": {
         "jquery.linq": ["jquery"],
