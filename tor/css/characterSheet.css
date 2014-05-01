@@ -468,6 +468,12 @@ div.inventory .input
 	letter-spacing: -3px;
 }
 
+.characterSheet .weaponSkillsBox
+{
+	position: relative;
+	width: 540px;
+}
+
 .characterSheet .weaponSkillsBox .weaponSkillStatCell input,
 .characterSheet .weaponGearBox .weaponGearStatCell input
 {
@@ -479,33 +485,45 @@ div.inventory .input
 	height: 18px;
 	text-align:center;
 }
-.characterSheet .weaponSkillsBox .weaponSkillStatCell input:hover,
+
 .characterSheet .weaponGearBox .weaponGearStatCell input:hover
 {	
 	border-bottom-color: #000;
 }
 
-.characterSheet .weaponSkillsBox .skillNameCell input, 
-.characterSheet .weaponSkillsBox .skillNameCell div[contenteditable=true], 
+.characterSheet .weaponSkillsBox .weaponSkill
+{	
+	width: 30%;
+	display: inline-block;
+	white-space: nowrap;
+}
+
+.characterSheet .weaponSkillsBox .weaponSkill .skillNameCell,
+.characterSheet .weaponSkillsBox .weaponSkill .skillRankCell
+{	
+	width: 50%;
+	display: inline-block;	
+	vertical-align: middle;
+}
+
+.characterSheet .weaponSkillsBox .weaponSkill .skillRankCell
+{
+	font-size: 0;
+}
+
 .characterSheet .weaponSkillsBox .skillNameCell .input,
-.characterSheet .weaponGearBox .weaponGearNameCell input, 
-.characterSheet .weaponGearBox .weaponGearNameCell div[contenteditable=true], 
 .characterSheet .weaponGearBox .weaponGearNameCell .input
 {
 	font-family: 'AloisLightRegular', "Palatino Linotype", "Book Antiqua3", Palatino, serif;
 	font-size: 10pt;
-	width: 95px;
+	width: auto;
 	height: 18px;
 	vertical-align: middle;
 	line-height: 10px;
 	text-align: right;
 }
 
-.characterSheet .weaponSkillsBox .skillNameCell input.favoured, 
-.characterSheet .weaponSkillsBox .skillNameCell div[contenteditable=true].favoured, 
 .characterSheet .weaponSkillsBox .skillNameCell .input.favoured,
-.characterSheet .weaponGearBox .weaponGearNameCell input.favoured, 
-.characterSheet .weaponGearBox .weaponGearNameCell div[contenteditable=true].favoured, 
 .characterSheet .weaponGearBox .weaponGearNameCell .input.favoured
 {
 	text-decoration: underline;
@@ -539,15 +557,7 @@ div.inventory .input
 	width: 10px;
 	height: 15px;
 	padding: 0px 0px 0px 0px;
-	margin: 0px 0px 0px 0px;
-	background-image: url('skillrankempty.png');
-	background-repeat: no-repeat;
-	background-size: 10px 15px;	
-}
-
-
-.wizardWindow .skillRankIcon[filled=true] {
-	background-image: url('skillrankfull.png');
+	margin: 0px 0px 0px 0px;	
 }
 
 .characterSheet .skillGroupIcon {
@@ -555,11 +565,7 @@ div.inventory .input
 	width: 10px;
 	height: 15px;
 	padding: 0px 0px 0px 0px;
-	margin: 0px 0px 0px 0px;
-	background-image: url('skillrankempty.png');
-	background-repeat: no-repeat;
-	background-size: 10px 15px;	
-	background-image: url('skillgroupempty.png');
+	margin: 0px 0px 0px 0px;	
 }
 
 

@@ -21,7 +21,7 @@
         };
 
         var fromJson = function (json) {
-            var data = JSON.parse(json);
+            var data = typeof (json) === "object" ? json : JSON.parse(json);
             switch ("" + data.version) {
                 case "2":
                     fromJsonV2.call(this, data);
@@ -170,8 +170,16 @@
             }
         };
 
+        Pj.prototype.getWeaponSkills = function () {
+            var wsArray = [];
+            for (var ws in this.skills.weapon) {
+                wsArray.push(this.skills.weapon[ws]);
+            }
+            return wsArray;
+        };
+
         return Pj;
     })(Character);
-
+    
     return Pj;
 });

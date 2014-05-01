@@ -1,8 +1,8 @@
 ﻿/// <reference path="lib/jquery-1.11.0.js" />
 /// <reference path="lib/jquery.linq.min.js" />
 
-define(["jquery", "gamedata", "text", "pj", "pjsheet", "jquery.ui", "jquery.linq", "json", "jquery.cookies", "jquery.migrate", "modernizr"],
-    function ($, Gamedata, Text, Pj, PjSheet) {
+define(["jquery", "rivets", "gamedata", "text", "pj", "pjsheet", "jquery.ui", "jquery.linq", "json", "jquery.cookies", "jquery.migrate", "modernizr"],
+    function ($, Rivets, Gamedata, Text, Pj, PjSheet) {
         // Aliases
         var localizeOne = Text.localizeOne;
         var localize = Text.localizeAll;
@@ -18,13 +18,25 @@ define(["jquery", "gamedata", "text", "pj", "pjsheet", "jquery.ui", "jquery.linq
             $.when(initializeLocale(), initializeGamedata())
                 .done(function () {
                     PjSheet.build();
-                    setClickablesEvents();
-//                  updateCharacterSheetAfterInputs();                    
+                    //setClickablesEvents();
+                    //                  updateCharacterSheetAfterInputs();                    
                     localize();
                     tooltipShow();
                     initializeRoller();
-//                  localizeUI();
-//                  initializeCookieData();
+                    //                  localizeUI();
+                    //                  initializeCookieData();
+
+                    // Test load                    
+                    
+                    $.get("js/data/abredul.json", {})
+                    .done(function (response) {
+                        var abredul = new Pj(response);
+                        PjSheet.bind(abredul);
+                        window.abredul = abredul;
+                    })
+                    .fail(function (response) {
+                        alert(response);
+                    });
                 })
                 .fail(function (response) {
                     console.log("Error initializing: " + response);
@@ -1828,6 +1840,10 @@ define(["jquery", "gamedata", "text", "pj", "pjsheet", "jquery.ui", "jquery.linq
         /// Inserts a localizable span with that textKey
         function __(text) {
             return '<span class="localizable" data-textKey="' + text + '"></span>';
+        }
+
+        function ___(key) {
+            return '<span class="localizable" data-textKey="' + key + '">' + Text.getText(key) + '</span>';
         }
 
         // Localizes the whole page or only one element
@@ -4085,5 +4101,5 @@ define(["jquery", "gamedata", "text", "pj", "pjsheet", "jquery.ui", "jquery.linq
             blinkerTimeout = setTimeout(blinkHighlight, 250);
         }
 
-        return initializeLocale;
+        return mainInitialize;
     });

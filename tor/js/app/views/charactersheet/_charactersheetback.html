@@ -1,0 +1,147 @@
+﻿		<!-- Character Sheet -->
+		<!-- Backsheet -->
+		<div class="characterSheet back">
+			<div class="roundStatBox" stat="fellowshipPoints">
+				<label class="uiText"  data-textKey="uifellowshipPoints">uifellowshipPoints</label>
+				<input type="text" />		
+			</div>
+			<div class="roundStatBox" stat="advancementPoints">
+				<label class="uiText"  data-textKey="uiadvancementPoints">uiadvancementPoints</label>
+				<input type="text" />		
+			</div>
+			<div class="roundStatBox" stat="treasurePoints">
+				<label class="uiText"  data-textKey="uitreasurePoints">uitreasurePoints</label>
+				<input type="text" />		
+			</div>
+			<div class="roundStatBox" stat="standing">
+				<label class="uiText"  data-textKey="uistanding">uistanding</label>
+				<input type="text" />		
+			</div>
+			
+			<table class="basicInformationTable coinTable">
+				<tr>
+					<td class="labelCell">
+						<label class="uiText"  data-textKey="uiGoldCoins">uiGoldCoins</label>
+					</td>
+					<td>
+						<input type="text" id="goldCoinsInput" />
+					</td>
+					<td class="labelCell">
+						<label class="uiText"  data-textKey="uiSilverCoins">uiSilverCoins</label>
+					</td>
+					<td>
+						<input type="text" id="silverCoinsInput" />
+					</td>
+					<td class="labelCell">
+						<label class="uiText"  data-textKey="uiCopperCoins">uiCopperCoins</label>
+					</td>
+					<td>
+						<input type="text" id="copperCoinsInput" />
+					</td>
+				</tr>
+			</table>
+			
+			<div class="inventory">
+				<div class="heading uiText" data-textKey="uiInventory">
+					uiInventory
+				</div>
+				<table class="basicInformationTable" id="inventoryTable">
+					<tr>
+						<td>
+							<input type="text" class="input"/>
+						</td>
+						<td>
+							<input type="text" class="input"/>
+						</td>							
+					</tr>					
+				</table>
+			</div>
+			
+			<div class="bigText" stat="backgroundText">
+				<div class="heading uiText" data-textKey="uiBackground">
+					uiBackground
+				</div>
+				<textarea class="input"></textarea>
+			</div>
+			<div class="heading uiText" data-textKey="uiCompany">
+					uiCompany
+			</div>
+			<table class="basicInformationTable fellowshipTable">
+				<tr>
+					<td class="labelCell">
+						<label class='uiText'  data-textKey="uiGuide">uiGuide</label>
+					</td>
+					<td>
+						<input type="text" id="guideInput" />
+					</td>				
+					<td class="labelCell">
+						<label class='uiText'  data-textKey="uiScout">uiScout</label>
+					</td>
+					<td>
+						<input type="text" id="scoutInput" />
+					</td>				
+					<td class="labelCell">
+						<label class='uiText'  data-textKey="uiHuntsman">uiHuntsman</label>
+					</td>
+					<td>
+						<input type="text" id="huntsmanInput" />
+					</td>
+				</tr>
+				<tr>
+					<td class="labelCell">
+						<label class='uiText'  data-textKey="uiLookout">uiLookout</label>
+					</td>
+					<td>
+						<input type="text" id="lookoutInput" />
+					</td>				
+					<td class="labelCell">
+						<label class='uiText'  data-textKey="uiFellowshipFocus">uiFellowshipFocus</label>
+					</td>
+					<td>
+						<input type="text" id="fellowshipFocusInput" />
+					</td>
+					<td colspan="2">
+						&nbsp;
+					</td>
+				</tr>
+				<tr>
+					<td colspan="6">
+						<textarea class="input" id="fellowshipNotesInput"></textarea>
+					</td>
+				</tr>
+			</table>
+			<div class="heading uiText" data-textKey="uiFellowshipPhase">
+					uiFellowshipPhase
+			</div>
+			<table class="basicInformationTable fellowshipPhaseTable">
+				<tr>
+					<td class="labelCell">
+						<label class='uiText'  data-textKey="uiSanctuaries">uiSanctuaries</label>
+					</td>
+					<td>
+						<input type="text" id="sanctuariesInput" />
+					</td>
+				</tr>
+				<tr>
+					<td class="labelCell">
+						<label class='uiText'  data-textKey="uiPatron">uiPatron</label>
+					</td>
+					<td>
+						<input type="text" id="patronInput" />
+					</td>
+				</tr>
+			</table>
+			<div class="heading uiText" data-textKey="uiTaleOfYears">
+					uiTaleOfYears
+			</div>
+			<table class="basicInformationTable" id="taleOfYearsTable">
+				<tr class="yearTale" number="0">
+					<td>
+						<input type="text" class="year input"/>
+					</td>
+					<td>
+						<input type="text" class="events input"/>
+					</td>			
+				</tr>
+			</table>
+		</div>

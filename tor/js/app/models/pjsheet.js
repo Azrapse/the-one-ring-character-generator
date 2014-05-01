@@ -1,23 +1,162 @@
-﻿define(["jquery", "gamedata", "text", "pj", "jquery.ui", "jquery.linq", "json", "jquery.cookies", "jquery.migrate", "modernizr"],
-    function ($, Gamedata, Text, Pj) {
+﻿define(["jquery", "gamedata", "text", "pj", "txt!views/charactersheet/_charactersheetfront.html", "txt!views/charactersheet/_charactersheetback.html",
+    "rivets", "jquery.ui", "jquery.linq", "json", "jquery.cookies", "jquery.migrate", "modernizr"],
+    function ($, Gamedata, Text, Pj, frontTemplate, backTemplate, Rivets) {
         // Aliases
         var localizeOne = Text.localizeOne;
         var _ui_ = Text.write;
 
-        var PjSheet = {};
-        
+
+        var PjSheet = {
+            rankEmptyUrl: "css/skillrankempty.png",
+            rankFullUrl: "css/skillrankfull.png",
+            groupEmptyUrl: "css/skillgroupempty.png",
+            groupFullUrl: "css/skillgroupfull.png"
+        };
+
 
         PjSheet.build = function () {
+            insertTemplate();
             fillSkillTable();
-            fillWeaponSkillTable();
+            //fillWeaponSkillTable();
             fillWeaponGearTable();
             fillGearTable();
             fillInventoryTable();
             fillTaleOfYearsTable();
-            iconImageUpdate();
+            PjSheet.configRivets();
+        };
+
+        PjSheet.configRivets = function () {
+            Rivets.formatters.localize = function (value) {
+                return Text.getText(value);
+            };
+            // Binders for skill rank icons
+            Rivets.binders.skillrank = {
+                publishes: true,
+                bind: function (el) {
+                    var model = this.view.models.pj;
+                    this.clickHandler = function () {
+                        var rankIcon = $(this);
+                        var rank = rankIcon.attr("data-rank");
+                        var skill = rankIcon.attr("data-skill");
+                        var currentRank = model.skills.common.scores[skill];
+                        if (currentRank == rank) {
+                            model.skills.common.scores[skill] = rank - 1;
+                        } else {
+                            model.skills.common.scores[skill] = +rank;
+                        }
+                    };
+                    $(el).on("click", ".skillRankIcon", this.clickHandler);
+                    return Rivets._.Util.bindEvent(el, 'change', this.publish);
+                },
+                unbind: function (el) {
+                    $(el).off("click", ".skillRankIcon", this.clickHandler);
+                    return Rivets._.Util.unbindEvent(el, 'change', this.publish);
+                },
+
+                routine: function (el, value) {
+                    value = value || 0;
+                    $(el).find(".skillRankIcon").each(function () {
+                        var image = $(this).find("img");
+                        var rank = parseInt($(this).attr("data-rank") || 0);
+                        var url = (rank <= value)
+                                    ? PjSheet.rankFullUrl
+                                    : PjSheet.rankEmptyUrl;
+                        if (image.attr("src") != url) {
+                            image.attr("src", url);
+                        }
+                    });
+                }
+            };
+            Rivets.binders.skillgrouprank = {
+                publishes: true,
+                bind: function (el) {
+                    var model = this.view.models.pj;
+                    this.clickHandler = function () {
+                        var rankIcon = $(this);
+                        var rank = rankIcon.attr("data-rank");
+                        var group = rankIcon.attr("data-skillGroup");
+                        var currentRank = model.skillGroupScores[group];
+                        if (currentRank == rank) {
+                            model.skillGroupScores[group] = rank - 1;
+                        } else {
+                            model.skillGroupScores[group] = +rank;
+                        }
+                    };
+                    $(el).on("click", ".skillGroupIcon", this.clickHandler);
+                    return Rivets._.Util.bindEvent(el, 'change', this.publish);
+                },
+                unbind: function (el) {
+                    $(el).off("click", ".skillGroupIcon", this.clickHandler);
+                    return Rivets._.Util.unbindEvent(el, 'change', this.publish);
+                },
+
+                routine: function (el, value) {
+                    value = value || 0;
+                    $(el).find(".skillGroupIcon").each(function () {
+                        var image = $(this).find("img");
+                        var rank = parseInt($(this).attr("data-rank") || 0);
+                        var url = (rank <= value)
+                                    ? PjSheet.groupFullUrl
+                                    : PjSheet.groupEmptyUrl;
+                        if (image.attr("src") != url) {
+                            image.attr("src", url);
+                        }
+                    });
+                }
+            };
+            Rivets.binders.weaponskillrank = {
+                publishes: true,
+                bind: function (el) {
+                    var model = this.view.models.pj;
+                    this.clickHandler = function () {
+                        var rankIcon = $(this);
+                        var rank = rankIcon.attr("data-rank");
+                        var skill = rankIcon.attr("data-weaponskill");
+                        var currentRank = model.skills.weapon[skill].rank;
+                        var favoured = model.skills.weapon[skill].favoured;
+                        if (currentRank == rank) {
+                            model.skills.weapon[skill].rank = rank - 1;
+                        } else {
+                            model.skills.weapon[skill].rank = +rank;
+                        }
+                    };
+                    $(el).on("click", ".skillRankIcon", this.clickHandler);
+                    return Rivets._.Util.bindEvent(el, 'change', this.publish);
+                },
+                unbind: function (el) {
+                    $(el).off("click", ".skillRankIcon", this.clickHandler);
+                    return Rivets._.Util.unbindEvent(el, 'change', this.publish);
+                },
+
+                routine: function (el, value) {
+                    value = value || 0;
+                    $(el).find(".skillRankIcon").each(function () {
+                        var image = $(this).find("img");
+                        var rank = parseInt($(this).attr("data-rank") || 0);
+                        var url = (rank <= value)
+                                    ? PjSheet.rankFullUrl
+                                    : PjSheet.rankEmptyUrl;
+                        if (image.attr("src") != url) {
+                            image.attr("src", url);
+                        }
+                    });
+                }
+            };
+
+        }
+
+        PjSheet.bind = function (pj) {
+            Rivets.bind($(".characterSheet"), { pj: pj, controller: this });
         };
 
         // Character Sheet building functions
+        function insertTemplate() {
+            var front = $.parseHTML(frontTemplate);
+            var back = $.parseHTML(backTemplate);
+            $("body").append(front);
+            $("body").append(back);
+        }
+
         function fillSkillTable() {
             var skillTable = $(".skillTable");
 
@@ -33,6 +172,7 @@
                 td.attr("class", bodySkillName + "Skill skillNameCell localizable");
                 td.attr("data-skill", bodySkillName);
                 td.attr("data-textKey", bodySkillName);
+                td.attr("rv-class-favoured", "pj.skills.common.favoured."+bodySkillName);
                 localizeOne(td);
                 newTr.append(td);
                 td = $("<td></td>");
@@ -44,6 +184,7 @@
                 td.attr("class", heartSkillName + "Skill skillNameCell  localizable");
                 td.attr("data-skill", heartSkillName);
                 td.attr("data-textKey", heartSkillName);
+                td.attr("rv-class-favoured", "pj.skills.common.favoured." + heartSkillName);
                 localizeOne(td);
                 newTr.append(td);
                 td = $("<td></td>");
@@ -55,6 +196,7 @@
                 td.attr("class", witsSkillName + "Skill skillNameCell  localizable");
                 td.attr("data-skill", witsSkillName);
                 td.attr("data-textKey", witsSkillName);
+                td.attr("rv-class-favoured", "pj.skills.common.favoured." + witsSkillName);
                 localizeOne(td);
                 newTr.append(td);
                 td = $("<td></td>");
@@ -78,23 +220,26 @@
 
             // Rank cells
             $(".skillsBox .skillRankCell").each(function () {
-                var i;
-                for (i = 1; i <= 6; i++) {
-                    var iconDiv = $("<div><img /></div>");
-                    iconDiv.attr("class", $(this).attr("skill") + "Skill skillRankIcon");
-                    iconDiv.attr("skill", $(this).attr("skill"));
-                    iconDiv.attr("rank", i);
+                var skill = $(this).attr("data-skill");
+                $(this).attr("rv-skillrank", "pj.skills.common.scores." + skill);
+                for (var i = 1; i <= 6; i++) {
+                    var iconDiv = $("<div><img /></div>")
+                        .attr("class", skill + "Skill skillRankIcon")
+                        .attr("data-skill", skill)
+                        .attr("data-rank", i);
+
                     $(this).append(iconDiv);
                 }
             });
             // Advancement cells
             $(".skillGroupAdvancementCell").each(function () {
-                var i;
-                for (i = 1; i <= 3; i++) {
-                    var iconDiv = $("<div><img /></div>");
-                    iconDiv.attr("class", $(this).attr("skillGroup") + "SkillGroup skillGroupIcon");
-                    iconDiv.attr("skillGroup", $(this).attr("skillGroup"));
-                    iconDiv.attr("rank", i);
+                var group = $(this).attr("data-skillGroup");
+                $(this).attr("rv-skillgrouprank", "pj.skillGroupScores." + group);
+                for (var i = 1; i <= 3; i++) {
+                    var iconDiv = $("<div><img /></div>")
+                        .attr("class", group + "SkillGroup skillGroupIcon")
+                        .attr("data-skillGroup", group)
+                        .attr("data-rank", i);
                     $(this).append(iconDiv);
                 }
             });
@@ -139,7 +284,7 @@
         function fillWeaponGearTable(rows) {
             var weaponGearTable = $("#weaponGearTable").empty();
             var i;
-            for (i = 0; i < (rows || 4) ; i++) {
+            for (i = 0; i < (rows || 4); i++) {
                 var tr = $("<tr></tr>");
                 tr.attr("weaponSkillNo", i);
                 // Carried status box
