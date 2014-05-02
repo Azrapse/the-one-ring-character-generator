@@ -143,7 +143,7 @@
 				uiWeaponSkills
 			</div>
 			<div class="weaponSkillsBox">
-				<div rv-each-ws="pj.getWeaponSkills" class="weaponSkill">
+				<div rv-each-ws="pj.skills.weapon" class="weaponSkill">
                     <div class="skillNameCell">
                         <div class="input weaponSkillNameInput" rv-text="ws.id | localize" rv-class-favoured="ws.favoured"></div>
                     </div>
@@ -163,7 +163,9 @@
 						uiRewards
 					</div>
 					<div class="rewardsContent" >				
-						<div class="input"></div>
+						<div class="input">
+                            <span rv-each-reward="pj.belongings.rewards" class="localizable" rv-data-textkey="reward">{reward | localize}, </span>
+                        </div>
 					</div>
 				</div>
 				<div class="virtuesContainer">
@@ -171,7 +173,9 @@
 						uiVirtues
 					</div>
 					<div class="virtuesContent" >				
-						<div class="input"></div>
+						<div class="input">
+                            <span rv-each-virtue="pj.traits.virtues" class="localizable" rv-data-textkey="virtue">{virtue | localize}, </span>
+                        </div>
 					</div>
 				</div>
 			</div>
@@ -180,10 +184,53 @@
 					uiGear
 				</div>
 				<table id="weaponGearTable">
+                    <tr rv-each-weapon="pj.belongings.weaponGear">
+                        <td class="weaponGearStatCell">
+                            <input type="checkbox" class='weaponGearCarriedStatus statusBox' rv-checked="weapon.carried"/>                            
+                        </td>
+                        <td class="weaponGearNameCell">
+                            <div class='input weaponGearNameInput'>{weapon.id | localize}</div>
+                        </td>
+                        <td class="statNameCell uiText" data-textkey="uiWSDamage"></td>
+                        <td class="weaponGearStatCell">
+                            <input type='text' class='weaponGearDamageInput'  rv-value="weapon.stats.damage" />
+                        </td>
+                        <td class="statNameCell uiText" data-textkey="uiWSEdge"></td>
+                        <td class="weaponGearStatCell">
+                            <input type='text' class='weaponGearEdgeInput'  rv-value="weapon.stats.edge" />
+                        </td>
+                        <td class="statNameCell uiText" data-textkey="uiWSInjury"></td>
+                        <td class="weaponGearStatCell">
+                            <input type='text' class='weaponGearEdgeInput'  rv-value="weapon.stats.injury" />
+                        </td>
+                        <td class="statNameCell uiText" data-textkey="uiEnc"></td>
+                        <td class="weaponGearStatCell">
+                            <input type='text' class='weaponGearEdgeInput'  rv-value="weapon.stats.enc" />
+                        </td>
+                    </tr>
 				</table>
 			</div>
 			<div class="gearContainer">
 				<table class="gearTable">
+                    <tr rv-each-gear="pj.belongings.gear">
+                        <td class="gearCarried">
+                            <input type="checkbox" class='gearCarriedStatus statusBox'   rv-checked="gear.carried" />
+                        </td>
+                        <td class="gearLabel">
+                            <label>{gear.id | geartype}</label>
+                        </td>                        
+                        <td>
+                            <div class='gearName input' rv-data-geartype="gear.id | geartype">
+                                                                {gear.id | localize}                                
+                            </div>
+                        </td>                        
+                        <td class="statNameCell" >
+                            <label class="uiText" data-textkey="uiEnc"></label>
+                        </td>
+                        <td>
+                            <input type='text' class='gearEnc' rv-value="gear.enc" />
+                        </td>
+                    </tr>
 				</table>		
 			</div>
 			

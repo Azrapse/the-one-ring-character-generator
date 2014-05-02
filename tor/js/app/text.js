@@ -42,13 +42,16 @@
                 languageFiles[lang].index = index;
             }
         }
-
-        var preferred = $.Enumerable.From(languageFiles)
-            .Where(function (kvp) { return "index" in languageFiles[kvp.Key]; })
-            .OrderByDescending(function (kvp) { return kvp.Value.index; })
-            .Select(function (kvp) { return kvp.Key; })
-            .First() || "en";
-
+        try {
+            var preferred = $.Enumerable.From(languageFiles)
+                .Where(function (kvp) { return "index" in languageFiles[kvp.Key]; })
+                .OrderByDescending(function (kvp) { return kvp.Value.index; })
+                .Select(function (kvp) { return kvp.Key; })
+                .First() || "en";
+        }
+        catch (ex) {
+            preferred = "en";
+        }
         Text.locale = preferred;
 
         localeFile = languageFiles[preferred].text;

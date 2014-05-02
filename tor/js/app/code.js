@@ -8,7 +8,6 @@ define(["jquery", "rivets", "gamedata", "text", "pj", "pjsheet", "jquery.ui", "j
         var localize = Text.localizeAll;
         var _loc_ = Text.write;
 
-
         // Main function
         $(function () {
             mainInitialize();

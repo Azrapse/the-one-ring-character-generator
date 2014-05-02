@@ -328,6 +328,13 @@
         });
     };
 
+    Gamedata.getGearType = function (id) {
+        for (var type in Gamedata.armour) {
+            if (id in Gamedata.armour[type]) {
+                return type;
+            }
+        }        
+    }
 
     return Gamedata;
 });

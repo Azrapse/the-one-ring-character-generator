@@ -474,8 +474,8 @@ div.inventory .input
 	width: 540px;
 }
 
-.characterSheet .weaponSkillsBox .weaponSkillStatCell input,
-.characterSheet .weaponGearBox .weaponGearStatCell input
+.characterSheet .weaponSkillsBox .weaponSkillStatCell input[type=text],
+.characterSheet .weaponGearBox .weaponGearStatCell input[type=text]
 {
 	font-family: 'AloisLightRegular', "Palatino Linotype", "Book Antiqua3", Palatino, serif;
 	font-size: 10pt;
@@ -823,17 +823,18 @@ div.inventory .input
 	text-align: center;
 	background-color: #fff;
 	padding: 0;
-	font-size: 0em;
+	font-size: 0em;    
 }
-
-.characterSheet  .statusBox img
+ 
+.characterSheet .statusBox img
 {
 	width: 25px;
 	height: 20px;
 }
 
 .characterSheet .weaponGearBox .statusBox img,
-.characterSheet .gearContainer .statusBox img
+.characterSheet .gearContainer .statusBox img,
+.characterSheet .weaponGearBox .carriedBoxLabel img
 {
 	width: 15px;
 	height: 15px;

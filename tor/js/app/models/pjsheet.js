@@ -18,8 +18,8 @@
             insertTemplate();
             fillSkillTable();
             //fillWeaponSkillTable();
-            fillWeaponGearTable();
-            fillGearTable();
+            //fillWeaponGearTable();
+            //fillGearTable();
             fillInventoryTable();
             fillTaleOfYearsTable();
             PjSheet.configRivets();
@@ -28,6 +28,16 @@
         PjSheet.configRivets = function () {
             Rivets.formatters.localize = function (value) {
                 return Text.getText(value);
+            };
+            Rivets.formatters.geartype = function (value) {
+                var textMatch = {
+                    body: "uiGArmour",
+                    head: "uiGHeadgear",
+                    shield: "uiGShield"
+                };
+                var type = Gamedata.getGearType(value);
+                var textKey = textMatch[type];
+                return Text.getText(textKey);
             };
             // Binders for skill rank icons
             Rivets.binders.skillrank = {
@@ -140,6 +150,19 @@
                             image.attr("src", url);
                         }
                     });
+                }
+            };
+            /// Patches the rv-each-* binder.
+            /// If the datasource is an object instead of an array, it creates an array with the values of each key in the object, and uses that instead.
+            Rivets.binders['each-*'].baseroutine = Rivets.binders['each-*'].baseroutine || Rivets.binders['each-*'].routine;            
+            Rivets.binders['each-*'].routine = function (el, collection) {
+                if ($.isArray(collection)) {
+                    Rivets.binders['each-*'].baseroutine.call(this, el, collection);
+                } else {
+                    var array = $.map(collection, function (value, index) {
+                        return [value];
+                    });
+                    Rivets.binders['each-*'].baseroutine.call(this, el, array);
                 }
             };
 

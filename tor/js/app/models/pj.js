@@ -20,6 +20,7 @@
             return "PJ " + this.name;
         };
 
+        // Load functions
         var fromJson = function (json) {
             var data = typeof (json) === "object" ? json : JSON.parse(json);
             switch ("" + data.version) {
@@ -169,14 +170,27 @@
                 }
             }
         };
+                
+        // Accessors
 
-        Pj.prototype.getWeaponSkills = function () {
-            var wsArray = [];
-            for (var ws in this.skills.weapon) {
-                wsArray.push(this.skills.weapon[ws]);
+        var itemSearch = function (container) {
+            for (var gear in this.belongings.gear) {
+                var item = this.belongings.gear[gear];
+                if ((gear in container) && item.carried) {
+                    return item;
+                }
             }
-            return wsArray;
-        };
+        }
+        Pj.prototype.getActiveBodyArmor = function(){
+            return itemSearch.call(this, Gamedata.armour.body);
+        }
+        Pj.prototype.getActiveShield = function () {
+            return itemSearch.call(this, Gamedata.armour.shield);
+        }
+        Pj.prototype.getActiveHeadgear = function () {
+            return itemSearch.call(this, Gamedata.armour.head);
+        }
+                
 
         return Pj;
     })(Character);
