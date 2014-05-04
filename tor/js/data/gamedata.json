@@ -2010,12 +2010,12 @@
       }
    },
    "skillGroups":{
-      "personality":{
+      "personality":{	     
          "body":"awe",
          "heart":"inspire",
          "wits":"persuade"
       },
-      "movement":{
+      "movement":{		 
          "body":"athletics",
          "heart":"travel",
          "wits":"stealth"

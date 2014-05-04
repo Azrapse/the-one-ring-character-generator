@@ -1,12 +1,13 @@
 ﻿/// <reference path="lib/jquery-1.11.0.js" />
 /// <reference path="lib/jquery.linq.min.js" />
 
-define(["jquery", "rivets", "gamedata", "text", "pj", "pjsheet", "jquery.ui", "jquery.linq", "json", "jquery.cookies", "jquery.migrate", "modernizr"],
-    function ($, Rivets, Gamedata, Text, Pj, PjSheet) {
+define(["jquery", "rivets", "gamedata", "text", "pj", "pjsheet", "tooltip", "jquery.ui", "jquery.linq", "json", "jquery.cookies", "jquery.migrate", "modernizr"],
+    function ($, Rivets, Gamedata, Text, Pj, PjSheet, Tooltip) {
         // Aliases
         var localizeOne = Text.localizeOne;
         var localize = Text.localizeAll;
         var _loc_ = Text.write;
+        var tooltip;
 
         // Main function
         $(function () {
@@ -17,16 +18,16 @@ define(["jquery", "rivets", "gamedata", "text", "pj", "pjsheet", "jquery.ui", "j
             $.when(initializeLocale(), initializeGamedata())
                 .done(function () {
                     PjSheet.build();
-                    //setClickablesEvents();
+                    setClickablesEvents();
                     //                  updateCharacterSheetAfterInputs();                    
                     localize();
-                    tooltipShow();
+                    tooltip = new Tooltip($(document.body), ".localizable");
                     initializeRoller();
                     //                  localizeUI();
                     //                  initializeCookieData();
 
                     // Test load                    
-                    
+
                     $.get("js/data/abredul.json", {})
                     .done(function (response) {
                         var abredul = new Pj(response);
@@ -95,89 +96,6 @@ define(["jquery", "rivets", "gamedata", "text", "pj", "pjsheet", "jquery.ui", "j
                 }
             });
         }
-
-        function handlePopupButtons(sender, event) {
-            var tooltip = $("#tooltipDiv");
-            // Clear tooltip timeout
-            if (tooltipTimeout != null) {
-                clearTimeout(tooltipTimeout);
-                tooltipTimeout = null;
-            }
-
-            var localizeKey = sender.attr('localizeKey');
-            if (event.type == "mouseenter") {
-                // We show the tooltip		
-                var helpButton = $("<div class='floating helpButton' helptopic='" + localizeKey + "'>?</div>");
-                tooltip.empty();
-                tooltip.append(helpButton);
-
-                var position = sender.offset();
-                tooltip.css("top", position.top).css("left", position.left + sender.width());
-                tooltip.show();
-
-            }
-            if (event.type == "mouseout") {
-                // Start tooltip timeout
-                tooltipTimeout = setTimeout(hideTooltip, 1000);
-            }
-        }
-
-        function handlePopupTooltips(sender, event) {
-            var tooltip = $("#tooltipDiv");
-            if (event.type == "mouseenter") {
-                var localizeKey = sender.attr('localizeKey');
-                // We get the localization for the element
-
-                var locale = localeDict[localizeKey];
-                if (!locale) {
-                    return;
-                }
-                // We get the full name and description
-                var fullName = locale.fullname;
-                var description = locale.contents;
-                // We show the tooltip			
-                tooltip.html("<b>" + fullName + "</b><br />" + description);
-                localizeUI(tooltip);
-                // if it's too high, we make it wider instead.
-                var windowWidth = $(window).width();
-                var windowHeight = $(window).height();
-                var margin = 20;
-                var position = tooltip.offset();
-                // Overflowing to the right? Put it in the other side
-                if (event.pageX + tooltip.width() + margin > windowWidth) {
-                    position.left = event.pageX - margin * 2 - tooltip.width();
-                } else {
-                    position.left = event.pageX + margin;
-                }
-                // We place it so that the mouse is halfway down to it.			
-                position.top = event.pageY - (tooltip.height() / 2);
-
-                // Overflowing to the top? Put it at the top			
-                if (position.top < 0) {
-                    position.top = 0;
-                }
-                // Overflowing to the left? Put it at the left			
-                if (position.left < 0) {
-                    position.left = 0;
-                }
-
-                // Overflowing to the bottom? Put it at the bottom
-                if (position.top + $(tooltip).height() > windowHeight) {
-                    position.top = windowHeight - $(tooltip).height() - margin * 2;
-                }
-                tooltip.css("top", position.top).css("left", position.left);
-
-                tooltip.show();
-            } else {
-                tooltip.hide();
-            }
-
-        }
-
-        function hideTooltip() {
-            $("#tooltipDiv").hide();
-        }
-
 
         var backupOfCurrentSheet = null;
         function setClickablesEvents() {
@@ -375,10 +293,7 @@ define(["jquery", "rivets", "gamedata", "text", "pj", "pjsheet", "jquery.ui", "j
             $("#distinctiveFeaturesInput").on("click", ".localizable", changeFeatureMenu);
 
             $("#helpDiv").resizable();
-            // Help Buttons
-            $(document.body).on("click", ".helpButton", function (event) {
-                helpButtonClick($(this));
-            });
+            
 
             // Help Close Button
             $("#helpDiv").on("click", ".closeButton", function (event) {
@@ -449,18 +364,6 @@ define(["jquery", "rivets", "gamedata", "text", "pj", "pjsheet", "jquery.ui", "j
             }
         }
 
-        function helpButtonClick(sender) {
-            var helpTopic = sender.attr("helptopic");
-            var helpText = _loc_(helpTopic);
-            var helpTitle = _loc_(helpTopic);
-            if (helpTitle) {
-                helpText = "<legend>" + helpTitle + "</legend><br/><div class='helpText'>" + helpText + "</div>";
-            }
-            var helpTextContainer = $("#helpDiv fieldset .helpTextContainer").html(helpText);
-            localizeUI(helpTextContainer);
-            $("#helpDiv").show();
-            $("#tooltipDiv").hide();
-        }
 
         function alternateFontToggle() {
             /*$(".characterSheet label, \

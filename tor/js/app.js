@@ -23,7 +23,8 @@
         "character": "app/models/character",
         "pj": "app/models/pj",
         "pjsheet": "app/models/pjsheet",        
-        "txt": "lib/text"
+        "txt": "lib/text",
+        "tooltip": "app/tooltip"
     },
     "shim": {
         "jquery.linq": ["jquery"],

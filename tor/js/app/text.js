@@ -30,8 +30,8 @@
     var textDict = {};
 
     Text.languageFiles = languageFiles;
-    
-    
+
+
     Text.initialize = function () {
         var language = window.navigator.userLanguage || window.navigator.language;
 
@@ -91,7 +91,7 @@
 
     Text.getDescription = function (key) {
         if (key in Text.textDict) {
-            return Text.textDict(key).getDescription();
+            return Text.textDict[key].getDescription();
         }
         else {
             return "Missing:" + key;
@@ -104,11 +104,21 @@
         });
     }
 
-    Text.localizeOne = function(element) {
+    Text.localizeInnerSelector = function (container, selector) {
+        var targets = container.find(selector);
+        targets.each(function () {
+            Text.localizeOne(this);
+        });
+    }
+
+    Text.localizeOne = function (element) {
         var textKey = $(element).attr('data-textKey');
-        
+
         if (!textKey) {
-            return;
+            textKey = $(element).html();
+            if (!textKey) {
+                return;
+            }
         }
 
         var locale = textDict[textKey];

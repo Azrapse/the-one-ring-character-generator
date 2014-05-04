@@ -35,6 +35,7 @@
                 default:
                     throw "Unsupported character version";
             }
+            finalTouches.call(this);
         }
 
         var fromJsonV2 = function (data) {
@@ -170,7 +171,16 @@
                 }
             }
         };
-                
+
+        var finalTouches = function () {
+            while (this.belongings.inventory.length < 10) {
+                this.belongings.inventory.push("");
+            }
+            while (this.characterTexts.taleOfYears.length < 13) {
+                this.characterTexts.taleOfYears.push({ year: "", events: "" });
+            }
+        };
+
         // Accessors
 
         var itemSearch = function (container) {
@@ -180,20 +190,43 @@
                     return item;
                 }
             }
-        }
-        Pj.prototype.getActiveBodyArmor = function(){
+        };
+        Pj.prototype.getActiveBodyArmor = function () {
             return itemSearch.call(this, Gamedata.armour.body);
-        }
+        };
         Pj.prototype.getActiveShield = function () {
             return itemSearch.call(this, Gamedata.armour.shield);
-        }
+        };
         Pj.prototype.getActiveHeadgear = function () {
             return itemSearch.call(this, Gamedata.armour.head);
-        }
-                
+        };
+
+        // Computed Properties
+        Pj.prototype.updateEncFatigue = function () {
+            var total = 0;
+            var pools = [this.belongings.weaponGear, this.belongings.gear];
+            for (var i = 0; i < pools.length; i++) {
+                var pool = pools[i];
+                for (var gear in pool) {
+                    var gearObj = pool[gear];
+                    if (gearObj.carried) {
+                        total += +(gearObj.enc || gearObj.stats.enc);
+                    }
+                }
+            }
+            this.status.fatigue = total;
+        };
+
+        Pj.prototype.updateTotalFatigue = function () {
+            this.status.fatigueTotal = (+this.status.fatigue || 0) + (+this.status.fatigueTravel || 0);
+        };
+
+        Pj.prototype.updateShadow = function () {
+            this.status.totalShadow = (+this.status.shadow || 0) + (+this.status.permanentShadow || 0);
+        };
 
         return Pj;
     })(Character);
-    
+
     return Pj;
 });

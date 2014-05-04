@@ -223,15 +223,17 @@
 	top: 100px;
 	border: 0 none transparent;
 }
-.characterSheet.back .inventory table
+.characterSheet.back .inventory .inventoryTable
 {
 	width: 100%;	
 }
-.characterSheet.back .inventory .basicInformationTable  td
+.characterSheet.back .inventory .inventoryTable  .inventoryEntry
 {
 	padding-right: 5px;
+	width: 49%;
+	float: left;
 }
-.characterSheet.back .inventory .basicInformationTable  td .input
+.characterSheet.back .inventory .inventoryTable  .inventoryEntry input
 {
 	width: 100%;
 }
@@ -737,65 +739,66 @@ div.inventory .input
 }
 
 
-.characterSheet .roundStatBox[stat=endurance]{
+.characterSheet .roundStatBox[data-stat=endurance]{
 	bottom: 50px;	
 	right: 190px;
 }
 
-.characterSheet .roundStatBox[stat=hope]{
+.characterSheet .roundStatBox[data-stat=hope]{
 	bottom: 50px;	
 	right: 30px;
 }
 
-.characterSheet .roundStatBox[stat=armour]{
+.characterSheet .roundStatBox[data-stat=armour]{
 	top: 580px;	
 	right: 10px;
 }
 
-.characterSheet .roundStatBox[stat=parry]{
+.characterSheet .roundStatBox[data-stat=parry]{
 	top: 480px;	
 	right: 10px;
 }
 
-.characterSheet .roundStatBox[stat=damage]{
+.characterSheet .roundStatBox[data-stat=damage]{
 	top: 380px;	
 	right: 10px;
 }
-.characterSheet .roundStatBox[stat=wisdom]{
+.characterSheet .roundStatBox[data-stat=wisdom]{
 	top: 280px;	
 	right: 10px;
 }
-.characterSheet .roundStatBox[stat=valour]{
+.characterSheet .roundStatBox[data-stat=valour]{
 	top: 180px;	
 	right: 10px;
 }
-.characterSheet .roundStatBox[stat=experience]{
+.characterSheet .roundStatBox[data-stat=experience]{
 	top: 80px;	
 	right: 10px;
 }
 
-.characterSheet .roundStatBox[stat=fellowshipPoints]{
+.characterSheet .roundStatBox[data-stat=fellowshipPoints]{
 	top: 40px;	
 	left: 70px;
 }
 
-.characterSheet .roundStatBox[stat=advancementPoints]{
+.characterSheet .roundStatBox[data-stat=advancementPoints]{
 	top: 40px;	
 	left: 210px;
 }
 
-.characterSheet .roundStatBox[stat=treasurePoints]{
+.characterSheet .roundStatBox[data-stat=treasurePoints]{
 	top: 40px;	
 	left: 350px;
 }
 
-.characterSheet .roundStatBox[stat=standing]{
+.characterSheet .roundStatBox[data-stat=standing]{
 	top: 40px;	
 	left: 490px;
 }
 
 
-.characterSheet .statusBox{
+.characterSheet .statusBox
+{
 	font-family: 'AloisLightRegular', "Palatino Linotype", "Book Antiqua3", Palatino, serif;
 	position: absolute;
 	width: 25px;
@@ -807,6 +810,12 @@ div.inventory .input
 	vertical-align: middle;
 	text-align: center;
 	background-color: #fff;
+}
+
+.characterSheet .statusBox  input[type=checkbox]
+{
+	width: 15px;
+	height: 15px;
 }
 
 .characterSheet .weaponGearBox .statusBox,
@@ -864,27 +873,27 @@ div.inventory .input
 	font-family: 'AloisLightRegular', "Palatino Linotype", "Book Antiqua3", Palatino, serif;	
 }
 
-.characterSheet .statusBox[stat=weary]{
+.characterSheet .statusBox[data-stat=weary]{
 	bottom: 250px;	
 	right: 20px;
 }
 
-.characterSheet .statusBox[stat=miserable]{
+.characterSheet .statusBox[data-stat=miserable]{
 	bottom: 220px;	
 	right: 20px;
 }
 
-.characterSheet .statusBox[stat=wounded]{
+.characterSheet .statusBox[data-stat=wounded]{
 	bottom: 190px;	
 	right: 20px;
 }
 
-.characterSheet .statusBox[stat=woundTreated]{
+.characterSheet .statusBox[data-stat=woundTreated]{
 	bottom: 160px;	
 	right: 20px;
 }
 
-.characterSheet .bigText[stat=backgroundText] {
+.characterSheet .bigText[data-stat=backgroundText] {
 	padding-top: 100px;	
 }
 
