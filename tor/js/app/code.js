@@ -1,8 +1,8 @@
 ﻿/// <reference path="lib/jquery-1.11.0.js" />
 /// <reference path="lib/jquery.linq.min.js" />
 
-define(["jquery", "rivets", "gamedata", "text", "pj", "pjsheet", "tooltip", "jquery.ui", "jquery.linq", "json", "jquery.cookies", "jquery.migrate", "modernizr"],
-    function ($, Rivets, Gamedata, Text, Pj, PjSheet, Tooltip) {
+define(["jquery", "rivets", "gamedata", "text", "pj", "pjsheet", "tooltip", "popupMenu", "jquery.ui", "jquery.linq", "json", "jquery.cookies", "jquery.migrate", "modernizr"],
+    function ($, Rivets, Gamedata, Text, Pj, PjSheet, Tooltip, popupMenu) {
         // Aliases
         var localizeOne = Text.localizeOne;
         var localize = Text.localizeAll;
@@ -19,9 +19,10 @@ define(["jquery", "rivets", "gamedata", "text", "pj", "pjsheet", "tooltip", "jqu
                 .done(function () {
                     PjSheet.build();
                     setClickablesEvents();
-                    //                  updateCharacterSheetAfterInputs();                    
+                    
                     localize();
                     tooltip = new Tooltip($(document.body), ".localizable");
+                    window.tooltip = tooltip;
                     initializeRoller();
                     //                  localizeUI();
                     //                  initializeCookieData();
@@ -33,6 +34,7 @@ define(["jquery", "rivets", "gamedata", "text", "pj", "pjsheet", "tooltip", "jqu
                         var abredul = new Pj(response);
                         PjSheet.bind(abredul);
                         window.abredul = abredul;
+                        window.view = PjSheet.view;
                     })
                     .fail(function (response) {
                         alert(response);
@@ -63,38 +65,6 @@ define(["jquery", "rivets", "gamedata", "text", "pj", "pjsheet", "tooltip", "jqu
                 .error(function (response) {
                     console.log("Error loading gamedata.json");
                 });
-        }
-
-        var tooltipTimeout = null;
-        function tooltipShow() {
-            var tooltip = $("#tooltipDiv");
-            $(document.body).on("mouseenter mouseout", ".localizable", function (event) {
-                if ($("#descriptionsToggleButton").hasClass("popupNothing")) {
-                    tooltip.hide();
-                    return;
-                }
-                if ($("#descriptionsToggleButton").hasClass("popupButtons")) {
-                    handlePopupButtons($(this), event);
-                    return;
-                } if ($("#descriptionsToggleButton").hasClass("popupTooltips")) {
-                    handlePopupTooltips($(this), event);
-                    return;
-                }
-
-            });
-            $("#tooltipDiv").on("mouseenter mouseout", ".helpButton", function (event) {
-                // Clear tooltip timeout
-                if (tooltipTimeout != null) {
-                    clearTimeout(tooltipTimeout);
-                    tooltipTimeout = null;
-                }
-                if (event.type == "mouseenter") {
-
-                }
-                if (event.type == "mouseout") {
-                    tooltipTimeout = setTimeout(hideTooltip, 1000);
-                }
-            });
         }
 
         var backupOfCurrentSheet = null;
@@ -202,61 +172,6 @@ define(["jquery", "rivets", "gamedata", "text", "pj", "pjsheet", "tooltip", "jqu
                 $("#changesDiv").hide();
             });
 
-            // Skill ranks
-            $(".characterSheet.front").on("click", ".skillRankIcon", function (e) {
-                if ($(this).attr("filled") != "true") {
-                    $(this).attr("filled", "true");
-                } else {
-                    $(this).attr("filled", "false");
-                }
-                // Update Siblings
-                var thisRank = parseInt($(this).attr("rank"), 10);
-                $(this).siblings().each(function () {
-                    var siblingRank = parseInt($(this).attr("rank"), 10);
-                    if (siblingRank < thisRank) {
-                        $(this).attr("filled", "true");
-                    } else {
-                        $(this).attr("filled", "false");
-                    }
-                });
-                iconImageUpdate();
-                performSynch();
-            });
-            // Skillgroups ranks
-            $(".skillGroupIcon").click(function (e) {
-                if ($(this).attr("filled") != "true") {
-                    $(this).attr("filled", "true");
-                } else {
-                    $(this).attr("filled", "false");
-                }
-                // Update Siblings
-                var thisRank = parseInt($(this).attr("rank"), 10);
-                $(this).siblings().each(function () {
-                    var siblingRank = parseInt($(this).attr("rank"), 10);
-                    if (siblingRank < thisRank) {
-                        $(this).attr("filled", "true");
-                    } else {
-                        $(this).attr("filled", "false");
-                    }
-                });
-                iconImageUpdate();
-                performSynch();
-            });
-            // Status boxes
-            $(".characterSheet").on("click", ".statusBox", function (e) {
-                if ($(this).attr("on") != "true") {
-                    $(this).attr("on", "true");
-                } else {
-                    $(this).attr("on", "false");
-                }
-                iconImageUpdate();
-                // If they are weapon gear or gear carried statuses, recompute Fatigue.
-                if ($(this).hasClass("weaponGearCarriedStatus") || $(this).hasClass("gearCarriedStatus")) {
-                    computeFatigue();
-                }
-
-                performSynch();
-            });
 
             // Common Skill names
             $(".characterSheet.front").on("click", ".skillNameCell.localizable", commonSkillMenu);
@@ -292,23 +207,12 @@ define(["jquery", "rivets", "gamedata", "text", "pj", "pjsheet", "tooltip", "jqu
             // Distinctive features
             $("#distinctiveFeaturesInput").on("click", ".localizable", changeFeatureMenu);
 
-            $("#helpDiv").resizable();
-            
-
-            // Help Close Button
-            $("#helpDiv").on("click", ".closeButton", function (event) {
-                var parentDiv = $(this).parent();
-                parentDiv.find(".helpText").empty();
-                $("#helpDiv").hide();
-            });
-
             $(window).scroll(function () {
                 var top = $(window).scrollTop();
                 var notification = $(".notification");
                 if (notification.length > 0) {
                     notification.css({ top: top });
                 }
-                $("#helpDiv").css({ top: top });
             });
 
             // Cancel Character Creation with button or ESCAPE. Accept ENTER as Next and BACKSPACE as Previous
@@ -2250,25 +2154,37 @@ define(["jquery", "rivets", "gamedata", "text", "pj", "pjsheet", "tooltip", "jqu
             $(menu).empty();
             var sender = $(this);
             // favoured
-            if (sender.hasClass("favoured")) {
-                var button = $("<div class='action'>" + _loc_("uiMenuNotFavoured") + "</div>").click(function () {
-                    sender.removeClass("favoured");
-                    closeContextMenu();
-                    performSynch();
-                });
-                $(menu).append(button);
-            }
-            if (!sender.hasClass("favoured")) {
-                var button = $("<div class='action'>" + _loc_("uiMenuFavoured") + "</div>").click(function () {
-                    sender.addClass("favoured");
-                    closeContextMenu();
-                    performSynch();
-                });
-                $(menu).append(button);
-            }
+            //if (sender.hasClass("favoured")) {
+            //    var button = $("<div class='action'>" + _loc_("uiMenuNotFavoured") + "</div>").click(function () {
+            //        sender.removeClass("favoured");
+            //        closeContextMenu();
+            //        performSynch();
+            //    });
+            //    $(menu).append(button);
+            //}
+            //if (!sender.hasClass("favoured")) {
+            //    var button = $("<div class='action'>" + _loc_("uiMenuFavoured") + "</div>").click(function () {
+            //        sender.addClass("favoured");
+            //        closeContextMenu();
+            //        performSynch();
+            //    });
+            //    $(menu).append(button);
+            //}
 
-            // nevermind button
-            menu.append($("<div class='action'><b>" + _loc_("uiMenuNevermind") + "</b></div>").click(function () { closeContextMenu(); }));
+            //// nevermind button
+            //menu.append($("<div class='action'><b>" + _loc_("uiMenuNevermind") + "</b></div>").click(function () { closeContextMenu(); }));
+            var m = new popupMenu({
+                uiMenuNotFavoured: {
+
+                },
+                uiMenuFavoured: {
+
+                },
+                uiMenuNevermind:{
+
+                }
+            }, {sender: sender});
+
 
             showContextMenu(e);
         }

@@ -11,7 +11,8 @@
             rankFullUrl: "css/skillrankfull.png",
             groupEmptyUrl: "css/skillgroupempty.png",
             groupFullUrl: "css/skillgroupfull.png",
-            container: null
+            container: null,
+            view: null
         };
 
 
@@ -178,7 +179,11 @@
         PjSheet.pj = null;
         PjSheet.bind = function (pj) {
             PjSheet.pj = pj;
-            Rivets.bind($(".characterSheet"), { pj: pj, controller: PjSheet, gamedata: Gamedata });
+            PjSheet.view = Rivets.bind($(".characterSheet"), {
+                pj: pj,
+                controller: PjSheet,
+                gamedata: Gamedata
+            });
         };
 
         PjSheet.onEncChanged = function () {

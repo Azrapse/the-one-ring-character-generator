@@ -1048,7 +1048,7 @@ fieldset.tutorialSlideWindow
 }
 
 
-#tooltipDiv.popupTooltips
+.tooltipDiv.popupTooltips
 {
 	z-index: 75;
 	padding: 10px 10px 10px 10px;
@@ -1067,7 +1067,7 @@ fieldset.tutorialSlideWindow
 }
 
 
-#tooltipDiv.popupButtons
+.tooltipDiv.popupButtons
 {
 	z-index: 75;
 	padding: 1px 1px 1px 1px;

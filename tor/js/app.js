@@ -24,7 +24,8 @@
         "pj": "app/models/pj",
         "pjsheet": "app/models/pjsheet",        
         "txt": "lib/text",
-        "tooltip": "app/tooltip"
+        "tooltip": "app/tooltip",
+        "popupMenu": "app/popupMenu"
     },
     "shim": {
         "jquery.linq": ["jquery"],

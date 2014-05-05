@@ -1,51 +1,52 @@
-﻿define(["extends", "jquery", "text", "txt!views/tooltip/helpdiv.html"], function (_extends, $, Text, helpdivTemplate) {
+﻿define(["extends", "jquery", "text", "txt!views/tooltip/helpdiv.html",
+    "jquery.linq", "jquery.ui"],
+    function (_extends, $, Text, helpdivTemplate) {
 
     var Tooltip = (function () {
 
-        function Tooltip(container, selector) {
+        var tooltipTimeout = null;
+
+        function Tooltip(container, selector, showMode) {
             this.container = container || $("body");
             this.selector = selector || ".localizable";
             this.id = Math.random() * 1000000 | 0;
-            this.holder = $('<div id="tooltipDiv">')
-                .addClass("popupButtons")
-                .hide();
-            var html = $.parseHTML(helpdivTemplate.substr(helpdivTemplate.indexOf("<")));
-            this.helpTemplate = $(html);
-            this.container.append(this.holder);
-            this.container.append(this.helpTemplate);
-            var self = this;
-            $(this.container).on("mouseenter mouseout", this.selector, function (event) {
-                handlePopupButtons.call(self, $(this), event);
-            });
 
-            // Help Buttons
-            this.container.on("click", ".helpButton", function (event) {
-                helpButtonClick.call(self, $(this));
-            });
+            this.show = showMode || this.showMode.buttons;
+
+            this.tooltipDiv = $('<div id="tooltipDiv">')
+                .addClass("tooltipDiv")
+                .hide();
+            var html = $.Enumerable.From($.parseHTML(helpdivTemplate))
+                .Where(function (x) { return x instanceof HTMLElement;})
+                .ToArray();
+            this.helpDialog = $(html);
+            this.container.append(this.tooltipDiv);
+            this.container.append(this.helpDialog);
+            this.helpDialog.resizable();
+            var self = this;
+            
+            subscribeEvents.call(this);            
         }
 
-        Tooltip.prototype.dispose = function () {
-            $(this.container).off("mouseenter mouseout", this.selector);
+        Tooltip.prototype.showMode = {
+            hidden: "hidden",
+            buttons: "popupButtons",
+            tooltips: "popupTooltips"
         };
 
-        var tooltipTimeout = null;
-        function tooltipShow() {
-            var tooltip = $("#tooltipDiv");
-            $(document.body).on("mouseenter mouseout", ".localizable", function (event) {
-                if ($("#descriptionsToggleButton").hasClass("popupNothing")) {
-                    tooltip.hide();
-                    return;
-                }
-                if ($("#descriptionsToggleButton").hasClass("popupButtons")) {
-                    handlePopupButtons($(this), event);
-                    return;
-                } if ($("#descriptionsToggleButton").hasClass("popupTooltips")) {
-                    handlePopupTooltips($(this), event);
-                    return;
-                }
+        Tooltip.prototype.dispose = function () {
+            $(this.container).off("mouseenter mouseout", this.selector);            
+        };
 
+        function subscribeEvents(){
+            var self = this;
+            // When entering selector, show
+            $(this.container).on("mouseenter mouseout", this.selector, function (event) {
+                tooltipShow.call(self, $(this), event);
             });
-            $("#tooltipDiv").on("mouseenter mouseout", ".helpButton", function (event) {
+
+            // When entering button, cancel timeout
+            this.tooltipDiv.on("mouseenter mouseout", ".helpButton", function (event) {
                 // Clear tooltip timeout
                 if (tooltipTimeout != null) {
                     clearTimeout(tooltipTimeout);
@@ -55,13 +56,46 @@
 
                 }
                 if (event.type == "mouseout") {
-                    tooltipTimeout = setTimeout(hideTooltip, 1000);
+                    tooltipTimeout = setTimeout(function () { hideTooltip.call(self) }, 1000);
                 }
             });
+            // Help Buttons clicked
+            this.container.on("click", ".helpButton", function (event) {
+                helpButtonClick.call(self, $(this));
+            });
+
+            // Close help dialog
+            this.helpDialog.on("click", ".closeButton", function (event) {
+                self.helpDialog.hide();
+            });
+
+            $(window).scroll(function () {
+                var top = $(window).scrollTop();                
+                self.helpDialog.css({ top: top });
+            });
+
+        }
+        
+        function tooltipShow(sender, event) {
+            var tooltip = this.tooltipDiv;
+            switch (this.show) {
+                case this.showMode.hidden:
+                    tooltip.hide();
+                    break;
+                case this.showMode.buttons:
+                    applyTootltipClass.call(this);
+                    handlePopupButtons.call(this, sender, event);
+                    break;
+                case this.showMode.tooltips:
+                    applyTootltipClass.call(this);
+                    handlePopupTooltips.call(this, sender, event);
+                    break;                                
+            }            
         }
 
         function handlePopupButtons(sender, event) {
-            var tooltip = this.holder;
+            var self = this;
+            var tooltip = this.tooltipDiv;
             // Clear tooltip timeout
             if (tooltipTimeout != null) {
                 clearTimeout(tooltipTimeout);
@@ -80,25 +114,22 @@
                 tooltip.show();
             }
             if (event.type == "mouseout") {
-                // Start tooltip timeout
-                var self = this;
+                // Start tooltip timeout                
                 tooltipTimeout = setTimeout(function () { hideTooltip.call(self) }, 1000);
             }
         }
 
         function handlePopupTooltips(sender, event) {
-            var tooltip = this.holder;
+            var self = this;
+            var tooltip = this.tooltipDiv;
             if (event.type == "mouseenter") {
-                var localizeKey = sender.attr('localizeKey');
-                // We get the localization for the element
-
-                var locale = localeDict[localizeKey];
-                if (!locale) {
+                var localizeKey = sender.attr('data-textKey');
+                // We get the full name and description
+                var fullName = Text.getText(localizeKey);
+                if (!fullName) {
                     return;
                 }
-                // We get the full name and description
-                var fullName = locale.fullname;
-                var description = locale.contents;
+                var description = Text.getDescription(localizeKey);
                 // We show the tooltip			
                 tooltip.html("<b>" + fullName + "</b><br />" + description);
                 Text.localizeInnerSelector(tooltip, ".uiText");
@@ -139,22 +170,26 @@
         }
 
         function hideTooltip() {
-            this.holder.hide();
+            this.tooltipDiv.hide();
         }
 
         function helpButtonClick(sender) {
             var helpTopic = sender.attr("data-helptopic");
             var helpText = Text.getDescription(helpTopic);
-            var helpTitle = Text.getText(helpTopic);
-            if (helpTitle) {
-                helpText = "<legend>" + helpTitle + "</legend><br/><div class='helpText'>" + helpText + "</div>";
-            }
-            var helpTextContainer = this.helpTemplate.find("fieldset .helpTextContainer").html(helpText);
-            Text.localizeInnerSelector(helpTextContainer, ".uiText");
-            this.helpTemplate.show();
-            this.holder.hide();
+            var helpTitle = Text.getText(helpTopic);            
+            this.helpDialog.find(".helpTitle").html(helpTitle);
+            this.helpDialog.find(".helpText").html(helpText);
+            Text.localizeInnerSelector(this.helpDialog, ".uiText");
+            this.helpDialog.show();
+            this.tooltipDiv.hide();
         }
 
+        function applyTootltipClass() {
+            // Remove all tooltip type classes
+            this.tooltipDiv.attr("class", "tooltipDiv");
+            // Apply the right one
+            this.tooltipDiv.addClass(this.show);
+        }
 
         return Tooltip;
     } ());
