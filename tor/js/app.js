@@ -25,7 +25,8 @@
         "pjsheet": "app/models/pjsheet",        
         "txt": "lib/text",
         "tooltip": "app/tooltip",
-        "popupMenu": "app/popupMenu"
+        "popupMenu": "app/popupmenu",
+        "pjcontextmenus": "app/controllers/pjcontextmenus"
     },
     "shim": {
         "jquery.linq": ["jquery"],

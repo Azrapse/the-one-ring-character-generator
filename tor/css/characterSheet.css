@@ -108,6 +108,10 @@
 	border-radius: 5px;
 }
 
+.contextMenu .action.nevermind{
+	font-weight: bold;
+}
+
 /*What's new button highlighted*/
 .action.highlight
 {
