@@ -1,6 +1,6 @@
 ﻿define(["jquery", "gamedata", "text", "pj", "txt!views/charactersheet/_charactersheetfront.html", "txt!views/charactersheet/_charactersheetback.html",
-    "rivets", "jquery.ui", "jquery.linq", "json", "jquery.cookies", "jquery.migrate", "modernizr"],
-    function ($, Gamedata, Text, Pj, frontTemplate, backTemplate, Rivets) {
+    "rivets", "pjcontextmenus", "jquery.ui", "jquery.linq", "json", "jquery.cookies", "jquery.migrate", "modernizr"],
+    function ($, Gamedata, Text, Pj, frontTemplate, backTemplate, Rivets, PjContextMenus) {
         // Aliases
         var localizeOne = Text.localizeOne;
         var _ui_ = Text.write;
@@ -38,7 +38,10 @@
                 };
                 var type = Gamedata.getGearType(value);
                 var textKey = textMatch[type];
-                return Text.getText(textKey);
+
+                return textKey
+                    ? Text.getText(textKey)
+                    : "";
             };
             Rivets.formatters.urlEncode = {
                 read: function (value) {
@@ -179,10 +182,12 @@
         PjSheet.pj = null;
         PjSheet.bind = function (pj) {
             PjSheet.pj = pj;
+            PjSheet.menuManager = new PjContextMenus(pj, this);
             PjSheet.view = Rivets.bind($(".characterSheet"), {
                 pj: pj,
                 controller: PjSheet,
-                gamedata: Gamedata
+                gamedata: Gamedata,
+                menus: PjSheet.menuManager
             });
         };
 
@@ -219,6 +224,7 @@
                 td.attr("data-skill", bodySkillName);
                 td.attr("data-textKey", bodySkillName);
                 td.attr("rv-class-favoured", "pj.skills.common.favoured." + bodySkillName);
+                td.attr("rv-on-click", "menus.commonSkillMenu");
                 localizeOne(td);
                 newTr.append(td);
                 td = $("<td></td>");
@@ -231,6 +237,7 @@
                 td.attr("data-skill", heartSkillName);
                 td.attr("data-textKey", heartSkillName);
                 td.attr("rv-class-favoured", "pj.skills.common.favoured." + heartSkillName);
+                td.attr("rv-on-click", "menus.commonSkillMenu");
                 localizeOne(td);
                 newTr.append(td);
                 td = $("<td></td>");
@@ -243,6 +250,7 @@
                 td.attr("data-skill", witsSkillName);
                 td.attr("data-textKey", witsSkillName);
                 td.attr("rv-class-favoured", "pj.skills.common.favoured." + witsSkillName);
+                td.attr("rv-on-click", "menus.commonSkillMenu");
                 localizeOne(td);
                 newTr.append(td);
                 td = $("<td></td>");
@@ -291,7 +299,7 @@
             });
 
         }
-        
+
         return PjSheet;
     }
 );

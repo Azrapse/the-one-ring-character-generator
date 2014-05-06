@@ -32,7 +32,7 @@
 									<label class="narrowLabel uiText"  data-textKey="uiStandardofLiving"></label>
 								</td>
 								<td class="inputCell cell">
-									<div class="input localizable" id="standardInput" rv-data-textKey="pj.stats.standard" rv-text="pj.stats.standard | localize"></div>
+									<div class="input localizable" id="standardInput" rv-data-textKey="pj.stats.standard" rv-text="pj.stats.standard | localize" rv-on-click="menus.standardOfLivingMenu"></div>
 								</td>
 							</tr>
 						</table>
@@ -145,7 +145,11 @@
 			<div class="weaponSkillsBox">
 				<div rv-each-ws="pj.skills.weapon" class="weaponSkill">
                     <div class="skillNameCell">
-                        <div class="input weaponSkillNameInput localizable" rv-data-textKey="ws.id" rv-text="ws.id | localize" rv-class-favoured="ws.favoured"></div>
+                        <div class="input weaponSkillNameInput localizable" 
+                            rv-data-textKey="ws.id" 
+                            rv-text="ws.id | localize" 
+                            rv-class-favoured="ws.favoured"
+                            rv-on-click="menus.weaponSkillMenu"></div>
                     </div>
                     <div class="skillRankCell" rv-weaponskillrank="ws.rank">
                         <div class="skillRankIcon" rv-data-weaponskill="ws.id" data-rank="1"><img /></div>
@@ -163,8 +167,8 @@
 						uiRewards
 					</div>
 					<div class="rewardsContent" >				
-						<div class="input">
-                            <span rv-each-reward="pj.belongings.rewards" class="localizable" rv-data-textkey="reward">{reward | localize}, </span>
+						<div class="input" rv-on-click="menus.rewardsMenu">
+                            <span rv-each-reward="pj.belongings.rewards" class="localizable" rv-data-textkey="reward" rv-on-click="menus.oneVirtueRewardMenu">{reward | localize}, </span>
                         </div>
 					</div>
 				</div>
@@ -172,9 +176,9 @@
 					<div class="heading uiText" data-textKey="uiVirtues">
 						uiVirtues
 					</div>
-					<div class="virtuesContent" >				
-						<div class="input">
-                            <span rv-each-virtue="pj.traits.virtues" class="localizable" rv-data-textkey="virtue">{virtue | localize}, </span>
+					<div class="virtuesContent">				
+						<div class="input" rv-on-click="menus.virtuesMenu">
+                            <span rv-each-virtue="pj.traits.virtues" class="localizable" rv-data-textkey="virtue" rv-on-click="menus.oneVirtueRewardMenu">{virtue | localize}, </span>
                         </div>
 					</div>
 				</div>
@@ -189,7 +193,10 @@
                             <input type="checkbox" class='weaponGearCarriedStatus statusBox' rv-checked="weapon.carried" rv-on-change="controller.onEncChanged"/>                            
                         </td>
                         <td class="weaponGearNameCell">
-                            <div class='input weaponGearNameInput localizable' rv-data-textKey="weapon.id" rv-text="weapon.id | localize"></div>
+                            <div class='input weaponGearNameInput localizable' 
+                                rv-data-textKey="weapon.id" 
+                                rv-text="weapon.id | localize"
+                                rv-on-click="menus.weaponGearMenu"></div>
                         </td>
                         <td class="statNameCell uiText" data-textkey="uiWSDamage"></td>
                         <td class="weaponGearStatCell">
@@ -217,10 +224,14 @@
                             <input type="checkbox" class='gearCarriedStatus statusBox' rv-checked="gear.carried" rv-on-change="controller.onEncChanged" />
                         </td>
                         <td class="gearLabel">
-                            <label>{gear.id | geartype}</label>
+                            <label rv-text="gear.id | geartype"></label>
                         </td>                        
                         <td>
-                            <div class='gearName input localizable narrow' rv-data-geartype="gear.id | geartype" rv-data-textKey="gear.id" rv-text="gear.id | localize"></div>
+                            <div class='gearName input localizable narrow' 
+                                rv-data-geartype="gear.id | geartype" 
+                                rv-data-textKey="gear.id" 
+                                rv-text="gear.id | localize"
+                                rv-on-click="menus.gearMenu"></div>
                         </td>                        
                         <td class="statNameCell" >
                             <label class="uiText" data-textkey="uiEnc"></label>

@@ -2,18 +2,19 @@
     function ($, Gamedata, Text) {
 
         var PopupMenu = (function () {
-            function PopupMenu(container, initializer, context) {
+            function PopupMenu(initializer) {
                 var self = this;
+
                 this.items = {};
-                if (!this.lockElement(container)) {
+                if (!this.lockElement(initializer.container)) {
                     return false;
                 }
-                this.container = container;
+                this.container = initializer.container;
 
-                if (initializer) {
-                    for (var itemKey in initializer) {
-                        if (initializer.hasOwnProperty(itemKey)) {
-                            var config = initializer[itemKey];
+                if (initializer.items) {
+                    for (var itemKey in initializer.items) {
+                        if (initializer.items.hasOwnProperty(itemKey)) {
+                            var config = initializer.items[itemKey];
                             var callback = config;
                             var condition = null;
                             var cssClass = null;
@@ -23,11 +24,11 @@
                                 cssClass = config.cssClass;
                             }
                             var item = new MenuItem(this, itemKey, callback, condition, cssClass);
-                            this.items[itemKey] = item;
+                            self.items[itemKey] = item;
                         }
                     }
                 }
-                this.context = context;
+                this.context = initializer.context;
                 var handleClicks = function (event) {
                     var itemId = $(this).attr("data-id");
                     if (itemId in self.items) {
@@ -61,6 +62,7 @@
                     this.container.off("click", ".menuItem");
                     this.unlockElement(this.container);
                 }
+                return this;
             };
 
             // Interactive menus
@@ -72,6 +74,7 @@
                         .css("top", y)
                         .show();
                 }
+                return this;
             };
 
             // A map between elements and menus

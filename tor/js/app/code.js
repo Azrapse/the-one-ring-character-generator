@@ -1,5 +1,6 @@
-﻿define(["jquery", "rivets", "gamedata", "text", "pj", "pjsheet", "tooltip", "popupMenu", "pjcontextmenus", "jquery.ui", "jquery.linq", "json", "jquery.cookies", "jquery.migrate", "modernizr"],
-    function ($, Rivets, Gamedata, Text, Pj, PjSheet, Tooltip, popupMenu, PjContextMenus) {
+﻿define(["jquery", "rivets", "gamedata", "text", "pj", "pjsheet", "tooltip", 
+"jquery.ui", "jquery.linq", "json", "jquery.cookies", "jquery.migrate", "modernizr"],
+    function ($, Rivets, Gamedata, Text, Pj, PjSheet, Tooltip) {
         // Aliases
         var localizeOne = Text.localizeOne;
         var localize = Text.localizeAll;
@@ -67,184 +68,184 @@
 
         var backupOfCurrentSheet = null;
         function setClickablesEvents() {
-            // moveable action menu
-            $(".actionMenu").draggable();
+//            // moveable action menu
+//            $(".actionMenu").draggable();
 
-            // resizable Character Sheet
-            $(".characterSheet").resizable({
-                "maxWidth": 620,
-                "minHeight": 840,
-                "minWidth": 620,
-                "handles": "s"
-            });
+//            // resizable Character Sheet
+//            $(".characterSheet").resizable({
+//                "maxWidth": 620,
+//                "minHeight": 840,
+//                "minWidth": 620,
+//                "handles": "s"
+//            });
 
-            // Wizard windows	
-            $(".wizardWindow:not(.noDraggable)").draggable();
+//            // Wizard windows	
+//            $(".wizardWindow:not(.noDraggable)").draggable();
 
-            // set up start button
-            $("#startButton").click(function (e) {
-                backupOfCurrentSheet = sheetToObject();
-                resetCreation();
-                initializeCultureSelection();
-                $("#wizardCultureDiv").show();
-            });
+//            // set up start button
+//            $("#startButton").click(function (e) {
+//                backupOfCurrentSheet = sheetToObject();
+//                resetCreation();
+//                initializeCultureSelection();
+//                $("#wizardCultureDiv").show();
+//            });
 
-            // toggle font button
-            $("#fontToggleButton").click(function (e) {
-                alternateFontToggle();
-            });
+//            // toggle font button
+//            $("#fontToggleButton").click(function (e) {
+//                alternateFontToggle();
+//            });
 
-            // toggle volatile
-            $("#hideVolatileButton").click(function (e) {
-                toggleVolatileCells();
-            });
-
-
-            // set up description toggle button
-            $("#descriptionsToggleButton").click(function (e) {
-                toggleDescriptions();
-            });
-
-            // synched toggle button
-            $("#synchedToggleButton").click(function (e) {
-                if ($("#synchedToggleButton").hasClass("discouragedButton")) {
-                    $("#synchedToggleButton").removeClass("discouragedButton");
-                    $("#synchedToggleButton").addClass("encouragedButton");
-                    synchCheckService();
-                } else {
-                    $("#synchedToggleButton").addClass("discouragedButton");
-                    $("#synchedToggleButton").removeClass("encouragedButton");
-                }
-            });
+//            // toggle volatile
+//            $("#hideVolatileButton").click(function (e) {
+//                toggleVolatileCells();
+//            });
 
 
-            // set up save button
-            $("#saveButton").click(function (e) {
-                serializeCharacter();
-            });
-            // set up load button
-            $("#loadButton").click(function (e) {
-                deserializeCharacter();
-            });
+//            // set up description toggle button
+//            $("#descriptionsToggleButton").click(function (e) {
+//                toggleDescriptions();
+//            });
 
-            // Forum code button
-            $("#forumCodeButton").click(function (e) {
-                renderBBCode();
-            });
-
-            // Online button
-            $("#onlineButton").click(function (e) {
-                onlineInitialize();
-            });
-
-            // Chat button
-            $("#chatButton").click(function (e) {
-                chatInitialize();
-            });
-
-            // Chat History button
-            $("#chatHistoryButton").click(function (e) {
-                chatHistoryRecover();
-            });
-
-            // Download Chat History button
-            $("#downloadChatHistoryButton").click(function (e) {
-                downloadChatHistory();
-            });
-
-            // About button
-            $("#aboutButton").click(function (e) {
-                $("#aboutDiv").show();
-                $("#aboutDiv #aboutCloseButton").unbind().click(function () {
-                    $("#aboutDiv").hide();
-                });
-            });
-
-            // changes button
-            $("#changesButton").click(function (e) {
-                $("#changesButton").removeClass("highlight");
-                $.cookie("latestVisited", $("#changesButton").attr("latest"), { expires: 3650 });
-                $("#changesDiv").show();
-            });
-            $("#changesCloseButton").click(function (e) {
-                $("#changesDiv").hide();
-            });
+//            // synched toggle button
+//            $("#synchedToggleButton").click(function (e) {
+//                if ($("#synchedToggleButton").hasClass("discouragedButton")) {
+//                    $("#synchedToggleButton").removeClass("discouragedButton");
+//                    $("#synchedToggleButton").addClass("encouragedButton");
+//                    synchCheckService();
+//                } else {
+//                    $("#synchedToggleButton").addClass("discouragedButton");
+//                    $("#synchedToggleButton").removeClass("encouragedButton");
+//                }
+//            });
 
 
-            // Common Skill names
-            $(".characterSheet.front").on("click", ".skillNameCell.localizable", PjContextMenus.commonSkillMenu);
+//            // set up save button
+//            $("#saveButton").click(function (e) {
+//                serializeCharacter();
+//            });
+//            // set up load button
+//            $("#loadButton").click(function (e) {
+//                deserializeCharacter();
+//            });
 
-            // Virtues box
-            $(".characterSheet.front").on("click", ".virtuesContent > div", PjContextMenus.virtuesMenu);
+//            // Forum code button
+//            $("#forumCodeButton").click(function (e) {
+//                renderBBCode();
+//            });
 
-            // Rewards box
-            $(".characterSheet.front").on("click", ".rewardsContent > div", PjContextMenus.rewardsMenu);
+//            // Online button
+//            $("#onlineButton").click(function (e) {
+//                onlineInitialize();
+//            });
 
-            // Virtues and Rewards themselves
-            $(".characterSheet.front").on("click", ".virtuesContent > div .localizable, .rewardsContent > div .localizable", PjContextMenus.oneVirtueRewardMenu);
+//            // Chat button
+//            $("#chatButton").click(function (e) {
+//                chatInitialize();
+//            });
 
-            // Weapon skills
-            $(".characterSheet.front").on("click", "#weaponSkillsTable td.skillNameCell .weaponSkillNameInput", PjContextMenus.weaponSkillMenu);
+//            // Chat History button
+//            $("#chatHistoryButton").click(function (e) {
+//                chatHistoryRecover();
+//            });
 
-            // Weapon gear
-            $(".characterSheet.front").on("click", "#weaponGearTable .weaponGearNameInput", PjContextMenus.weaponGearMenu);
+//            // Download Chat History button
+//            $("#downloadChatHistoryButton").click(function (e) {
+//                downloadChatHistory();
+//            });
 
-            // Gear
-            $(".characterSheet.front").on("click", ".gearTable .gearName", PjContextMenus.gearMenu);
+//            // About button
+//            $("#aboutButton").click(function (e) {
+//                $("#aboutDiv").show();
+//                $("#aboutDiv #aboutCloseButton").unbind().click(function () {
+//                    $("#aboutDiv").hide();
+//                });
+//            });
 
-            // Degenerations
-            $("#distinctiveFeaturesInput").on("click", PjContextMenus.featuresMenu);
+//            // changes button
+//            $("#changesButton").click(function (e) {
+//                $("#changesButton").removeClass("highlight");
+//                $.cookie("latestVisited", $("#changesButton").attr("latest"), { expires: 3650 });
+//                $("#changesDiv").show();
+//            });
+//            $("#changesCloseButton").click(function (e) {
+//                $("#changesDiv").hide();
+//            });
 
-            // Standard of living
-            $("#standardInput").on("click", PjContextMenus.standardOfLivingMenu);
 
-            // Cultural Blessing
-            $("#culturalBlessingInput").on("click", ".localizable", PjContextMenus.simpleCommentMenu);
-            // Specialties
-            $("#specialtiesInput").on("click", ".localizable", PjContextMenus.simpleCommentMenu);
-            // Distinctive features
-            $("#distinctiveFeaturesInput").on("click", ".localizable", PjContextMenus.changeFeatureMenu);
+//            // Common Skill names
+//            $(".characterSheet.front").on("click", ".skillNameCell.localizable", PjContextMenus.commonSkillMenu);
 
-            $(window).scroll(function () {
-                var top = $(window).scrollTop();
-                var notification = $(".notification");
-                if (notification.length > 0) {
-                    notification.css({ top: top });
-                }
-            });
+//            // Virtues box
+//            $(".characterSheet.front").on("click", ".virtuesContent > div", PjContextMenus.virtuesMenu);
 
-            // Cancel Character Creation with button or ESCAPE. Accept ENTER as Next and BACKSPACE as Previous
-            $(".wizardWindow").on("click", ".cancel", function () {
-                if (backupOfCurrentSheet != null) {
-                    resetCreation();
-                    objectToSheet(backupOfCurrentSheet);
-                    backupOfCurrentSheet = null;
-                    $(this).parents(".wizardWindow").hide();
-                }
-            });
-            var KEYCODE_ENTER = 13;
-            var KEYCODE_ESC = 27;
-            var KEYCODE_BACKSPACE = 8;
-            // We prevent the browser to go back in the history
-            $(document).keydown(function (e) {
-                if (e.keyCode == KEYCODE_BACKSPACE) {
-                    // But don't prevent the user from deleting in an input or textarea!
-                    if (!$(document.activeElement).is("input, textarea")) {
-                        e.preventDefault();
-                    }
-                }
-            });
-            $(document).keyup(function (e) {
-                if (e.keyCode == KEYCODE_ESC) {
-                    $('.cancel:not(:hidden)').trigger("click");
-                }
-                if (e.keyCode == KEYCODE_ENTER) {
-                    $('.next:not(:hidden)').trigger("click");
-                }
-                if (e.keyCode == KEYCODE_BACKSPACE) {
-                    $('.previous:not(:hidden)').trigger("click");
-                }
-            });
+//            // Rewards box
+//            $(".characterSheet.front").on("click", ".rewardsContent > div", PjContextMenus.rewardsMenu);
+
+//            // Virtues and Rewards themselves
+//            $(".characterSheet.front").on("click", ".virtuesContent > div .localizable, .rewardsContent > div .localizable", PjContextMenus.oneVirtueRewardMenu);
+
+//            // Weapon skills
+//            $(".characterSheet.front").on("click", "#weaponSkillsTable td.skillNameCell .weaponSkillNameInput", PjContextMenus.weaponSkillMenu);
+
+//            // Weapon gear
+//            $(".characterSheet.front").on("click", "#weaponGearTable .weaponGearNameInput", PjContextMenus.weaponGearMenu);
+
+//            // Gear
+//            $(".characterSheet.front").on("click", ".gearTable .gearName", PjContextMenus.gearMenu);
+
+//            // Degenerations
+//            $("#distinctiveFeaturesInput").on("click", PjContextMenus.featuresMenu);
+
+//            // Standard of living
+//            $("#standardInput").on("click", PjContextMenus.standardOfLivingMenu);
+
+//            // Cultural Blessing
+//            $("#culturalBlessingInput").on("click", ".localizable", PjContextMenus.simpleCommentMenu);
+//            // Specialties
+//            $("#specialtiesInput").on("click", ".localizable", PjContextMenus.simpleCommentMenu);
+//            // Distinctive features
+//            $("#distinctiveFeaturesInput").on("click", ".localizable", PjContextMenus.changeFeatureMenu);
+
+//            $(window).scroll(function () {
+//                var top = $(window).scrollTop();
+//                var notification = $(".notification");
+//                if (notification.length > 0) {
+//                    notification.css({ top: top });
+//                }
+//            });
+
+//            // Cancel Character Creation with button or ESCAPE. Accept ENTER as Next and BACKSPACE as Previous
+//            $(".wizardWindow").on("click", ".cancel", function () {
+//                if (backupOfCurrentSheet != null) {
+//                    resetCreation();
+//                    objectToSheet(backupOfCurrentSheet);
+//                    backupOfCurrentSheet = null;
+//                    $(this).parents(".wizardWindow").hide();
+//                }
+//            });
+//            var KEYCODE_ENTER = 13;
+//            var KEYCODE_ESC = 27;
+//            var KEYCODE_BACKSPACE = 8;
+//            // We prevent the browser to go back in the history
+//            $(document).keydown(function (e) {
+//                if (e.keyCode == KEYCODE_BACKSPACE) {
+//                    // But don't prevent the user from deleting in an input or textarea!
+//                    if (!$(document.activeElement).is("input, textarea")) {
+//                        e.preventDefault();
+//                    }
+//                }
+//            });
+//            $(document).keyup(function (e) {
+//                if (e.keyCode == KEYCODE_ESC) {
+//                    $('.cancel:not(:hidden)').trigger("click");
+//                }
+//                if (e.keyCode == KEYCODE_ENTER) {
+//                    $('.next:not(:hidden)').trigger("click");
+//                }
+//                if (e.keyCode == KEYCODE_BACKSPACE) {
+//                    $('.previous:not(:hidden)').trigger("click");
+//                }
+//            });
         }
 
         function toggleDescriptions() {

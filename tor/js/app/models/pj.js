@@ -225,6 +225,31 @@
             this.status.totalShadow = (+this.status.shadow || 0) + (+this.status.permanentShadow || 0);
         };
 
+        Pj.prototype.getComment = function (key) {
+            if (this.characterTexts.comments) {
+                for (var i = 0; i < this.characterTexts.comments.length; i++) {
+                    if (this.characterTexts.comments[i]["for"] === key) {
+                        return this.characterTexts.comments[i].text;
+                    }
+                }
+            }
+        };
+        Pj.prototype.setComment = function (key, text) {
+            if (!this.characterTexts.comments) {
+                this.characterTexts.comments = [{ "for": key, text: text}];
+                return;
+            }
+
+            for (var i = 0; i < this.characterTexts.comments.length; i++) {
+                if (this.characterTexts.comments[i]["for"] === key) {
+                    this.characterTexts.comments[i].text = text;
+                    return;
+                }
+            }
+
+            this.characterTexts.comments.push({ "for": key, text: text });
+        };
+
         return Pj;
     })(Character);
 
