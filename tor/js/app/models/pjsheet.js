@@ -137,9 +137,9 @@
                         var currentRank = model.skills.weapon[skill].rank;
                         var favoured = model.skills.weapon[skill].favoured;
                         if (currentRank == rank) {
-                            model.skills.weapon[skill].rank = rank - 1;
+                            model.skills.weapon[skill].rank = (rank | 0) - 1;
                         } else {
-                            model.skills.weapon[skill].rank = +rank;
+                            model.skills.weapon[skill].rank = rank | 0;
                         }
                     };
                     $(el).on("click", ".skillRankIcon", this.clickHandler);
@@ -177,12 +177,25 @@
                     Rivets.binders['each-*'].baseroutine.call(this, el, array);
                 }
             };
-
+            Rivets.binders.comment = function (el, value) {
+                var pj = this.view.models.pj;
+                var text = pj.getComment(value);
+                var comment = $(el).find(".commentText");
+                if (comment.length == 0 && text) {
+                    comment = $("<span class='commentText'>");
+                    $(el).append(comment);
+                }
+                if (!text) {
+                    comment.remove();
+                } else {
+                    comment.html(text);
+                }
+            };
         }
         PjSheet.pj = null;
         PjSheet.bind = function (pj) {
             PjSheet.pj = pj;
-            PjSheet.menuManager = new PjContextMenus(pj, this);
+            PjSheet.menuManager = new PjContextMenus($(".contextMenu"), pj, this);
             PjSheet.view = Rivets.bind($(".characterSheet"), {
                 pj: pj,
                 controller: PjSheet,

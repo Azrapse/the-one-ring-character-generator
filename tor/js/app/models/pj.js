@@ -250,6 +250,17 @@
             this.characterTexts.comments.push({ "for": key, text: text });
         };
 
+        Pj.prototype.getNextDegeneration = function () {
+            var features = this.traits.features;
+            var degenerations = Gamedata.getDegenerationsForCalling(this.traits.calling);
+            // Get the first degeneration not already in the character
+            for(var i = 0; i < degenerations.length; i++){
+                var degeneration = degenerations[i];
+                if(features.indexOf(degeneration) == -1){
+                    return degeneration;
+                }
+            }                        
+        };
         return Pj;
     })(Character);
 

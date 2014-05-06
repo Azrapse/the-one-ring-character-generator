@@ -5,8 +5,10 @@
             // Private variables (for closure, easier than dealing with this for the 
             var Pj = null;
             var Sheet = null;
+            var _menu = null;
             // Constructor            
-            function PjContextMenuManager(pj, sheet) {
+            function PjContextMenuManager(menu, pj, sheet) {
+                _menu = menu;
                 Pj = this.pj = pj;
                 Sheet = sheet;
             }
@@ -30,6 +32,7 @@
                 if (commentText !== null) {
                     Pj.setComment(context.key, commentText);
                 }
+                databind();
                 this.menu.close();
             }
 
@@ -40,7 +43,7 @@
             function commonSkillMenu(e) {
                 // showMenu
                 e.stopPropagation();
-                var menu = $(".contextMenu");
+                var menu = _menu;
                 var sender = $(this);
                 var skill = sender.attr("data-skill");
 
@@ -49,17 +52,17 @@
                     items: {
                         uiMenuNotFavoured: {
                             callback: function (context) {
-                                context.pj.skills.common.favoured[context.skill] = false;
+                                Pj.skills.common.favoured[context.skill] = false;
                                 this.menu.close();
                             },
-                            condition: function (context) { return context.pj.skills.common.favoured[context.skill]; }
+                            condition: function (context) { return Pj.skills.common.favoured[context.skill]; }
                         },
                         uiMenuFavoured: {
                             callback: function (context) {
-                                context.pj.skills.common.favoured[context.skill] = true;
+                                Pj.skills.common.favoured[context.skill] = true;
                                 this.menu.close();
                             },
-                            condition: function (context) { return !(context.pj.skills.common.favoured[context.skill]); }
+                            condition: function (context) { return !(Pj.skills.common.favoured[context.skill]); }
                         },
                         uiMenuNevermind: nevermindOption
                     },
@@ -75,14 +78,14 @@
                 }
                 e.stopPropagation();
                 // showMenu
-                var menu = $(".contextMenu");
+                var menu = _menu;
                 var sender = $(this);
 
                 // Add virtue options
                 var showAddOptionsSubmenu = function (context) {
                     this.menu.close();
 
-                    var virtues = Gamedata.cultures[context.pj.traits.culture].virtues.slice(0); // Copy the array
+                    var virtues = Gamedata.cultures[Pj.traits.culture].virtues.slice(0); // Copy the array
                     var masteries = Gamedata.masteries;
                     for (var m in masteries) {
                         virtues.push(m);
@@ -95,11 +98,11 @@
                             var virtue = virtues[i];
                             var entry = {
                                 callback: function (context) {
-                                    context.pj.traits.virtues.push(virtue);
+                                    Pj.traits.virtues.push(virtue);
                                     this.menu.close();
                                 },
                                 condition: function (context) {
-                                    var current = context.pj.traits.virtues;
+                                    var current = Pj.traits.virtues;
                                     return current.indexOf(this.key) == -1;
                                 }
                             };
@@ -134,7 +137,7 @@
                 var sender = $(this);
 
                 var m = new popupMenu({
-                    container: $(".contextMenu"),
+                    container: _menu,
                     items: {
                         uiMenuRemove: function (context) {
                             var index = Pj.traits.virtues.indexOf(context.key);
@@ -192,7 +195,7 @@
                     }
 
                     var m = new popupMenu({
-                        container: $(".contextMenu"),
+                        container: _menu,
                         items: entries,
                         context: { pj: Pj }
                     });
@@ -201,7 +204,7 @@
 
                 // Virtue Box Options (Add or Nevermind)	
                 var m = new popupMenu({
-                    container: $(".contextMenu"),
+                    container: _menu,
                     items: {
                         uiMenuAdd: showAddOptionsSubmenu,
                         uiMenuNevermind: nevermindOption
@@ -212,7 +215,7 @@
             }
 
             function weaponSkillMenu(e) {
-                var menu = $(".contextMenu");
+                var menu = _menu;
                 var sender = $(this);
                 var key = sender.attr("data-textKey");
 
@@ -336,7 +339,7 @@
             }
 
             function weaponGearMenu(e) {
-                var menu = $(".contextMenu");
+                var menu = _menu;
                 var sender = $(this);
                 var key = sender.attr("data-textKey");
 
@@ -412,7 +415,7 @@
             }
 
             function gearMenu(e) {
-                var menu = $(".contextMenu");
+                var menu = _menu;
                 var sender = $(this);
                 var key = sender.attr("data-textKey");
 
@@ -502,16 +505,23 @@
                 if (e.target != this) {
                     return true;
                 }
-                var menu = $(".contextMenu");
+                var menu = _menu;
                 var sender = $(this);
 
                 var addDegenerationOption = function (context) {
                     this.menu.close();
 
-                    var shadowWeakness = Gamedata.cultures[Pj.traits.culture].shadowWeakness;
-                    /// TODO
-                    Pj.belongings.gear["uiATChooseone"] = newGear;
-                    databind();
+                    var features = Pj.traits.features;
+                    var degeneration = Pj.getNextDegeneration();
+                    var entries = { uiMenuNevermind: nevermindOption };
+                    if (degeneration) {
+                        entries[degeneration] = function () { Pj.traits.features.push(degeneration); this.menu.close(); };
+                    }
+                    var m = new popupMenu({
+                        container: menu,
+                        items: entries
+                    })
+                .show(e.pageX + 1, e.pageY + 1);
                 };
 
                 var m = new popupMenu({
@@ -522,120 +532,59 @@
                     }
                 })
                 .show(e.pageX + 1, e.pageY + 1);
-
-                // Add degeneration	
-                var button = $("<div class='action'>" + _loc_("uiMenuAddDegeneration") + "</div>").click(function () {
-                    closeContextMenu();
-                    menu.empty();
-                    // get shadow weakness
-                    var shadowWeakness = $("#shadowWeaknessInput .localizable").attr("localizeKey");
-                    // get current features
-                    var current = [];
-                    $("#distinctiveFeaturesInput .localizable").each(function () {
-                        current[$(this).attr("localizeKey")] = true;
-                    });
-
-                    // get degenerations that aren't current and belong to the right shadow weakness
-                    var degenerations = [];
-                    $("#internalData .degeneration").each(function () {
-                        if (current[$(this).attr("name")] != true && $(this).attr("group") == shadowWeakness) {
-                            // if we find one, we add it and stop
-                            degenerations.push($(this).attr("name"));
-                            return false;
-                        }
-                    });
-                    // if there are none left, alert and stop
-                    if (degenerations.length == 0) {
-                        alert(_loc_("uiErrorNoMoreDeg"));
-                        return;
-                    }
-
-                    // make the buttons
-                    for (v in degenerations) {
-                        var degenerationName = degenerations[v];
-                        var button = $("<div class='action'>" + __(degenerationName) + "</div>");
-                        $(button).click({ n: degenerationName }, function (ea) {
-                            closeContextMenu();
-                            // add the degeneration
-                            $("#distinctiveFeaturesInput").append(__(ea.data.n) + ", ");
-                            localize();
-                            performSynch();
-                        });
-                        menu.append(button);
-                    }
-                    // nevermind button
-                    menu.append($("<div class='action'><b>" + _loc_("uiMenuNevermind") + "</b></div>").click(function () { closeContextMenu(); }));
-
-                    localize();
-                    showContextMenu(e);
-                });
-                $(menu).append(button);
-
-                // nevermind button
-                menu.append($("<div class='action'><b>" + _loc_("uiMenuNevermind") + "</b></div>").click(function () { closeContextMenu(); }));
-
-                localize();
-                showContextMenu(e);
             }
 
             function changeFeatureMenu(e) {
-                // showMenu
-                var menu = $(".contextMenu");
-                $(menu).empty();
+                var menu = _menu;
                 var sender = $(this);
+                var key = sender.attr("data-textKey");
 
-                // Exchange Feature (only for non-degenerations)
-                var thisFeatureKey = $(sender).attr("localizeKey");
-                if (!$("#internalData .degeneration").toEnumerable().Select('$.attr("name")').Contains(thisFeatureKey)) {
-                    // get current features
-                    var currentFeatureKeys = $("#distinctiveFeaturesInput .localizable").toEnumerable()
-			.Select('$.attr("localizeKey")')
-			.ToArray();
-                    // get features that aren't selected already. Order by their translation string
-                    var nonCurrentFeatureKeys = $("#internalData .cultures .culture .backgrounds .background .distinctiveFeatures div").toEnumerable()
-			.Select("$.html()")
-			.Distinct()
-			.Except(currentFeatureKeys)
-			.OrderBy("_loc_($)")
-			.ToArray();
+                var exchangeFeatureOption = {
+                    condition: function () {
+                        var degenerations = Gamedata.getDegenerationsForCalling(Pj.traits.calling);
+                        return degenerations.indexOf(key) == -1;
+                    },
+                    callback: function () {
+                        this.menu.close();
 
-                    var button = $("<div class='action'>" + _loc_("uiMenuExchangeFeature") + "</div>").click(function () {
-                        closeContextMenu();
-                        menu.empty();
-                        // make the buttons
-                        for (v in nonCurrentFeatureKeys) {
-                            var featureName = nonCurrentFeatureKeys[v];
-                            var featureButton = $("<div class='action'>" + __(featureName) + "</div>");
-                            $(featureButton).click({ n: featureName }, function (ea) {
-                                closeContextMenu();
-                                // replace the feature
-                                $(sender).replaceWith(__(ea.data.n));
-                                localize();
-                                performSynch();
-                            });
-                            menu.append(featureButton);
+                        var features = Gamedata.getFeatures();
+                        var entries = { uiMenuNevermind: nevermindOption };
+                        for (var i = 0; i < features.length; i++) {
+                            (function () { // Code block for closure
+
+                                var feature = features[i];
+                                if (Pj.traits.features.indexOf(feature) === -1) {
+                                    entries[feature] = function () {
+                                        this.menu.close();
+                                        var index = Pj.traits.features.indexOf(key);
+                                        Pj.traits.features[index] = feature;
+                                        databind();
+                                    };
+                                }
+
+                            })();
                         }
-                        // nevermind button
-                        menu.append($("<div class='action'><b>" + _loc_("uiMenuNevermind") + "</b></div>").click(function () { closeContextMenu(); }));
-
-                        localize();
-                        showContextMenu(e);
-                    });
-                    menu.append(button);
+                        var m = new popupMenu({
+                            container: menu,
+                            items: entries
+                        })
+                        .show(e.pageX + 1, e.pageY + 1);
+                    }
                 };
-                // Add comment
-                addCommentMenuOption(sender);
 
-                // nevermind button
-                menu.append($("<div class='action'><b>" + _loc_("uiMenuNevermind") + "</b></div>").click(function () { closeContextMenu(); }));
-
-                localize();
-                showContextMenu(e);
+                var m = new popupMenu({
+                    container: menu,
+                    items: {
+                        uiMenuExchangeFeature: exchangeFeatureOption,
+                        uiMenuNevermind: nevermindOption
+                    }
+                })
+                .show(e.pageX + 1, e.pageY + 1);
             }
 
             function standardOfLivingMenu(e) {
                 // showMenu
-                var menu = $(".contextMenu");
+                var menu = _menu;
                 var sender = $(this);
 
                 // Select standard of living
@@ -646,10 +595,10 @@
                         var entry = {};
                         var standard = s;
                         entry.condition = function (context) {
-                            return context.pj.stats.standard != standard;
+                            return Pj.stats.standard != standard;
                         };
                         entry.callback = function (context) {
-                            context.pj.stats.standard = standard;
+                            Pj.stats.standard = standard;
                             this.menu.close();
                         };
                         entries[s] = entry;
@@ -666,19 +615,18 @@
             }
 
             function simpleCommentMenu(e) {
-                // showMenu
-                var menu = $(".contextMenu");
-                $(menu).empty();
+                var menu = _menu;
                 var sender = $(this);
-
-                // Add comment
-                addCommentMenuOption(sender);
-
-                // nevermind button
-                menu.append($("<div class='action'><b>" + _loc_("uiMenuNevermind") + "</b></div>").click(function () { closeContextMenu(); }));
-
-                localize();
-                showContextMenu(e);
+                var key = sender.attr("data-textKey");
+                var m = new popupMenu({
+                    context: { key: key },
+                    container: menu,
+                    items: {
+                        uiMenuSetComment: addCommentMenuOption,
+                        uiMenuNevermind: nevermindOption
+                    }
+                })
+                .show(e.pageX + 1, e.pageY + 1);
             }
 
 
@@ -693,6 +641,7 @@
             PjContextMenuManager.prototype.gearMenu = gearMenu;
             PjContextMenuManager.prototype.featuresMenu = featuresMenu;
             PjContextMenuManager.prototype.changeFeatureMenu = changeFeatureMenu;
+            PjContextMenuManager.prototype.simpleCommentMenu = simpleCommentMenu;
 
             return PjContextMenuManager;
         })();

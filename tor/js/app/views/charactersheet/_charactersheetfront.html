@@ -46,7 +46,10 @@
 									<label class="narrowLabel uiText"  data-textKey="uiCulturalblessing"></label>
 								</td>
 								<td class="inputCell cell">
-									<div class="input localizable" id="culturalBlessingInput" rv-data-textKey="pj.traits.culturalBlessing" rv-text="pj.traits.culturalBlessing | localize"></div>
+									<div class="input localizable" id="culturalBlessingInput" 
+                                        rv-data-textKey="pj.traits.culturalBlessing" 
+                                        rv-text="pj.traits.culturalBlessing | localize"
+                                        rv-on-click="menus.simpleCommentMenu"></div>
 								</td>
 							</tr>
 						</table>
@@ -92,9 +95,9 @@
 						<label class="narrowLabel uiText"  data-textKey="uiDistinctivefeatures"></label>
 					</td>		
 					<td class="inputCell cell">
-						<div class="input" id="distinctiveFeaturesInput" >
+						<div class="input" id="distinctiveFeaturesInput" rv-on-click="menus.featuresMenu">
                             <span rv-each-feature="pj.traits.features">
-                                <span class="localizable" rv-data-textKey="feature" rv-text="feature | localize"></span>,
+                                <span class="localizable" rv-data-textKey="feature" rv-text="feature | localize" rv-on-click="menus.changeFeatureMenu"></span>,
                             </span>
                         </div>
 					</td>
@@ -168,7 +171,12 @@
 					</div>
 					<div class="rewardsContent" >				
 						<div class="input" rv-on-click="menus.rewardsMenu">
-                            <span rv-each-reward="pj.belongings.rewards" class="localizable" rv-data-textkey="reward" rv-on-click="menus.oneVirtueRewardMenu">{reward | localize}, </span>
+                            <span rv-each-reward="pj.belongings.rewards">
+                                <span class="localizable" 
+                                    rv-data-textkey="reward" 
+                                    rv-on-click="menus.oneVirtueRewardMenu"                                    
+                                    rv-text="reward | localize"></span>, 
+                            </span>
                         </div>
 					</div>
 				</div>
@@ -195,7 +203,7 @@
                         <td class="weaponGearNameCell">
                             <div class='input weaponGearNameInput localizable' 
                                 rv-data-textKey="weapon.id" 
-                                rv-text="weapon.id | localize"
+                                rv-text="weapon.id | localize"                                
                                 rv-on-click="menus.weaponGearMenu"></div>
                         </td>
                         <td class="statNameCell uiText" data-textkey="uiWSDamage"></td>

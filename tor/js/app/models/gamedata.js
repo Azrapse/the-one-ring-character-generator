@@ -1,4 +1,4 @@
-﻿define(["jquery", "jquery.linq"], function ($) {
+﻿define(["jquery", "text", "jquery.linq"], function ($, Text) {
     var Gamedata = {};
     Gamedata.HtmlToJson = function (selector) {
         var root = $(selector);
@@ -333,8 +333,33 @@
             if (id in Gamedata.armour[type]) {
                 return type;
             }
-        }        
+        }
     }
+
+    Gamedata.getDegenerationsForCalling = function (calling) {
+        var shadowWeakness = Gamedata.callings[calling].shadowWeakness;
+        var degenerations = Object.keys(Gamedata.degenerations);
+        return $.Enumerable.From(degenerations)
+            .Select(function (d) { return Gamedata.degenerations[d]; })
+            .Where(function (d) { return d.group == shadowWeakness })
+            .OrderBy(function (d) { return d.rank; })
+            .Select(function (d) { return d.name; })
+            .ToArray();
+    };
+
+    Gamedata.getFeatures = function () {
+        var features = $.Enumerable.From(Gamedata.cultures)
+            .SelectMany(function (kvp) { return kvp.Value.backgrounds; })
+            .SelectMany(function (b) { return b.distinctiveFeatures; })
+            .Distinct()
+            .ToArray();
+        features.sort(function (a, b) {
+            a = Text.getText(a);
+            b = Text.getText(b);
+            return a.localeCompare(b, {}, { sensitivity: "base" });
+        });
+        return features;
+    };
 
     return Gamedata;
 });
