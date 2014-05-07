@@ -253,13 +253,10 @@
         Pj.prototype.getNextDegeneration = function () {
             var features = this.traits.features;
             var degenerations = Gamedata.getDegenerationsForCalling(this.traits.calling);
-            // Get the first degeneration not already in the character
-            for(var i = 0; i < degenerations.length; i++){
-                var degeneration = degenerations[i];
-                if(features.indexOf(degeneration) == -1){
-                    return degeneration;
-                }
-            }                        
+            // Get the first degeneration not already in the character            
+            return degenerations
+                .filter(function (d) { return features.indexOf(d) == -1; })
+                .splice(0, 1)[0];
         };
         return Pj;
     })(Character);
