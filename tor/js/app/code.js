@@ -1,6 +1,6 @@
-﻿define(["jquery", "rivets", "gamedata", "text", "pj", "pjsheet", "tooltip",
+﻿define(["jquery", "rivets", "gamedata", "text", "pj", "pjsheet", "tooltip", "pcgenerator",
 "jquery.ui", "jquery.linq", "json", "jquery.cookies", "jquery.migrate", "modernizr"],
-    function ($, Rivets, Gamedata, Text, Pj, PjSheet, Tooltip) {
+    function ($, Rivets, Gamedata, Text, Pj, PjSheet, Tooltip, PcGenerator) {
         // Aliases
         var localizeOne = Text.localizeOne;
         var localize = Text.localizeAll;
@@ -26,8 +26,9 @@
                     //                  localizeUI();
                     //                  initializeCookieData();
 
-                    // Test load                    
+                    getLocalStorageData();
 
+                    // Test load 
                     $.get("js/data/abredul.json", {})
                     .done(function (response) {
                         var abredul = new Pj(response);
@@ -67,45 +68,48 @@
                 });
         }
 
+        function getLocalStorageData() {
+            tooltip.show = localStorage["popups"] || "popupTooltips";
+        }
+
         var backupOfCurrentSheet = null;
         function setClickablesEvents() {
-            //            // moveable action menu
-            //            $(".actionMenu").draggable();
+            // moveable action menu
+            $(".actionMenu").draggable();
 
-            //            // resizable Character Sheet
-            //            $(".characterSheet").resizable({
-            //                "maxWidth": 620,
-            //                "minHeight": 840,
-            //                "minWidth": 620,
-            //                "handles": "s"
-            //            });
+            // resizable Character Sheet
+            $(".characterSheet").resizable({
+                "maxWidth": 620,
+                "minHeight": 840,
+                "minWidth": 620,
+                "handles": "s"
+            });
 
             //            // Wizard windows	
             //            $(".wizardWindow:not(.noDraggable)").draggable();
 
-            //            // set up start button
-            //            $("#startButton").click(function (e) {
-            //                backupOfCurrentSheet = sheetToObject();
-            //                resetCreation();
-            //                initializeCultureSelection();
-            //                $("#wizardCultureDiv").show();
-            //            });
+            // set up start button
+            $("#startButton").click(function (e) {
+
+                PcGenerator.start(PjSheet);
+
+            });
 
             //            // toggle font button
             //            $("#fontToggleButton").click(function (e) {
             //                alternateFontToggle();
             //            });
 
-            //            // toggle volatile
-            //            $("#hideVolatileButton").click(function (e) {
-            //                toggleVolatileCells();
-            //            });
+            // toggle volatile
+            $("#hideVolatileButton").click(function (e) {
+                toggleVolatileCells();
+            });
 
 
-            //            // set up description toggle button
-            //            $("#descriptionsToggleButton").click(function (e) {
-            //                toggleDescriptions();
-            //            });
+            // set up description toggle button
+            $("#descriptionsToggleButton").click(function (e) {
+                toggleDescriptions();
+            });
 
             //            // synched toggle button
             //            $("#synchedToggleButton").click(function (e) {
@@ -250,22 +254,32 @@
         }
 
         function toggleDescriptions() {
-            if ($("#descriptionsToggleButton").hasClass("popupButtons")) {
-                $("#descriptionsToggleButton, #tooltipDiv").removeClass("popupButtons").addClass("popupTooltips");
-                $("#descriptionsToggleButton").attr("localizeKey", "uiPopupTooltips");
-                $("#descriptionsToggleButton").html(_loc_("uiPopupTooltips"));
-                $.cookie('popups', 'tooltips', { expires: 3650 });
-            } else if ($("#descriptionsToggleButton").hasClass("popupTooltips")) {
-                $("#descriptionsToggleButton, #tooltipDiv").removeClass("popupTooltips").addClass("popupNothing");
-                $("#descriptionsToggleButton").attr("localizeKey", "uiNoPopupHelp");
-                $("#descriptionsToggleButton").html(_loc_("uiNoPopupHelp"));
-                $.cookie('popups', 'nothing', { expires: 3650 });
-            } else if ($("#descriptionsToggleButton").hasClass("popupNothing")) {
-                $("#descriptionsToggleButton, #tooltipDiv").removeClass("popupNothing").addClass("popupButtons");
-                $("#descriptionsToggleButton").attr("localizeKey", "uiPopupHelpButtons");
-                $("#descriptionsToggleButton").html(_loc_("uiPopupHelpButtons"));
-                $.cookie('popups', 'buttons', { expires: 3650 });
+            if (tooltip.show == "popupButtons") {
+                tooltip.show = "popupTooltips";
             }
+            else if (tooltip.show == "popupTooltips") {
+                tooltip.show = "hidden";
+            }
+            else {
+                tooltip.show = "popupButtons";
+            }
+            localStorage['popups'] = tooltip.show;
+            //            if ($("#descriptionsToggleButton").hasClass("popupButtons")) {
+            //                $("#descriptionsToggleButton, #tooltipDiv").removeClass("popupButtons").addClass("popupTooltips");
+            //                $("#descriptionsToggleButton").attr("localizeKey", "uiPopupTooltips");
+            //                $("#descriptionsToggleButton").html(_loc_("uiPopupTooltips"));
+            //                $.cookie('popups', 'tooltips', { expires: 3650 });
+            //            } else if ($("#descriptionsToggleButton").hasClass("popupTooltips")) {
+            //                $("#descriptionsToggleButton, #tooltipDiv").removeClass("popupTooltips").addClass("popupNothing");
+            //                $("#descriptionsToggleButton").attr("localizeKey", "uiNoPopupHelp");
+            //                $("#descriptionsToggleButton").html(_loc_("uiNoPopupHelp"));
+            //                $.cookie('popups', 'nothing', { expires: 3650 });
+            //            } else if ($("#descriptionsToggleButton").hasClass("popupNothing")) {
+            //                $("#descriptionsToggleButton, #tooltipDiv").removeClass("popupNothing").addClass("popupButtons");
+            //                $("#descriptionsToggleButton").attr("localizeKey", "uiPopupHelpButtons");
+            //                $("#descriptionsToggleButton").html(_loc_("uiPopupHelpButtons"));
+            //                $.cookie('popups', 'buttons', { expires: 3650 });
+            //            }
         }
 
 

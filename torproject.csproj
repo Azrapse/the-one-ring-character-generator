@@ -97,7 +97,7 @@
     <Content Include="tor\internalData.html" />
     <Content Include="tor\js\app.js" />
     <Content Include="tor\js\app\code.js" />
-    <Content Include="tor\js\app\controllers\generatorCtrl.js" />
+    <Content Include="tor\js\app\controllers\pcgenerator.js" />
     <Content Include="tor\js\app\controllers\pjcontextmenus.js" />
     <Content Include="tor\js\app\extends.js" />
     <Content Include="tor\js\app\models\character.js" />

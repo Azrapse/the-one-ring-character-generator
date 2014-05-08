@@ -177,20 +177,6 @@
                     Rivets.binders['each-*'].baseroutine.call(this, el, array);
                 }
             };
-            Rivets.binders.comment = function (el, value) {
-                var pj = this.view.models.pj;
-                var text = pj.getComment(value);
-                var comment = $(el).find(".commentText");
-                if (comment.length == 0 && text) {
-                    comment = $("<span class='commentText'>");
-                    $(el).append(comment);
-                }
-                if (!text) {
-                    comment.remove();
-                } else {
-                    comment.html(text);
-                }
-            };
         }
         PjSheet.pj = null;
         PjSheet.bind = function (pj) {

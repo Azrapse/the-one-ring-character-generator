@@ -235,19 +235,31 @@
             }
         };
         Pj.prototype.setComment = function (key, text) {
+            // If no comment section, add it.
             if (!this.characterTexts.comments) {
-                this.characterTexts.comments = [{ "for": key, text: text}];
-                return;
+                this.characterTexts.comments = [];
             }
-
-            for (var i = 0; i < this.characterTexts.comments.length; i++) {
-                if (this.characterTexts.comments[i]["for"] === key) {
-                    this.characterTexts.comments[i].text = text;
-                    return;
+            // Find the comment            
+            var comment = this.characterTexts.comments
+                .filter(function (c) { return c["for"] === key; })
+                [0];
+            // If no previous comment
+            if (!comment) {
+                // If text provided, add it
+                if (text) {
+                    this.characterTexts.comments.push({ "for": key, text: text });
+                }
+            } else {
+                // If there was previous comment
+                // If text provided, change it.
+                if (text) {
+                    comment.text = text;
+                } else {
+                    // If no text provided, delete it
+                    var index = this.characterTexts.comments.indexOf(comment);
+                    this.characterTexts.comments.splice(index, 1);
                 }
             }
-
-            this.characterTexts.comments.push({ "for": key, text: text });
         };
 
         Pj.prototype.getNextDegeneration = function () {

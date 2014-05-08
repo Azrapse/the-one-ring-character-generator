@@ -124,16 +124,49 @@
 	border-width: 1px;
 	padding: 15px;
 	margin: 15px;
-	width: 620px;
+	max-width: 620px;
+	width: 100%;
 	min-height: 920px;	
 	border-radius: 10px;	
 	box-shadow: 3px 2px 3px #555555;     
 	display: block;
 }
 
+/* New style*/
+.characterSheet section.main
+{
+        
+}
+
+.characterSheet .statBlock
+{
+    white-space: nowrap;
+    width: 49%;
+    float: left;
+}
+
+.characterSheet .statBlock label,
+.characterSheet .statBlock input,
+.characterSheet .statBlock .input
+{    
+    width: auto;
+    display: inline-block;
+    padding: 1px;
+    margin: 2px;
+}
+
+.characterSheet section.main hr
+{
+    display: none;
+    clear: both;
+}
+
+/* Old Style */
+
 .characterSheet.front .basicInformationTable{
 	width: 90%;	
 }
+
 .characterSheet .basicInformationTable td
 {
 	white-space: nowrap;

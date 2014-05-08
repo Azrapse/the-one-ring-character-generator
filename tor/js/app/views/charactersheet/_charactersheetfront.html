@@ -3,79 +3,47 @@
 			<div class="logoContainer">
 				<img src="css/TorLogoEn.jpg" />
 			</div>
-			<table class="basicInformationTable">
-				<tr>
-					<td>
-						<table>
-							<tr>
-								<td class="labelCell cell">
-									<label class='uiText' data-textKey="uiName"></label>
-								</td>
-								<td class="inputCell cell">
-									<input type="text" id="nameInput" rv-value="pj.name | urlEncode" />
-								</td>
-							</tr>
-						</table>
-					</td>
-				</tr>
-				<tr>
-					<td>
-						<table>
-							<tr>
-								<td class="labelCell cell">
-									<label class="uiText"  data-textKey="uiCulture"></label>
-								</td>
-								<td class="inputCell cell">
-									<div class="input narrow localizable" id="cultureInput" rv-data-textKey="pj.traits.culture" rv-text="pj.traits.culture | localize"></div>
-								</td>
-								<td class="labelCell cell">
-									<label class="narrowLabel uiText"  data-textKey="uiStandardofLiving"></label>
-								</td>
-								<td class="inputCell cell">
-									<div class="input localizable" id="standardInput" rv-data-textKey="pj.stats.standard" rv-text="pj.stats.standard | localize" rv-on-click="menus.standardOfLivingMenu"></div>
-								</td>
-							</tr>
-						</table>
-					</td>
-				</tr>
-				<tr>
-					<td>
-						<table>
-							<tr>
-								<td class="labelCell cell">
-									<label class="narrowLabel uiText"  data-textKey="uiCulturalblessing"></label>
-								</td>
-								<td class="inputCell cell">
-									<div class="input localizable" id="culturalBlessingInput" 
-                                        rv-data-textKey="pj.traits.culturalBlessing" 
-                                        rv-text="pj.traits.culturalBlessing | localize"
-                                        rv-on-click="menus.simpleCommentMenu"></div>
-								</td>
-							</tr>
-						</table>
-					</td>
-				</tr>
-				<tr>
-					<td>
-						<table>
-							<tr>
-								<td class="labelCell cell">
-									<label class="uiText" data-textKey="uiCalling"></label>
-								</td>
-								<td class="inputCell cell">
-									<div class="input localizable" id="callingInput" rv-data-textKey="pj.traits.calling" rv-text="pj.traits.calling | localize"></div>
-								</td>
-								<td class="labelCell cell">
-									<label class="narrowLabel uiText" data-textKey="uiShadowweakness"></label>
-								</td>
-								<td class="inputCell cell">
-									<div class="input narrow localizable" id="shadowWeaknessInput" rv-data-textKey="pj.traits.shadowWeakness" rv-text="pj.traits.shadowWeakness | localize"></div>
-								</td>
-							</tr>
-						</table>
-					</td>
-				</tr>
-			</table>
+			<section class="main">
+                <div class="statBlock">
+                    <label class='uiText' for="name" data-textKey="uiName"></label>
+                    <input type="text" id="name" rv-value="pj.name | urlEncode" />
+                </div>
+                <div class="statBlock">
+                    <label class="uiText" for="culture" data-textKey="uiCulture"></label>
+                    <div class="input narrow localizable" id="culture" 
+                        rv-data-textKey="pj.traits.culture" 
+                        rv-text="pj.traits.culture | localize"></div>
+                </div>
+                <div class="statBlock">
+					<label class="narrowLabel uiText" for="culturalBlessing" data-textKey="uiCulturalblessing"></label>
+					<div class="input localizable" id="culturalBlessing" 
+                        rv-data-textKey="pj.traits.culturalBlessing" 
+                        rv-text="pj.traits.culturalBlessing | localize"
+                        rv-on-click="menus.simpleCommentMenu"></div>
+                </div>                
+                <div class="statBlock">
+                	<label class="uiText" for="calling" data-textKey="uiCalling"></label>
+					<div class="input localizable" id="calling" 
+                        rv-data-textKey="pj.traits.calling" 
+                        rv-text="pj.traits.calling | localize"></div>
+                </div>
+                <div class="statBlock">
+					<label class="narrowLabel uiText" for="standard" data-textKey="uiStandardofLiving"></label>
+					<div class="input localizable" id="standard" 
+                        rv-data-textKey="pj.stats.standard" 
+                        rv-text="pj.stats.standard | localize" 
+                        rv-on-click="menus.standardOfLivingMenu"></div>
+                </div>
+
+                <div class="statBlock">
+                	<label class="narrowLabel uiText" for="shadowWeakness" data-textKey="uiShadowweakness"></label>
+					<div class="input narrow localizable" id="shadowWeakness" 
+                        rv-data-textKey="pj.traits.shadowWeakness" 
+                        rv-text="pj.traits.shadowWeakness | localize"></div>
+                </div>
+                <hr />
+            </section>
+            
 			<div class="heading uiText" data-textKey="uiTraits"></div>
 			<table class="basicInformationTable">
 				<tr>
@@ -333,7 +301,7 @@
 					<label class="uiText"  data-textKey="uiTotal">uiTotal</label>
 					<input type="text" rv-value="pj.progress.total" />
 				</div>
-			</div>
+			</div>  
 
 			<div class="statusBox" data-stat="weary">
 				<label class="uiText"  data-textKey="uiWeary">uiWeary</label>
@@ -351,4 +319,10 @@
 				<label class="uiText"  data-textKey="uiWoundTreated">uiWoundTreated</label>
                 <input type="checkbox" rv-checked="pj.status.woundTreated" />
 			</div>
+            <div class="commentContainer">
+                <div class="comment"
+                    rv-each-comment="pj.characterTexts.comments"
+                    rv-text="comment.text"
+                    rv-data-target="comment.for"></div>
+            </div>
 		</div>

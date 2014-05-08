@@ -26,7 +26,8 @@
         "txt": "lib/text",
         "tooltip": "app/tooltip",
         "popupMenu": "app/popupmenu",
-        "pjcontextmenus": "app/controllers/pjcontextmenus"
+        "pjcontextmenus": "app/controllers/pjcontextmenus",
+        "pcgenerator": "app/controllers/pcgenerator"
     },
     "shim": {
         "jquery.linq": ["jquery"],
