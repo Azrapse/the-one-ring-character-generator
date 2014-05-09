@@ -177,6 +177,19 @@
                     Rivets.binders['each-*'].baseroutine.call(this, el, array);
                 }
             };
+            Rivets.binders['each-keyvalue-*'] = {
+                block: Rivets.binders['each-*'].block,
+                bind: Rivets.binders['each-*'].bind,
+                unbind: Rivets.binders['each-*'].unbind,
+                update: Rivets.binders['each-*'].update,
+                baseroutine: Rivets.binders['each-*'].routine,
+                routine: function (el, dict) {
+                    var array = $.map(dict, function (value, index) {
+                        return [{ key: index, value: value}];
+                    });
+                    Rivets.binders['each-*'].baseroutine.call(this, el, array);
+                }
+            };
         }
         PjSheet.pj = null;
         PjSheet.bind = function (pj) {

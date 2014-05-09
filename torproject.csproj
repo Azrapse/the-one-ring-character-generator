@@ -66,6 +66,7 @@
     <Content Include="tor\css\6.png" />
     <Content Include="tor\css\characterSheet.css" />
     <Content Include="tor\css\checked.png" />
+    <Content Include="tor\css\wizard.css" />
     <Content Include="tor\css\d12.png" />
     <Content Include="tor\css\d12discarded.png" />
     <Content Include="tor\css\d6.png" />

@@ -10,6 +10,10 @@
             }
             catch (ex) {
                 if (jsonOrName && jsonOrName.length && jsonOrName.length <= 100) {
+                    var template = Gamedata.getPcTemplate();
+                    for (var prop in template) {
+                        this[prop] = template[prop];
+                    }
                     this.name = jsonOrName;
                 }
             }

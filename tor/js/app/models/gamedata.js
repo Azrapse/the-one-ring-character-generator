@@ -1,78 +1,78 @@
 ﻿define(["jquery", "text", "jquery.linq"], function ($, Text) {
     var Gamedata = {};
+    var pcTemplate = {
+        attributes: {
+            body: true,
+            heart: true,
+            wits: true
+        },
+        stats: {
+            wisdom: true,
+            valour: true,
+            startingEndurance: true,
+            startingHope: true,
+            standard: true
+        },
+        status: {
+            armour: true,
+            damage: true,
+            endurance: true,
+            fatigue: true,
+            fatigueTotal: true,
+            fatigueTravel: true,
+            fellowshipPoints: true,
+            headgear: true,
+            hope: true,
+            miserable: true,
+            parry: true,
+            permanentShadow: true,
+            ranged: true,
+            shadow: true,
+            shield: true,
+            totalShadow: true,
+            weary: true,
+            woundTreated: true,
+            wounded: true
+        },
+        progress: {
+            advancementPoints: true,
+            experience: true,
+            standing: true,
+            total: true
+        },
+        characterTexts: {
+            backgroundText: true,
+            comments: {},
+            fellowshipFocusText: true,
+            fellowshipNotesText: true,
+            guideText: true,
+            huntsmanText: true,
+            lookoutText: true,
+            patronText: true,
+            taleOfYears: [],
+            sanctuariesText: true,
+            scoutText: true
+        },
+        belongings: {
+            inventory: [],
+            coins: {},
+            weaponGear: {},
+            gear: {},
+            rewards: [],
+            treasurePoints: true
+        },
+        traits: {
+            culture: true,
+            culturalBlessing: true,
+            features: [],
+            calling: true,
+            shadowWeakness: true,
+            specialties: [],
+            virtues: []
+        }
+    };
     Gamedata.HtmlToJson = function (selector) {
         var root = $(selector);
-        var data = {
-            attributes: {
-                body: true,
-                heart: true,
-                wits: true
-            },
-            stats: {
-                wisdom: true,
-                valour: true,
-                startingEndurance: true,
-                startingHope: true,
-                standard: true
-            },
-            status: {
-                armour: true,
-                damage: true,
-                endurance: true,
-                fatigue: true,
-                fatigueTotal: true,
-                fatigueTravel: true,
-                fellowshipPoints: true,
-                headgear: true,
-                hope: true,
-                miserable: true,
-                parry: true,
-                permanentShadow: true,
-                ranged: true,
-                shadow: true,
-                shield: true,
-                totalShadow: true,
-                weary: true,
-                woundTreated: true,
-                wounded: true
-            },
-            progress: {
-                advancementPoints: true,
-                experience: true,
-                standing: true,
-                total: true
-            },
-            characterTexts: {
-                backgroundText: true,
-                comments: {},
-                fellowshipFocusText: true,
-                fellowshipNotesText: true,
-                guideText: true,
-                huntsmanText: true,
-                lookoutText: true,
-                patronText: true,
-                taleOfYears: [],
-                sanctuariesText: true,
-                scoutText: true
-            },
-            belongings: {
-                inventory: [],
-                coins: {},
-                weaponGear: {},
-                gear: {},
-                rewards: [],
-                treasurePoints: true
-            },
-            traits: {
-                culture: true,
-                culturalBlessing: true,
-                features: [],
-                calling: true,
-                shadowWeakness: true,
-                specialties: [],
-                virtues: []
-            }
-        };
 
         // Cultures
         this.parseCultures(root, data);
@@ -87,9 +87,9 @@
         this.parseArmours(root, data);
         this.parseStandardsOfLiving(root, data);
 
-        $.extend(Gamedata, data);
+        $.extend(Gamedata, pcTemplate);
 
-        return data;
+        return pcTemplate;
     };
 
     Gamedata.LoadJson = function (data) {
@@ -361,5 +361,8 @@
         return features;
     };
 
+    Gamedata.getPcTemplate = function () {
+        return JSON.parse(JSON.stringify(pcTemplate));
+    };
     return Gamedata;
 });

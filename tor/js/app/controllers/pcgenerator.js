@@ -1,6 +1,10 @@
-﻿define(["pj", "pjsheet", "gamedata", "text", "rivets", "jquery", "txt!views/generator/culture.html",
+﻿define(["pj", "pjsheet", "gamedata", "text", "rivets", "jquery",
+    "txt!views/generator/culture.html",
+    "txt!views/generator/wspackage.html",
     "jquery.linq"],
-function (Pj, PjSheet, Gamedata, Text, Rivets, $, cultureTemplate) {
+function (Pj, PjSheet, Gamedata, Text, Rivets, $,
+    cultureTemplate,
+    wsPackageTemplate) {
     var PcGenerator = {};
     var pj = null;
     var sheet = null;
@@ -8,11 +12,11 @@ function (Pj, PjSheet, Gamedata, Text, Rivets, $, cultureTemplate) {
     var view = null;
     var element = null;
     PcGenerator.start = function (initializer) {
-        pj = null;
+        pj = new Pj("???");
         sheet = initializer.sheet;
         container = $(initializer.container || container);
-
-        return PcGenerator.cultureSelection();
+        sheet.pj = pj;
+        return cultureSelectionStart();
     };
 
     function createView(template, models) {
@@ -22,6 +26,7 @@ function (Pj, PjSheet, Gamedata, Text, Rivets, $, cultureTemplate) {
         element = $(template);
         container.append(element);
         view = Rivets.bind(element, models);
+        Text.localizeAll(element);
         return { view: view, element: element };
     }
 
@@ -40,13 +45,32 @@ function (Pj, PjSheet, Gamedata, Text, Rivets, $, cultureTemplate) {
         disposeView();
     }
 
-    PcGenerator.cultureSelection = function () {
-        var cultures = JSON.parse(JSON.stringify(Gamedata.cultures));
-        var models = { pj: pj, controller: this, cultures: cultures };
+    var cultureSelectionStart = function () {
+        var models = {
+            pj: pj,
+            controller: PcGenerator,
+            cultures: Gamedata.cultures
+        };
         var viewElement = createView(cultureTemplate, models);
-        Text.localizeAll(element);
     }
 
+    PcGenerator.cultureClick = function (event, models) {
+        var sender = $(this);
+        var culture = sender.attr("data-culture");
+        $(".cultureSelectionButton").removeClass("selected");
+        sender.addClass("selected");
+        pj.culture = culture;
+        $("#cultureNextButton").show();
+    };
+
+    PcGenerator.cultureSelectionNext = function (event, models) {
+        wsPackStart();
+    };
+
+    var wsPackStart = function () {
+        var models = { pj: pj, controller: this, packs: {} };
+        var viewElement = createView(wsPackageTemplate, models);
+    };
 
     return PcGenerator;
 });

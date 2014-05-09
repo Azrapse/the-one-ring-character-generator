@@ -1,41 +1,57 @@
-﻿<div class="wizardWindow">
+﻿<div class="wizardWindow cultureStep">
 	<fieldset>
 		<legend class="uiText" data-textKey="uiCulture">uiCulture</legend>
 		<div id="wizardCultureButtonsDiv">
-            <div class='cultureSelectionButton selector' rv-each-culture="cultures"
-                rv-data-culture="culture.name">
-                <b><u class='localizable' rv-data-textKey="culture.name" rv-text="culture.name | localize"></u></b>
-                <br />
-                <b class='uiText' data-textKey="uiAge"></b>: {culture.ageMin} - {culture.ageMax}
-                <!--
-		+ ", <b>" + _loc_("uiStandardofLiving") + "</b> <span class='localizable'>" + $("#internalData .cultures .culture[name=" + cultureName + "] .standardOfLiving").html() + "</span>"
-		+ ", <b>" + _loc_("uiCulturalblessing") + "</b> <span class='localizable'>" + $("#internalData .cultures .culture[name=" + cultureName + "] .culturalBlessing div").html() + "</span>"
-		);
-                $(cultureSelectionDiv).append(", <b>" + _loc_("uiEndurance") + "</b> +" + $("#internalData .cultures .culture[name=" + cultureName + "] .enduranceBonus").attr("value")
-		+ ", <b>" + _loc_("uiHope") + "</b> +" + $("#internalData .cultures .culture[name=" + cultureName + "] .hopeBonus").attr("value"));
-                var favouredSkill = $("#internalData .cultures .culture[name=" + cultureName + "] .favouredSkill").attr("skill");
-                var favouredSkillText = "<br /><b>" + _loc_("uiFavouredSkill") + "</b>: <span class='localizable'>" + favouredSkill + "</span>";
-                $(cultureSelectionDiv).append(favouredSkillText);
-                var startingSkillScoresText = "<br /><b>" + _loc_("uiStartingSkills") + "</b>: ";
-                $("#internalData .cultures .culture[name=" + cultureName + "] .startingSkillScores .skillScore").each(function () {
-                    startingSkillScoresText += " <span class='localizable'>" + $(this).attr("skill") + "</span> +" + $(this).attr("score");
-                });
-                $(cultureSelectionDiv).append(startingSkillScoresText);
-                var virtuesText = "<br /><b>" + _loc_("uiUniqueVirtues") + "</b>: ";
-                $("#internalData .cultures .culture[name=" + cultureName + "] .virtues .virtue").each(function () {
-                    virtuesText += " <span class='localizable'>" + $(this).attr("name") + "</span>";
-                });
-                var rewardsText = "<br /><b>" + _loc_("uiUniqueRewards") + "</b>: ";
-                $("#internalData .cultures .culture[name=" + cultureName + "] .rewards .reward").each(function () {
-                    rewardsText += " <span class='localizable'>" + $(this).attr("name") + "</span>";
-                });
-                $(cultureSelectionDiv).append(virtuesText);
-                $(cultureSelectionDiv).append(rewardsText);
-                -->
+            <div class='cultureSelectionButton selector' 
+                rv-each-culture="cultures" 
+                rv-data-culture="culture.name"
+                rv-on-click="controller.cultureClick">
+                <div class='localizable title' rv-data-textKey="culture.name" rv-text="culture.name | localize"></div>                
+                <span class="info">
+                    <label class='uiText' data-textKey="uiAge"></label>: {culture.ageMin} - {culture.ageMax}
+                </span>
+                <span class="info">
+                    <label class='uiText' data-textKey="uiStandardofLiving"></label>
+                    <span class="localizable" rv-data-textKey="culture.standardOfLiving"></span>
+                </span>
+                <span class="info">
+                    <label class='uiText' data-textKey="uiCulturalblessing"></label>
+                    <span class="localizable" rv-data-textKey="culture.culturalBlessing"></span>
+                </span>
+                <span class="info">
+                    <label class='uiText' data-textKey="uiEndurance"></label>
+                    <span rv-text="culture.enduranceBonus"></span>
+                </span>
+                <span class="info">
+                    <label class='uiText' data-textKey="uiHope"></label>
+                    <span rv-text="culture.hopeBonus"></span>
+                </span>
+                <span class="info">
+                    <label class='uiText' data-textKey="uiFavouredSkill"></label>
+                    <span class="localizable" rv-data-textKey="culture.favouredSkill"></span>
+                </span>
+                <div>
+                    <label class='uiText' data-textKey="uiStartingSkills"></label>
+                    <span rv-each-keyvalue-skill="culture.startingSkillScores">
+                        <span class="localizable" rv-data-textKey="skill.key"></span>&nbsp;<span rv-text="skill.value"></span>,
+                    </span>                                        
+                </div>
+                <div>
+                    <label class='uiText' data-textKey="uiUniqueVirtues"></label>
+                    <span rv-each-virtue="culture.virtues">                        
+                        <span class="localizable" rv-data-textKey="virtue"></span>,
+                    </span>
+                </div>
+                <div>
+                    <label class='uiText' data-textKey="uiUniqueRewards"></label>
+                    <span rv-each-reward="culture.rewards">                        
+                        <span class="localizable" rv-data-textKey="reward"></span>,
+                    </span>
+                </div>                
             </div>
         </div>
 		<div class="buttonContainer">
-			<button id="cultureNextButton" style="display: none;" class="uiText next"  data-textKey="uiNext"></button>
+			<button id="cultureNextButton" style="display: none;" class="uiText next" data-textKey="uiNext" rv-on-click="controller.cultureSelectionNext"></button>
 			<button class="uiText cancel" data-textKey="uiCancelCreation" rv-on-click="controller.cancel"></button>
 		</div>
 	</fieldset>

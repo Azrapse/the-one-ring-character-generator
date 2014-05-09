@@ -91,7 +91,7 @@
             // set up start button
             $("#startButton").click(function (e) {
 
-                PcGenerator.start(PjSheet);
+                PcGenerator.start({ sheet: PjSheet });
 
             });
 
