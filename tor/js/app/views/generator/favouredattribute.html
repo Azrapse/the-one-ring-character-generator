@@ -1,31 +1,48 @@
-﻿		<div id="wizardFavouredAttributesDiv" class="wizardWindow" style="display: none;">
-			<fieldset>
-				<legend class="uiText"  data-textKey="uiFavouredAttributes">uiFavouredAttributes</legend>
-				<span id="FAChooseTextId"></span>
-				<br />
-				<span class="uiText"  data-textKey="uiFSChoose3">uiFSChoose3</span>
-				<div class="favouredAttributes3Div">
-					<div class="favouredAttribute3 selector localizable"  attribute="body" data-textKey="body">body</div>
-					<div class="favouredAttribute3 selector localizable"  attribute="heart" data-textKey="heart">heart</div>
-					<div class="favouredAttribute3 selector localizable"  attribute="wits" data-textKey="wits">wits</div>
-				</div>
-				<span class="uiText"  data-textKey="uiFSChoose2">uiFSChoose2</span>
-				<div class="favouredAttributes2Div">
-					<div class="favouredAttribute2 selector localizable"  attribute="body" data-textKey="body">body</div>
-					<div class="favouredAttribute2 selector localizable"  attribute="heart" data-textKey="heart">heart</div>
-					<div class="favouredAttribute2 selector localizable"  attribute="wits" data-textKey="wits">wits</div>
-				</div>
-				<span class="uiText"  data-textKey="uiFSChoose1">uiFSChoose1</span>
-				<div class="favouredAttributes1Div">
-					<div class="favouredAttribute1 selector localizable"  attribute="body" data-textKey="body">body</div>
-					<div class="favouredAttribute1 selector localizable"  attribute="heart" data-textKey="heart">heart</div>
-					<div class="favouredAttribute1 selector localizable"  attribute="wits" data-textKey="wits">wits</div>
-				</div>		
+﻿<div class="wizardWindow favouredAttributesStep">
+	<fieldset>
+		<legend class="uiText"  data-textKey="uiFavouredAttributes"></legend>
+		
+		<table class="favouredAttribute">
+            <tr>
+                <th class="uiText" data-textKey="uiFSChoose3"></th>
+                <th class="uiText" data-textKey="uiFSChoose2"></th>
+                <th class="uiText" data-textKey="uiFSChoose1"></th>
+            </tr>
+            <tr>
+                <td rv-each-attribute="attributes">
+                    <span>
+                        <span class="selector attributeShift" rv-on-click="controller.shiftAttributeLeft" rv-show="index | gt 0">«</span>
+                        <span rv-text="attribute | localize"></span>                        
+                        <span class="selector attributeShift" rv-on-click="controller.shiftAttributeRight" rv-show="index | lt 2">»</span>                        
+                    </span>
+                </td>
+            </tr>            
+        </table>
+        <div>
+            <span class="info">
+                <span class="uiText title" data-textKey="uiBody"></span>
+                <span rv-text="pj.stats.attributes.base.body"></span>
+                (<span class="uiText" data-textKey="uiFavoured"></span>
+                <span rv-text="pj.stats.attributes.favoured.body"></span>)
+            </span>
+            <span class="info">
+                <span class="uiText title" data-textKey="uiHeart"></span>
+                <span rv-text="pj.stats.attributes.base.heart"></span>
+                (<span class="uiText" data-textKey="uiFavoured"></span>
+                <span rv-text="pj.stats.attributes.favoured.heart"></span>)
+            </span>
+            <span class="info">
+                <span class="uiText title" data-textKey="uiWits"></span>
+                <span rv-text="pj.stats.attributes.base.wits"></span>
+                (<span class="uiText" data-textKey="uiFavoured"></span>
+                <span rv-text="pj.stats.attributes.favoured.wits"></span>)
+            </span>
+        </div>
 				
-				<div class="buttonContainer">
-					<button id="favouredAttributePrevButton" class="uiText previous"  data-textKey="uiPrevious">uiPrevious</button>
-					<button id="favouredAttributeNextButton" style="display: none;" class="uiText next"  data-textKey="uiNext">uiNext</button>
-					<button class="uiText cancel"  data-textKey="uiCancelCreation">uiCancelCreation</button>
-				</div>
-			</fieldset>
+		<div class="buttonContainer">			
+            <button class="uiText previous" data-textKey="uiPrevious" rv-on-click="controller.goPrevious"></button>
+			<button class="uiText next" data-textKey="uiNext" rv-on-click="controller.goNext"></button>
+			<button class="uiText cancel" data-textKey="uiCancelCreation" rv-on-click="controller.cancel"></button>
 		</div>
+	</fieldset>
+</div>

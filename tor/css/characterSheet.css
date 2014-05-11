@@ -478,7 +478,8 @@ div.inventory .input
 	font-family: 'AloisLightRegular', "Palatino Linotype", "Book Antiqua3", Palatino, serif;	
 }
 
-.characterSheet .skillsBox .skillNameCell.favoured{
+.skillNameCell.favoured
+{
 	text-decoration: underline;
 }
 
@@ -590,7 +591,9 @@ div.inventory .input
 	padding: 0px 0px 0px 0px;
 }
 
-
+.skillRankIcons {
+	font-size: 0;
+}
 .skillRankIcon {
 	display: inline-block;
 	width: 10px;

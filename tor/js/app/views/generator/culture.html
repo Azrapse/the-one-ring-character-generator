@@ -1,6 +1,6 @@
 ﻿<div class="wizardWindow cultureStep">
 	<fieldset>
-		<legend class="uiText" data-textKey="uiCulture">uiCulture</legend>
+		<legend class="uiText" data-textKey="uiCulture"></legend>
 		<div id="wizardCultureButtonsDiv">
             <div class='cultureSelectionButton selector' 
                 rv-each-culture="cultures" 
@@ -51,7 +51,7 @@
             </div>
         </div>
 		<div class="buttonContainer">
-			<button id="cultureNextButton" style="display: none;" class="uiText next" data-textKey="uiNext" rv-on-click="controller.cultureSelectionNext"></button>
+			<button id="cultureNextButton" style="display: none;" class="uiText next" data-textKey="uiNext" rv-on-click="controller.goNext"></button>
 			<button class="uiText cancel" data-textKey="uiCancelCreation" rv-on-click="controller.cancel"></button>
 		</div>
 	</fieldset>

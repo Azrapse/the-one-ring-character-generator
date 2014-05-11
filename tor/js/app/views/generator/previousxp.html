@@ -1,14 +1,29 @@
-﻿		<div id="wizardPreviousExperienceDiv" class="wizardWindow" style="display: none;">
-			<fieldset>
-				<legend class="uiText"  data-textKey="uiPrevExp">uiPrevExp</legend>
-				<span class="uiText"  data-textKey="uiPXChoose">uiPXChoose</span>
-				<div class="remainingXP" XPLeft="10" class="uiText"  data-textKey="uiPX10XPLeft">uiPX10XPLeft</div>
-				<div class="rankableSkillsDiv"></div>		
-				<div class="buttonContainer">
-					<button id="previousExperiencePrevButton" class="uiText previous"  data-textKey="uiPrevious">uiPrevious</button>
-					<button id="previousExperienceResetButton" class="uiText reset"  data-textKey="uiReset">uiReset</button>
-					<button id="previousExperienceNextButton" class="uiText next"  data-textKey="uiNext">uiNext</button>
-					<button class="uiText cancel"  data-textKey="uiCancelCreation">uiCancelCreation</button>
-				</div>
-			</fieldset>
+﻿<div class="wizardWindow xpStep">
+	<fieldset>
+		<legend class="uiText"  data-textKey="uiPrevExp"></legend>
+		<span class="uiText"  data-textKey="uiPXChoose"></span>
+		<div class="remainingXP" rv-text="spendings.left | write uiPX10XPLeft"></div>
+		<div class="rankableSkillsDiv">
+            <div rv-each-rankbutton="rankbuttons" class='rankUpButton selector' rv-on-click="controller.rankbuttonClick" rv-show="rankbutton.visible < score models.spendings.left">
+                <div class='skillName localizable' rv-data-textKey="rankbutton.name" rv-class-favoured="rankbutton.favoured"></div>
+                <div class='skillRankIcons' >
+                        <div class="skillRankIcon" data-rank="1"><img rv-src="rankbutton.score | test >= 1 css/skillrankfull.png css/skillrankempty.png"/></div>
+                        <div class="skillRankIcon" data-rank="2"><img rv-src="rankbutton.score | test >= 2 css/skillrankfull.png css/skillrankempty.png"/></div>
+                        <div class="skillRankIcon" data-rank="3"><img rv-src="rankbutton.score | test >= 3 css/skillrankfull.png css/skillrankempty.png"/></div>
+                        <div class="skillRankIcon" data-rank="4"><img rv-src="rankbutton.score | test >= 4 css/skillrankfull.png css/skillrankempty.png"/></div>
+                        <div class="skillRankIcon" data-rank="5"><img rv-src="rankbutton.score | test >= 5 css/skillrankfull.png css/skillrankempty.png"/></div>
+                        <div class="skillRankIcon" data-rank="6"><img rv-src="rankbutton.score | test >= 6 css/skillrankfull.png css/skillrankempty.png"/></div>
+                </div>
+                <div class='skillRankCost'>                    
+                    <span rv-text="rankbutton.cost < rankbutton.score | write uiPXRankCost"></span>
+                </div>
+            </div>
+        </div>		
+		<div class="buttonContainer">			
+            <button class="uiText previous" data-textKey="uiPrevious" rv-on-click="controller.goPrevious"></button>
+            <button class="uiText reset"  data-textKey="uiReset" rv-on-click="controller.resetXp"></button>
+            <button class="uiText next" data-textKey="uiNext" rv-on-click="controller.goNext"></button>
+			<button class="uiText cancel" data-textKey="uiCancelCreation" rv-on-click="controller.cancel"></button>
 		</div>
+	</fieldset>
+</div>

@@ -1,13 +1,15 @@
-﻿		<div id="wizardVirtuesDiv" class="wizardWindow" style="display: none;">
-			<fieldset>
-				<legend class="uiText"  data-textKey="uiVirtuesandMasteries">uiVirtuesandMasteries</legend>
-				<span class="uiText"  data-textKey="uiVMChoose">uiVMChoose</span>
-				<div class="virtuesDiv">
-				</div>
-				<div class="buttonContainer">
-					<button id="virtuesPrevButton" class="uiText previous"  data-textKey="uiPrevious">uiPrevious</button>
-					<button id="virtuesNextButton" style="display: none;" class="uiText next"  data-textKey="uiNext">uiNext</button>
-					<button class="uiText cancel"  data-textKey="uiCancelCreation">uiCancelCreation</button>
-				</div>
-			</fieldset>
+﻿<div class="wizardWindow virtuesStep">
+	<fieldset>
+		<legend class="uiText"  data-textKey="uiVirtuesandMasteries">uiVirtuesandMasteries</legend>
+		<span class="uiText"  data-textKey="uiVMChoose">uiVMChoose</span>
+		<div class="virtuesDiv">
+            <div rv-each-virtue="virtues" class="selector localizable" 
+                rv-data-textKey="virtue.name" rv-class-selected="virtue.selected" rv-on-click="controller.virtueClick"></div>
 		</div>
+		<div class="buttonContainer">
+            <button class="uiText previous" data-textKey="uiPrevious" rv-on-click="controller.goPreviousSkipOne"></button>
+            <button class="uiText next" data-textKey="uiNext" rv-on-click="controller.goNext" rv-show="controller.selectedVirtue"></button>
+			<button class="uiText cancel" data-textKey="uiCancelCreation" rv-on-click="controller.cancel"></button>
+		</div>
+	</fieldset>
+</div>

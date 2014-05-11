@@ -1,17 +1,24 @@
 ﻿define(["jquery", "text", "jquery.linq"], function ($, Text) {
     var Gamedata = {};
     var pcTemplate = {
-        attributes: {
-            body: true,
-            heart: true,
-            wits: true
-        },
         stats: {
             wisdom: true,
             valour: true,
             startingEndurance: true,
             startingHope: true,
-            standard: true
+            standard: true,
+            attributes: {
+                base: {
+                    body: 0,
+                    heart: 0,
+                    wits: 0
+                },
+                favoured: {
+                    body: 0,
+                    heart: 0,
+                    wits: 0
+                }
+            }
         },
         status: {
             armour: true,
@@ -62,13 +69,17 @@
             treasurePoints: true
         },
         traits: {
-            culture: true,
-            culturalBlessing: true,
+            culture: "",
+            culturalBlessing: "",
             features: [],
-            calling: true,
-            shadowWeakness: true,
+            calling: "",
+            shadowWeakness: "",
             specialties: [],
             virtues: []
+        },
+        skills: {
+            common: { favoured: {}, scores: {} },
+            weapon: {}
         }
     };
     Gamedata.HtmlToJson = function (selector) {

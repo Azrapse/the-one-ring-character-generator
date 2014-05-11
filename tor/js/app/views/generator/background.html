@@ -1,12 +1,37 @@
-﻿		<div id="wizardBackgroundDiv" class="wizardWindow" style="display: none;">
-			<fieldset>
-				<legend class="uiText"  data-textKey="uiBackground">uiBackground</legend>
-				<span class="uiText"  data-textKey="uiBackChooseone">uiBackChooseone</span>
-				<div id="wizardBackgroundButtonsDiv"></div>
-				<div class="buttonContainer">
-					<button id="BackgroundPrevButton" class="uiText previous"  data-textKey="uiPrevious">uiPrevious</button>
-					<button id="BackgroundNextButton" style="display: none;" class="uiText next"  data-textKey="uiNext">uiNext</button>
-					<button class="uiText cancel"  data-textKey="uiCancelCreation">uiCancelCreation</button>
-				</div>
-			</fieldset>
+﻿<div class="wizardWindow backgroundStep">
+	<fieldset>
+		<legend class="uiText" data-textKey="uiBackground"></legend>
+		<span class="uiText" data-textKey="uiBackChooseone"></span>
+		<div id="wizardBackgroundButtonsDiv">
+            <div rv-each-background="backgrounds" rv-data-name='background.name' 
+                rv-data-index="background.index" class='backgroundButtonDiv selector' rv-id="background.name" rv-class-selected="background.selected">
+                <div class='localizable title' rv-data-textKey="background.name"></div>		        
+                <span class="info">
+                    <label class="uiText" data-textKey="uiBody"></label>:
+                    <span rv-text="background.attributeScores.body"></span></span>,
+                <span class="info">
+                    <label class="uiText" data-textKey="uiHeart"></label>:
+                    <span rv-text="background.attributeScores.heart"></span></span>,
+                <span class="info">
+                    <label class="uiText" data-textKey="uiWits"></label>:
+                    <span rv-text="background.attributeScores.wits"></span></span>,
+                <span class="info">
+                    <label class="uiText" data-textKey="uiFavouredSkill"></label>:
+                    <span class="localizable" rv-data-textKey="background.favouredSkill"></span>
+                </span>
+                <div>
+                    <label class="uiText" data-textKey="uiDistFeaturesChoose2"></label>
+                    <div>
+                        <span class='featureButtonDiv selector localizable' rv-each-feature="background.distinctiveFeatures" 
+                            rv-data-feature="feature.name" rv-data-textKey="feature.name" rv-on-click="controller.featureClick" 
+                            rv-class-selected="feature.selected"></span>
+                    </div>
+                </div>                 
+        </div>
+		<div class="buttonContainer">
+			<button class="uiText previous" data-textKey="uiPrevious" rv-on-click="controller.goPrevious"></button>
+			<button class="uiText next" data-textKey="uiNext" rv-on-click="controller.goNext" rv-show="controller.selectedBackground"></button>
+			<button class="uiText cancel" data-textKey="uiCancelCreation" rv-on-click="controller.cancel"></button>
 		</div>
+	</fieldset>
+</div>

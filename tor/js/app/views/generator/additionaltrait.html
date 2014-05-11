@@ -1,12 +1,15 @@
-﻿		<div id="wizardAdditionalTraitDiv" class="wizardWindow" style="display: none;">
-			<fieldset>
-				<legend class="uiText"  data-textKey="uiAdditionalTraitfromCalling">uiAdditionalTraitfromCalling</legend>
-				<span class="uiText"  data-textKey="uiATChooseone">uiATChooseone</span>
-				<div id="wizardAdditionalTraitButtonsDiv"></div>
-				<div class="buttonContainer">
-					<button id="additionalTraitPrevButton" class="uiText previous"  data-textKey="uiPrevious">uiPrevious</button>
-					<button id="additionalTraitNextButton" style="display: none;" class="uiText next"  data-textKey="uiNext">uiNext</button>
-					<button class="uiText cancel"  data-textKey="uiCancelCreation">uiCancelCreation</button>
-				</div>
-				</fieldset>
+﻿<div class="wizardWindow additionalTraitStep">
+	<fieldset>
+		<legend class="uiText" data-textKey="uiAdditionalTraitfromCalling"></legend>
+		<span class="uiText" data-textKey="uiATChooseone"></span>
+		<div>
+            <span class='additionalTraitButton selector localizable' rv-each-trait="traits" 
+                rv-data-textKey="trait.name" rv-class-selected="trait.selected" rv-on-click="controller.additionalTraitClick"></span>
+        </div>
+		<div class="buttonContainer">
+			<button class="uiText previous" data-textKey="uiPrevious" rv-on-click="controller.goPrevious"></button>
+			<button class="uiText next" data-textKey="uiNext" rv-on-click="controller.goNext" rv-show="controller.selectedAdditionalTrait"></button>
+			<button class="uiText cancel" data-textKey="uiCancelCreation" rv-on-click="controller.cancel"></button>
 		</div>
+	</fieldset>
+</div>

@@ -1,12 +1,16 @@
-﻿		<div id="wizardSpecialtiesDiv" class="wizardWindow" style="display: none;">
-			<fieldset>
-				<legend class="uiText"  data-textKey="uiSpecialties">uiSpecialties</legend>
-				<span class="uiText"  data-textKey="uiSpeChoosetwo">uiSpeChoosetwo</span>
-				<div id="wizardSpecialtiesButtonsDiv"></div>
-				<div class="buttonContainer">
-					<button id="SpecialtiesPrevButton" class="uiText previous"  data-textKey="uiPrevious">uiPrevious</button>
-					<button id="SpecialtiesNextButton" style="display: none;" class="uiText next"  data-textKey="uiNext">uiNext</button>
-					<button class="uiText cancel"  data-textKey="uiCancelCreation">uiCancelCreation</button>
-				</div>
-			</fieldset>
+﻿<div class="wizardWindow specialtiesStep">
+	<fieldset>
+		<legend class="uiText"  data-textKey="uiSpecialties"></legend>
+		<span class="uiText"  data-textKey="uiSpeChoosetwo"></span>
+		<div id="wizardSpecialtiesButtonsDiv">
+            <div class='specialtyButton selector localizable' rv-each-specialty="specialties" rv-data-textKey="specialty"
+                rv-data-specialty="specialty" rv-on-click="controller.specialtyClick"></div>
+        </div>
+		<div class="buttonContainer">
+			<button id="SpecialtiesPrevButton" class="uiText previous" data-textKey="uiPrevious" rv-on-click="controller.goPrevious"></button>
+			<button id="SpecialtiesNextButton" class="uiText next" data-textKey="uiNext" rv-on-click="controller.goNext" 
+                rv-show="controller.specialtiesIsReady < specialtiesDep"></button>
+			<button class="uiText cancel" data-textKey="uiCancelCreation" rv-on-click="controller.cancel"></button>
 		</div>
+	</fieldset>
+</div>

@@ -1,13 +1,40 @@
-﻿		<div id="wizardCallingDiv" class="wizardWindow" style="display: none;">
-			<fieldset>
-				<legend class="uiText"  data-textKey="uiCalling">uiCalling</legend>
-				<span class="uiText"  data-textKey="uiCallChooseone">uiCallChooseone</span>
-				<div id="wizardCallingButtonsDiv"></div>
-				<div class="buttonContainer">
-					<button id="callingPrevButton" class="uiText previous"  data-textKey="uiPrevious">uiPrevious</button>
-					<button id="callingNextButton" style="display: none;" class="uiText next"  data-textKey="uiNext">uiNext</button>
-					<button id="callingNextToAdditionalTraitButton" style="display: none;" class="uiText next"  data-textKey="uiNext">uiNext</button>
-					<button class="uiText cancel"  data-textKey="uiCancelCreation">uiCancelCreation</button>
-				</div>
-			</fieldset>
+﻿<div class="wizardWindow callingStep">
+	<fieldset>
+		<legend class="uiText" data-textKey="uiCalling"></legend>
+		<span class="uiText" data-textKey="uiCallChooseone"></span>
+		<div id="wizardCallingButtonsDiv">
+            <div class="callingButton selector" rv-each-calling="callings" rv-class-suggested="calling.suggested" 
+                rv-class-unusual="calling.unusual" rv-class-selected="calling.selected" rv-on-click="controller.callingClick">
+                <div class='localizable title' rv-data-textKey="calling.name"></div>
+                <div>
+                    <label class="uiText" data-textKey="uiCallFSG"></label>:
+                    <span rv-each-fsg="calling.favouredSkillGroups">
+                        <span class="localizable" rv-data-textKey="fsg"></span>,
+                    </span>
+                </div>
+                <div>
+                    <label class="uiText" data-textKey="uiCallAddTrait"></label>:
+                    <span rv-each-trait="calling.additionalTrait">
+                        <span class="localizable" rv-data-textKey="trait"></span>,
+                    </span>                    
+                </div>
+                <div>
+                    <label class="uiText" data-textKey="uiCallSW"></label>:
+                    <div rv-each-weakness="calling.shadowWeakness">
+                    <span class="localizable" rv-data-textKey="weakness.name"></span>
+                    (<span class="localizable" rv-each-degeneration="weakness.degenerations">
+                        <span rv-text="degeneration.rank"></span>:
+                        <span class="localizable" rv-data-textKey="degeneration.name"></span>,
+                    </span>)
+                    </div>
+                </div>                 
+            </div>
+        </div>
+		<div class="buttonContainer">
+			<button class="uiText previous" data-textKey="uiPrevious" rv-on-click="controller.goPrevious"></button>
+			<button class="uiText next" data-textKey="uiNext" rv-show="controller.readyForNext < selectedCalling" rv-on-click="controller.goNextSkipOne"></button>
+			<button class="uiText next" data-textKey="uiNext" rv-show="controller.readyForSlayerTraitSelect < selectedCalling" rv-on-click="controller.goNext"></button>
+			<button class="uiText cancel"  data-textKey="uiCancelCreation" rv-on-click="controller.cancel"></button>
 		</div>
+	</fieldset>
+</div>

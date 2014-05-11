@@ -1,15 +1,16 @@
-﻿		<div id="wizardValourWisdomDiv" class="wizardWindow" style="display: none;">
-			<fieldset>
-				<legend class="uiText"  data-textKey="uiValourandWisdom">uiValourandWisdom</legend>
-				<span class="uiText"  data-textKey="uiVWChoose">uiVWChoose</span>
-				<div class="valourWisdomDiv">
-					<div class="valourWisdomSelector selector uiText"  attribute="valour" data-textKey="uiVWValour2">uiVWValour2</div>
-					<div class="valourWisdomSelector selector uiText"  attribute="wisdom" data-textKey="uiVWWisdom2">uiVWWisdom2</div>
-				</div>
-				<div class="buttonContainer">
-					<button id="valourWisdomPrevButton" class="uiText previous"  data-textKey="uiPrevious">uiPrevious</button>
-					<button id="valourWisdomNextButton" style="display: none;" class="uiText next"  data-textKey="uiNext">uiNext</button>
-					<button class="uiText cancel"  data-textKey="uiCancelCreation">uiCancelCreation</button>
-				</div>
-			</fieldset>
+﻿<div class="wizardWindow valorWisdomStep">
+	<fieldset>
+		<legend class="uiText" data-textKey="uiValourandWisdom"></legend>
+		<span class="uiText" data-textKey="uiVWChoose"></span>
+		<div class="valourWisdomDiv">
+			<div rv-each-selection="selections" class="valourWisdomSelector selector uiText" 
+                rv-data-textKey="selection.key" rv-class-selected="selection.selected" rv-on-click="controller.valourWisdomClick"></div>
 		</div>
+		<div class="buttonContainer">
+            <button class="uiText previous" data-textKey="uiPrevious" rv-on-click="controller.goPrevious"></button>
+			<button class="uiText next" data-textKey="uiNext" rv-on-click="controller.goNext" rv-show="controller.showToValor < valourWisdomSelection"></button>
+            <button class="uiText next" data-textKey="uiNext" rv-on-click="controller.goNextSkipOne" rv-show="controller.showToWisdom < valourWisdomSelection"></button>
+			<button class="uiText cancel" data-textKey="uiCancelCreation" rv-on-click="controller.cancel"></button>
+		</div>
+	</fieldset>
+</div>

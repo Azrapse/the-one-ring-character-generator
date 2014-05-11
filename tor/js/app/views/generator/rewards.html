@@ -1,13 +1,15 @@
-﻿		<div id="wizardRewardsDiv" class="wizardWindow" style="display: none;">
-			<fieldset>
-				<legend class="uiText"  data-textKey="uiRewardsQualities">uiRewardsQualities</legend>
-				<span class="uiText"  data-textKey="uiRQChoose">uiRQChoose</span>
-				<div class="rewardsDiv">
-				</div>
-				<div class="buttonContainer">
-					<button id="rewardsPrevButton" class="uiText previous"  data-textKey="uiPrevious">uiPrevious</button>
-					<button id="rewardsNextButton" style="display: none;" class="uiText next"  data-textKey="uiNext">uiNext</button>
-					<button class="uiText cancel"  data-textKey="uiCancelCreation">uiCancelCreation</button>
-				</div>
-			</fieldset>
+﻿<div class="wizardWindow rewardsStep">
+	<fieldset>
+		<legend class="uiText"  data-textKey="uiRewardsQualities"></legend>
+		<span class="uiText"  data-textKey="uiRQChoose"></span>
+		<div class="rewardsDiv">
+            <div rv-each-reward="rewards" class="selector localizable" 
+                rv-data-textKey="reward.name" rv-class-selected="reward.selected" rv-on-click="controller.rewardClick"></div>
 		</div>
+		<div class="buttonContainer">
+            <button class="uiText previous" data-textKey="uiPrevious" rv-on-click="controller.goPrevious"></button>
+            <button class="uiText next" data-textKey="uiNext" rv-on-click="controller.goNextSkipOne" rv-show="controller.selectedReward"></button>
+			<button class="uiText cancel" data-textKey="uiCancelCreation" rv-on-click="controller.cancel"></button>
+		</div>
+	</fieldset>
+</div>

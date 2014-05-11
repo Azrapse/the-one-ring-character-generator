@@ -30,6 +30,20 @@
             Rivets.formatters.localize = function (value) {
                 return Text.getText(value);
             };
+            Rivets.formatters.write = function (value, textKey) {
+                return Text.write(textKey, value);
+            };
+            Rivets.formatters.gt = function (value, arg) {
+                return value > arg;
+            };
+            Rivets.formatters.lt = function (value, arg) {
+                return value < arg;
+            };
+            Rivets.formatters.test = function (value, symbol, arg, first, second) {
+                return eval(value + " " + symbol + " " + arg)
+                    ? first
+                    : second;
+            };
             Rivets.formatters.geartype = function (value) {
                 var textMatch = {
                     body: "uiGArmour",

@@ -114,7 +114,6 @@ fieldset.tutorialSlideWindow
 	background-color: #ddd;	
 }
 
-.wizardWindow .selector[chosen=true],
 .wizardWindow .selector.selected
 {	
 	box-shadow: 0px 0px 20px #000; 
@@ -128,6 +127,15 @@ fieldset.tutorialSlideWindow
 	vertical-align: middle;
 }
 
+.callingButton.suggested
+{	
+	border-width: 2px;
+}
+
+.callingButton.unusual
+{
+	border-style: dotted;	
+}
 .wizardWindow .title
 {
     font-weight: bold;
@@ -137,6 +145,22 @@ fieldset.tutorialSlideWindow
 .wizardWindow .info
 {
     white-space: nowrap;
+}
+
+table.favouredAttribute
+{
+	text-align: center;	
+}
+
+table.favouredAttribute th
+{
+	max-width: 10em;
+}
+
+
+table.favouredAttribute .attributeShift
+{
+	font-size: 2em;
 }
 
 #wizardCultureButtonsDiv

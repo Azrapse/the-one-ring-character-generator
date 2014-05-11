@@ -1,12 +1,15 @@
-﻿		<div id="wizardFavouredSkillGroupsDiv" class="wizardWindow" style="display: none;">
-			<fieldset>
-				<legend class="uiText"  data-textKey="uiFavouredSkills">uiFavouredSkills</legend>
-				<span class="uiText"  data-textKey="uiFSGChoosetwo">uiFSGChoosetwo</span>
-				<div id="wizardFavouredSkillGroupsButtonsDiv"></div>
-				<div class="buttonContainer">
-					<button id="favouredSkillGroupsPrevButton" class="uiText previous"  data-textKey="uiPrevious">uiPrevious</button>
-					<button id="favouredSkillGroupsNextButton" style="display: none;" class="uiText next"  data-textKey="uiNext">uiNext</button>
-					<button class="uiText cancel"  data-textKey="uiCancelCreation">uiCancelCreation</button>
-				</div>
-			</fieldset>
+﻿<div class="wizardWindow favouredSkillGroupStep">
+	<fieldset>
+		<legend class="uiText" data-textKey="uiFavouredSkills"></legend>
+		<span class="uiText" data-textKey="uiFSGChoosetwo"></span>
+		<div>
+            <span class='favouredSkillButton selector localizable' rv-each-skill="skills" 
+                rv-data-textKey="skill.name" rv-on-click="controller.favouredSkillClick" rv-class-selected="skill.selected"></span>
+        </div>
+		<div class="buttonContainer">
+			<button class="uiText previous" data-textKey="uiPrevious" rv-on-click="controller.goPreviousSkipOne"></button>
+			<button class="uiText next" data-textKey="uiNext" rv-on-click="controller.goNext" rv-show="controller.favouredSkillReady < selectedFavouredSkills"></button>
+			<button class="uiText cancel" data-textKey="uiCancelCreation" rv-on-click="controller.cancel"></button>
 		</div>
+	</fieldset>
+</div>

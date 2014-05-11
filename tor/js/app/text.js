@@ -139,21 +139,19 @@
     }
 
     /// Returns a localized text, replacing appearances of {0}, {1}, ... with the second, third, ... arguments.
-    function write() {
-        var textKey = write.arguments[0];
+    Text.write = function () {
+        var textKey = arguments[0];
         if (!textKey) {
             return textKey;
         }
         var localizedText = Text.getText(textKey);
         // We substitute rest of parameters into the text            
         for (var i = 1; i < arguments.length; i++) {
-            localizedText = localizedText.replace("{" + (i - 1) + "}", args[i].toString());
+            localizedText = localizedText.replace("{" + (i - 1) + "}", arguments[i].toString());
         }
 
         return localizedText;
-    }
-
-    Text.write = write;
-
+    };
+     
     return Text;
 });
