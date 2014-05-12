@@ -478,7 +478,8 @@ div.inventory .input
 	font-family: 'AloisLightRegular', "Palatino Linotype", "Book Antiqua3", Palatino, serif;	
 }
 
-.skillNameCell.favoured
+.skillNameCell.favoured,
+.skillName.favoured
 {
 	text-decoration: underline;
 }

@@ -4,18 +4,18 @@
 		<span class="uiText"  data-textKey="uiPXChoose"></span>
 		<div class="remainingXP" rv-text="spendings.left | write uiPX10XPLeft"></div>
 		<div class="rankableSkillsDiv">
-            <div rv-each-rankbutton="rankbuttons" class='rankUpButton selector' rv-on-click="controller.rankbuttonClick" rv-show="rankbutton.visible < score models.spendings.left">
-                <div class='skillName localizable' rv-data-textKey="rankbutton.name" rv-class-favoured="rankbutton.favoured"></div>
-                <div class='skillRankIcons' >
-                        <div class="skillRankIcon" data-rank="1"><img rv-src="rankbutton.score | test >= 1 css/skillrankfull.png css/skillrankempty.png"/></div>
-                        <div class="skillRankIcon" data-rank="2"><img rv-src="rankbutton.score | test >= 2 css/skillrankfull.png css/skillrankempty.png"/></div>
-                        <div class="skillRankIcon" data-rank="3"><img rv-src="rankbutton.score | test >= 3 css/skillrankfull.png css/skillrankempty.png"/></div>
-                        <div class="skillRankIcon" data-rank="4"><img rv-src="rankbutton.score | test >= 4 css/skillrankfull.png css/skillrankempty.png"/></div>
-                        <div class="skillRankIcon" data-rank="5"><img rv-src="rankbutton.score | test >= 5 css/skillrankfull.png css/skillrankempty.png"/></div>
-                        <div class="skillRankIcon" data-rank="6"><img rv-src="rankbutton.score | test >= 6 css/skillrankfull.png css/skillrankempty.png"/></div>
+            <div rv-each-rankbutton="rankbuttons" class='rankUpButton selector' rv-on-click="controller.rankbuttonClick" rv-class-unaffordable="rankbutton.unaffordable < score models.spendings.left">
+                <div class='skillName localizable' rv-data-textKey="rankbutton.name" rv-class-favoured="rankbutton.favoured" ></div>
+                <div class='skillRankIcons'>
+                    <div class="skillRankIcon" data-rank="1"><img rv-src="rankbutton.score | test >= 1 css/skillrankfull.png css/skillrankempty.png"/></div>
+                    <div class="skillRankIcon" data-rank="2"><img rv-src="rankbutton.score | test >= 2 css/skillrankfull.png css/skillrankempty.png"/></div>
+                    <div class="skillRankIcon" data-rank="3"><img rv-src="rankbutton.score | test >= 3 css/skillrankfull.png css/skillrankempty.png"/></div>
+                    <div class="skillRankIcon" data-rank="4"><img rv-src="rankbutton.score | test >= 4 css/skillrankfull.png css/skillrankempty.png"/></div>
+                    <div class="skillRankIcon" data-rank="5"><img rv-src="rankbutton.score | test >= 5 css/skillrankfull.png css/skillrankempty.png"/></div>
+                    <div class="skillRankIcon" data-rank="6"><img rv-src="rankbutton.score | test >= 6 css/skillrankfull.png css/skillrankempty.png"/></div>
                 </div>
                 <div class='skillRankCost'>                    
-                    <span rv-text="rankbutton.cost < rankbutton.score | write uiPXRankCost"></span>
+                    <span rv-text="rankbutton.cost < score | write uiPXRankCost"></span>
                 </div>
             </div>
         </div>		

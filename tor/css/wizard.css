@@ -170,3 +170,17 @@ table.favouredAttribute .attributeShift
     padding: 5px;
     overflow-y: scroll;
 }
+
+.rankUpButton.unaffordable
+{
+    color: #bbb;
+    border-color: #bbb;
+}
+.rankUpButton.unaffordable img
+{
+    opacity: .5;
+}
+.rankUpButton.unaffordable .skillRankCost
+{
+    color: #e11;
+}

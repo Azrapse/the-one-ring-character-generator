@@ -11,10 +11,11 @@
     "txt!views/generator/rewards.html",
     "txt!views/generator/virtues.html",
     "txt!views/generator/previousxp.html",
+    "txt!views/generator/finish.html",
     "jquery.linq"],
 function (Pj, PjSheet, Gamedata, Text, Rivets, $,
     cultureTemplate, wsPackageTemplate, specialtiesTemplate, backgroundTemplate, callingTemplate, additionalTraitTemplate,
-    favouredSkillTemplate, favouredAttributeTemplate, valourWisdomTemplate, rewardsTemplate, virtuesTemplate, xpTemplate) {
+    favouredSkillTemplate, favouredAttributeTemplate, valourWisdomTemplate, rewardsTemplate, virtuesTemplate, xpTemplate, finishTemplate) {
     var PcGenerator = {};
     var pj = null;
     var sheet = null;
@@ -34,9 +35,23 @@ function (Pj, PjSheet, Gamedata, Text, Rivets, $,
         { start: valourWisdomStart, finish: valourWisdomFinish },
         { start: rewardStart },
         { start: virtueStart },
-        { start: xpStart, finish: xpFinish }
+        { start: xpStart, finish: xpFinish },
+        { start: endStart }
     ];
     var creationStepIndex = 0;
+    PcGenerator.promise = null;
+
+    PcGenerator.startAsync = function (initializer) {
+        PcGenerator.promise = {
+            initializer: initializer,
+            completed: function (onSuccess) {
+                this.onSuccess = onSuccess;
+            },
+            cancelled: function (onCancel) {
+                this.onCancel = onCancel;
+            }
+        };
+    };
 
     PcGenerator.start = function (initializer) {
         pj = new Pj("???");
@@ -45,6 +60,8 @@ function (Pj, PjSheet, Gamedata, Text, Rivets, $,
         sheet.pj = pj;
         creationStepIndex = 0;
         creationSteps[creationStepIndex].start();
+
+        return promise;
     };
 
     PcGenerator.goNext = function (event, models) {
@@ -350,7 +367,7 @@ function (Pj, PjSheet, Gamedata, Text, Rivets, $,
 
     function favouredSkillsFinish() {
         PcGenerator.selectedFavouredSkills.forEach(function (s) {
-            pj.skills.common.favoured[s] = true;
+            pj.skills.common.favoured[s.name] = true;
         });
     }
 
@@ -511,47 +528,56 @@ function (Pj, PjSheet, Gamedata, Text, Rivets, $,
                 : ((this.score | 0) + 1) * 2;
         };
 
-        RankUpButton.prototype.visible = function () {
-            return this.models.spendings.left >= this.cost();
+        RankUpButton.prototype.unaffordable = function () {
+            return this.models.spendings.left < this.cost();
         };
 
         return RankUpButton;
     })();
 
-    function xpStart() {
+    function generateRankButtonInis() {
         var sss = Gamedata.cultures[pj.traits.culture].startingSkillScores;
         // Common Skills with starting scores
         var commonNonZero = Object.keys(sss)
+            .sort(function (a, b) { return a.localeCompare(b); })
             .map(function (skill) {
-                return { name: skill, score: sss[skill], type: "common", favoured: pj.skills.common.favoured[skill] };
+                return { name: skill, score: sss[skill], type: "common", favoured: !!pj.skills.common.favoured[skill] };
             });
         // Other common skills at zero
         var commonZero = Object.keys(Gamedata.skills)
+            .sort(function (a, b) { return a.localeCompare(b); })
             .filter(function (skill) {
                 return !(skill in sss);
             })
             .map(function (skill) {
-                return { name: skill, score: 0, type: "common", favoured: pj.skills.common.favoured[skill] };
+                return { name: skill, score: 0, type: "common", favoured: !!pj.skills.common.favoured[skill] };
             });
         var weaponNonZero = Object.keys(pj.skills.weapon)
+            .sort(function (a, b) { return a.localeCompare(b); })
             .map(function (skill) {
                 var ws = pj.skills.weapon[skill];
-                return { name: skill, score: ws.rank, type: "weapon", favoured: pj.skills.weapon[skill] && pj.skills.weapon[skill].favoured };
+                return { name: skill, score: ws.rank, type: "weapon", favoured: pj.skills.weapon[skill] && !!pj.skills.weapon[skill].favoured };
             });
         var weaponZero = Object.keys(Gamedata.weapons)
+            .sort(function (a, b) { return a.localeCompare(b); })
             .concat(Object.keys(Gamedata.weaponGroups).map(function (wg) { return "(" + wg + ")"; }))
             .filter(function (skill) {
                 return !(skill in pj.skills.weapon);
             })
             .map(function (skill) {
-                return { name: skill, score: 0, type: "weapon", favoured: pj.skills.weapon[skill] && pj.skills.weapon[skill].favoured };
+                return { name: skill, score: 0, type: "weapon", favoured: pj.skills.weapon[skill] && !!pj.skills.weapon[skill].favoured };
             });
-        var spendings = { left: 10 };
-        var models = { pj: pj, controller: PcGenerator, spendings: spendings };
-        var rankbuttons = commonNonZero
+        return commonNonZero
             .concat(commonZero)
             .concat(weaponNonZero)
-            .concat(weaponZero)
+            .concat(weaponZero);
+    };
+
+    function xpStart() {
+
+        var spendings = { left: 10 };
+        var models = { pj: pj, controller: PcGenerator, spendings: spendings };
+        var rankbuttons = generateRankButtonInis()
             .map(function (ini) {
                 return new RankUpButton(ini, models);
             });
@@ -561,15 +587,41 @@ function (Pj, PjSheet, Gamedata, Text, Rivets, $,
 
     PcGenerator.rankbuttonClick = function (event, models) {
         var cost = models.rankbutton.cost();
-        models.spendings.left -= cost;
-        models.rankbutton.score++;
+        if (cost <= models.spendings.left) {
+            models.spendings.left -= cost;
+            models.rankbutton.score++;
+        }
     };
 
     PcGenerator.resetXp = function (event, models) {
-        
+        models.spendings.left = 10;
+        models.rankbuttons = generateRankButtonInis()
+        .map(function (ini) {
+            return new RankUpButton(ini, models);
+        });
+        disposeView();
+        createView(xpTemplate, models);
     };
-    function xpFinish() {
 
+    function xpFinish(event, models) {
+        var rankbuttons = models.rankbuttons;
+        rankbuttons.forEach(function (rb) {
+            if (rb.type === "common") {
+                pj.skills.common.scores[rb.name] = rb.score | 0;
+            } else {
+                if (rb.name in pj.skills.weapon) {
+                    pj.skills.weapon[rb.name].rank = rb.score | 0;
+                } else {
+                    pj.skills.weapon[rb.name] = { id: rb.name, favoured: !!rb.favoured, rank: rb.score | 0 };
+                }
+            }
+        });
+    }
+
+    // Completion
+    function endStart() {
+        var models = { pj: pj, controller: PcGenerator };
+        var viewElement = createView(finishTemplate, models);
     }
 
     return PcGenerator;
