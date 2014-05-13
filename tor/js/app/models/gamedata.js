@@ -2,11 +2,11 @@
     var Gamedata = {};
     var pcTemplate = {
         stats: {
-            wisdom: true,
-            valour: true,
-            startingEndurance: true,
-            startingHope: true,
-            standard: true,
+            wisdom: 0,
+            valour: 0,
+            startingEndurance: 0,
+            startingHope: 0,
+            standard: "",
             attributes: {
                 base: {
                     body: 0,
@@ -21,52 +21,56 @@
             }
         },
         status: {
-            armour: true,
-            damage: true,
-            endurance: true,
-            fatigue: true,
-            fatigueTotal: true,
-            fatigueTravel: true,
-            fellowshipPoints: true,
-            headgear: true,
-            hope: true,
-            miserable: true,
-            parry: true,
-            permanentShadow: true,
-            ranged: true,
-            shadow: true,
-            shield: true,
-            totalShadow: true,
-            weary: true,
-            woundTreated: true,
-            wounded: true
+            armour: 0,
+            damage: 0,
+            endurance: 0,
+            fatigue: 0,
+            fatigueTotal: 0,
+            fatigueTravel: 0,
+            fellowshipPoints: 0,
+            headgear: 0,
+            hope: 0,
+            miserable: false,
+            parry: 0,
+            permanentShadow: 0,
+            ranged: 0,
+            shadow: 0,
+            shield: 0,
+            totalShadow: 0,
+            weary: false,
+            woundTreated: false,
+            wounded: false
         },
         progress: {
-            advancementPoints: true,
-            experience: true,
-            standing: true,
-            total: true
+            advancementPoints: 0,
+            experience: 0,
+            standing: 0,
+            total: 0
         },
         characterTexts: {
-            backgroundText: true,
+            backgroundText: "",
             comments: {},
-            fellowshipFocusText: true,
-            fellowshipNotesText: true,
-            guideText: true,
-            huntsmanText: true,
-            lookoutText: true,
-            patronText: true,
+            fellowshipFocusText: "",
+            fellowshipNotesText: "",
+            guideText: "",
+            huntsmanText: "",
+            lookoutText: "",
+            patronText: "",
             taleOfYears: [],
-            sanctuariesText: true,
-            scoutText: true
+            sanctuariesText: "",
+            scoutText: ""
         },
         belongings: {
             inventory: [],
-            coins: {},
+            coins: {
+                gold: 0,
+                silver: 0,
+                copper: 0
+            },
             weaponGear: {},
             gear: {},
             rewards: [],
-            treasurePoints: true
+            treasurePoints: 0
         },
         traits: {
             culture: "",

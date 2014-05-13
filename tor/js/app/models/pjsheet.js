@@ -12,7 +12,14 @@
             groupEmptyUrl: "css/skillgroupempty.png",
             groupFullUrl: "css/skillgroupfull.png",
             container: null,
-            view: null
+            view: null,
+            setPc: function (pc) {
+                PjSheet.pj = pc;
+                PjSheet.view.models.pj = pc;
+            },
+            getPc: function () {
+                return PjSheet.view.models.pj;
+            }
         };
 
 
@@ -207,6 +214,9 @@
         }
         PjSheet.pj = null;
         PjSheet.bind = function (pj) {
+            if (PjSheet.view) {
+                view.unbind();
+            };
             PjSheet.pj = pj;
             PjSheet.menuManager = new PjContextMenus($(".contextMenu"), pj, this);
             PjSheet.view = Rivets.bind($(".characterSheet"), {

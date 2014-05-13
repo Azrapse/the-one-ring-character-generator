@@ -90,9 +90,7 @@
 
             // set up start button
             $("#startButton").click(function (e) {
-
                 PcGenerator.start({ sheet: PjSheet });
-
             });
 
             //            // toggle font button

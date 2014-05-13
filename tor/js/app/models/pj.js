@@ -24,6 +24,10 @@
             return "PJ " + this.name;
         };
 
+        Pj.prototype.toJson = function () {
+            return JSON.stringify(this);
+        };
+
         // Load functions
         var fromJson = function (json) {
             var data = typeof (json) === "object" ? json : JSON.parse(json);

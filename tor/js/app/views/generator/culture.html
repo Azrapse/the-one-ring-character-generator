@@ -5,7 +5,8 @@
             <div class='cultureSelectionButton selector' 
                 rv-each-culture="cultures" 
                 rv-data-culture="culture.name"
-                rv-on-click="controller.cultureClick">
+                rv-on-click="controller.cultureClick"
+                rv-class-selected="culture.selected">
                 <div class='localizable title' rv-data-textKey="culture.name" rv-text="culture.name | localize"></div>                
                 <span class="info">
                     <label class='uiText' data-textKey="uiAge"></label>: {culture.ageMin} - {culture.ageMax}

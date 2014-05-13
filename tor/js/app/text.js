@@ -81,6 +81,9 @@
     };
 
     Text.getText = function (key) {
+        if (!key) {
+            return key;
+        }
         if (key in Text.textDict) {
             return Text.textDict[key].getText();
         }
@@ -152,6 +155,6 @@
 
         return localizedText;
     };
-     
+
     return Text;
 });

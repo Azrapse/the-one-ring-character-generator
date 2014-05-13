@@ -1,9 +1,10 @@
 ﻿<div class="wizardWindow wsPackStep">
 	<fieldset>
 		<legend class="uiText" data-textKey="uiWeaponSkillPackage"></legend>
-		<span class="uiText"  data-textKey="uiWSPChooseone"></span>
+		<span class="uiText" data-textKey="uiWSPChooseone"></span>
 		<div id="wizardWeaponSkillsPackageButtonsDiv">
-            <div class='weaponSkillsPackageSelectionButton selector' rv-each-pack="packs" rv-data-index="pack.index" rv-on-click="controller.wsPackClick">
+            <div class='weaponSkillsPackageSelectionButton selector' rv-each-pack="packs" 
+                rv-data-index="pack.index" rv-on-click="controller.wsPackClick" rv-class-selected="pack.selected">
                 <div rv-each-skill="pack.skills">
                     <span class='localizable skillNameCell' rv-data-textKey="skill.name" rv-class-favoured="skill.favoured"></span>
                     <span rv-text="skill.score"></span>
@@ -11,8 +12,8 @@
             </div>
         </div>
 		<div class="buttonContainer">
-			<button id="weaponSkillsPackagePrevButton" class="uiText previous"  data-textKey="uiPrevious" rv-on-click="controller.goPrevious"></button>
-			<button id="weaponSkillsPackageNextButton" style="display: none;" class="uiText next" data-textKey="uiNext" rv-on-click="controller.goNext"></button>
+			<button class="uiText previous" data-textKey="uiPrevious" rv-on-click="controller.goPrevious"></button>
+			<button class="uiText next" data-textKey="uiNext" rv-on-click="controller.goNext" rv-show="nextStatus.show"></button>
 			<button class="uiText cancel"  data-textKey="uiCancelCreation" rv-on-click="controller.cancel"></button>
 		</div>
 	</fieldset>
