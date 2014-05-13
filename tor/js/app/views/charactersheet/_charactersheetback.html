@@ -1,133 +1,140 @@
-﻿		<!-- Character Sheet -->
-		<!-- Backsheet -->
-		<div class="characterSheet back">
-			<div class="roundStatBox" data-stat="fellowshipPoints">
-				<label class="uiText"  data-textKey="uifellowshipPoints"></label>
-				<input type="text" rv-value="pj.status.fellowshipPoints"/>		
+﻿<!-- Character Sheet -->
+<!-- Backsheet -->
+<div class="characterSheet back">
+    <section class="progress">
+        <div class="roundStatBox" data-stat="fellowshipPoints">
+		    <label class="uiText"  data-textKey="uifellowshipPoints"></label>
+		    <input type="text" rv-value="pj.status.fellowshipPoints"/>		
+	    </div>
+	    <div class="roundStatBox" data-stat="advancementPoints">
+		    <label class="uiText"  data-textKey="uiadvancementPoints"></label>
+		    <input type="text" rv-value="pj.progress.advancementPoints"/>		
+	    </div>
+	    <div class="roundStatBox" data-stat="treasurePoints">
+		    <label class="uiText"  data-textKey="uitreasurePoints"></label>
+		    <input type="text" rv-value="pj.belongings.treasurePoints" />		
+	    </div>
+	    <div class="roundStatBox" data-stat="standing">
+		    <label class="uiText"  data-textKey="uistanding"></label>
+		    <input type="text" rv-value="pj.progress.standing" />
+	    </div>
+    </section>
+	
+	<section class="money">
+	    <table class="basicInformationTable coinTable">
+		    <tr>
+			    <td class="labelCell">
+				    <label class="uiText"  data-textKey="uiGoldCoins"></label>
+			    </td>
+			    <td>
+				    <input type="text" id="goldCoinsInput" rv-value="pj.belongings.coins.gold" />
+			    </td>
+			    <td class="labelCell">
+				    <label class="uiText"  data-textKey="uiSilverCoins"></label>
+			    </td>
+			    <td>
+				    <input type="text" id="silverCoinsInput" rv-value="pj.belongings.coins.silver" />
+			    </td>
+			    <td class="labelCell">
+				    <label class="uiText"  data-textKey="uiCopperCoins"></label>
+			    </td>
+			    <td>
+				    <input type="text" id="copperCoinsInput"rv-value="pj.belongings.coins.copper" />
+			    </td>
+		    </tr>
+	    </table>
+    </section>	
+	<section class="inventory">	
+		<div class="heading uiText" data-textKey="uiInventory"></div>
+		<div class="inventoryTable">
+			<div class="inventoryEntry" rv-each-entry="pj.belongings.inventory">						
+				<input type="text" class="input" rv-value="entry | urlEncode"/>
 			</div>
-			<div class="roundStatBox" data-stat="advancementPoints">
-				<label class="uiText"  data-textKey="uiadvancementPoints"></label>
-				<input type="text" rv-value="pj.progress.advancementPoints"/>		
-			</div>
-			<div class="roundStatBox" data-stat="treasurePoints">
-				<label class="uiText"  data-textKey="uitreasurePoints"></label>
-				<input type="text" rv-value="pj.belongings.treasurePoints" />		
-			</div>
-			<div class="roundStatBox" data-stat="standing">
-				<label class="uiText"  data-textKey="uistanding"></label>
-				<input type="text" rv-value="pj.progress.standing" />
-			</div>
-			
-			<table class="basicInformationTable coinTable">
-				<tr>
-					<td class="labelCell">
-						<label class="uiText"  data-textKey="uiGoldCoins"></label>
-					</td>
-					<td>
-						<input type="text" id="goldCoinsInput" rv-value="pj.belongings.coins.gold" />
-					</td>
-					<td class="labelCell">
-						<label class="uiText"  data-textKey="uiSilverCoins"></label>
-					</td>
-					<td>
-						<input type="text" id="silverCoinsInput" rv-value="pj.belongings.coins.silver" />
-					</td>
-					<td class="labelCell">
-						<label class="uiText"  data-textKey="uiCopperCoins"></label>
-					</td>
-					<td>
-						<input type="text" id="copperCoinsInput"rv-value="pj.belongings.coins.copper" />
-					</td>
-				</tr>
-			</table>
-			
-			<div class="inventory">
-				<div class="heading uiText" data-textKey="uiInventory"></div>
-				<div class="inventoryTable">
-					<div class="inventoryEntry" rv-each-entry="pj.belongings.inventory">						
-						<input type="text" class="input" rv-value="entry | urlEncode"/>
-					</div>
-                    <div style="clear:both;"></div>
-				</div>
-			</div>
-			
-			<div class="bigText" data-stat="backgroundText">
-				<div class="heading uiText" data-textKey="uiBackground"></div>
-				<textarea class="input" rv-value="pj.characterTexts.backgroundText | urlEncode"></textarea>
-			</div>
-			<div class="heading uiText" data-textKey="uiCompany"></div>
-			<table class="basicInformationTable fellowshipTable">
-				<tr>
-					<td class="labelCell">
-						<label class='uiText' data-textKey="uiGuide"></label>
-					</td>
-					<td>
-						<input type="text" id="guideInput" rv-value="pj.characterTexts.guideText | urlEncode" />
-					</td>				
-					<td class="labelCell">
-						<label class='uiText' data-textKey="uiScout"></label>
-					</td>
-					<td>
-						<input type="text" id="scoutInput" rv-value="pj.characterTexts.scoutText | urlEncode" />
-					</td>				
-					<td class="labelCell">
-						<label class='uiText' data-textKey="uiHuntsman"></label>
-					</td>
-					<td>
-						<input type="text" id="huntsmanInput" rv-value="pj.characterTexts.huntsmanText | urlEncode" />
-					</td>
-				</tr>
-				<tr>
-					<td class="labelCell">
-						<label class='uiText'  data-textKey="uiLookout"></label>
-					</td>
-					<td>
-						<input type="text" id="lookoutInput" rv-value="pj.characterTexts.lookoutText | urlEncode" />
-					</td>				
-					<td class="labelCell">
-						<label class='uiText'  data-textKey="uiFellowshipFocus"></label>
-					</td>
-					<td>
-						<input type="text" id="fellowshipFocusInput" rv-value="pj.characterTexts.fellowshipFocusText | urlEncode" />
-					</td>
-					<td colspan="2">
-						&nbsp;
-					</td>
-				</tr>
-				<tr>
-					<td colspan="6">
-						<textarea class="input" id="fellowshipNotesInput" rv-value="pj.characterTexts.fellowshipNotesText | urlEncode"></textarea>
-					</td>
-				</tr>
-			</table>
-			<div class="heading uiText" data-textKey="uiFellowshipPhase"></div>
-			<table class="basicInformationTable fellowshipPhaseTable">
-				<tr>
-					<td class="labelCell">
-						<label class='uiText'  data-textKey="uiSanctuaries"></label>
-					</td>
-					<td>
-						<input type="text" id="sanctuariesInput" rv-value="pj.characterTexts.sanctuariesText | urlEncode"/>
-					</td>
-				</tr>
-				<tr>
-					<td class="labelCell">
-						<label class='uiText'  data-textKey="uiPatron"></label>
-					</td>
-					<td>
-						<input type="text" id="patronInput" rv-value="pj.characterTexts.patronText | urlEncode"/>
-					</td>
-				</tr>
-			</table>
-			<div class="heading uiText" data-textKey="uiTaleOfYears"></div>
-			<table class="basicInformationTable" id="taleOfYearsTable">
-				<tr class="yearTale" rv-each-tale="pj.characterTexts.taleOfYears">
-					<td>
-						<input type="text" class="year input" rv-value="tale.year | urlEncode"/>
-					</td>
-					<td>
-						<input type="text" class="events input" rv-value="tale.events | urlEncode"/>
-					</td>			
-				</tr>
-			</table>
+            <div style="clear:both;"></div>
 		</div>
+	</section>
+	
+	<section class="background">
+		<div class="heading uiText" data-textKey="uiBackground"></div>
+		<textarea class="input" rv-value="pj.characterTexts.backgroundText | urlEncode" rows="3"></textarea>
+	</section>
+    <section class="company">
+	    <div class="heading uiText" data-textKey="uiCompany"></div>
+	    <table class="basicInformationTable fellowshipTable">
+		    <tr>
+			    <td class="labelCell">
+				    <label class='uiText' data-textKey="uiGuide"></label>
+			    </td>
+			    <td>
+				    <input type="text" id="guideInput" rv-value="pj.characterTexts.guideText | urlEncode" />
+			    </td>				
+			    <td class="labelCell">
+				    <label class='uiText' data-textKey="uiScout"></label>
+			    </td>
+			    <td>
+				    <input type="text" id="scoutInput" rv-value="pj.characterTexts.scoutText | urlEncode" />
+			    </td>				
+			    <td class="labelCell">
+				    <label class='uiText' data-textKey="uiHuntsman"></label>
+			    </td>
+			    <td>
+				    <input type="text" id="huntsmanInput" rv-value="pj.characterTexts.huntsmanText | urlEncode" />
+			    </td>
+		    </tr>
+		    <tr>
+			    <td class="labelCell">
+				    <label class='uiText'  data-textKey="uiLookout"></label>
+			    </td>
+			    <td>
+				    <input type="text" id="lookoutInput" rv-value="pj.characterTexts.lookoutText | urlEncode" />
+			    </td>				
+			    <td class="labelCell">
+				    <label class='uiText'  data-textKey="uiFellowshipFocus"></label>
+			    </td>
+			    <td>
+				    <input type="text" id="fellowshipFocusInput" rv-value="pj.characterTexts.fellowshipFocusText | urlEncode" />
+			    </td>
+			    <td colspan="2">
+				    &nbsp;
+			    </td>
+		    </tr>
+		    <tr>
+			    <td colspan="6">
+				    <textarea class="input" id="fellowshipNotesInput" rv-value="pj.characterTexts.fellowshipNotesText | urlEncode" rows="3"></textarea>
+			    </td>
+		    </tr>
+	    </table>
+	    <div class="heading uiText" data-textKey="uiFellowshipPhase"></div>
+	    <table class="basicInformationTable fellowshipPhaseTable">
+		    <tr>
+			    <td class="labelCell">
+				    <label class='uiText'  data-textKey="uiSanctuaries"></label>
+			    </td>
+			    <td>
+				    <input type="text" id="sanctuariesInput" rv-value="pj.characterTexts.sanctuariesText | urlEncode"/>
+			    </td>
+		    </tr>
+		    <tr>
+			    <td class="labelCell">
+				    <label class='uiText'  data-textKey="uiPatron"></label>
+			    </td>
+			    <td>
+				    <input type="text" id="patronInput" rv-value="pj.characterTexts.patronText | urlEncode"/>
+			    </td>
+		    </tr>
+	    </table>
+    </section>
+    <section class="taleOfYears">
+	    <div class="heading uiText" data-textKey="uiTaleOfYears"></div>
+	    <table class="basicInformationTable taleOfYearsTable">
+		    <tr class="yearTale" rv-each-tale="pj.characterTexts.taleOfYears">
+			    <td class="year">
+				    <input type="text" class="year input" rv-value="tale.year | urlEncode"/>
+			    </td>
+			    <td class="events">
+				    <input type="text" class="events input" rv-value="tale.events | urlEncode"/>
+			    </td>			
+		    </tr>
+	    </table>
+    </section>
+</div>

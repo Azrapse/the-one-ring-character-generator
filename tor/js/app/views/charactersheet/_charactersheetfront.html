@@ -1,5 +1,6 @@
-﻿		<!-- Character Sheet -->
-		<div class="characterSheet front">			
+﻿	<!-- Character Sheet -->
+	<div class="characterSheet front">			
+        <main>
 			<div class="logoContainer">
 				<img src="css/TorLogoEn.jpg" />
 			</div>
@@ -39,101 +40,109 @@
                 	<label class="narrowLabel uiText" for="shadowWeakness" data-textKey="uiShadowweakness"></label>
 					<div class="input narrow localizable" id="shadowWeakness" 
                         rv-data-textKey="pj.traits.shadowWeakness" 
-                        rv-text="pj.traits.shadowWeakness | localize"></div>
+                        rv-text="pj.traits.shadowWeakness | localize">
+                    </div>
                 </div>
                 <hr />
             </section>
-            
-			<div class="heading uiText" data-textKey="uiTraits"></div>
-			<table class="basicInformationTable">
-				<tr>
-					<td class="labelCell cell">
-						<label class="narrowLabel uiText"  data-textKey="uiSpecialties"></label>
-					</td>		
-					<td class="inputCell cell">
-						<div class="input" id="specialtiesInput">
-                            <span rv-each-specialty="pj.traits.specialties">
-                                <span class="localizable" rv-data-textKey="specialty" rv-text="specialty | localize"></span>,                                
-                            </span>
+            <section class="traits">
+			    <div class="heading uiText" data-textKey="uiTraits"></div>
+			    <table class="basicInformationTable">
+				    <tr>
+					    <td class="labelCell cell">
+						    <label class="narrowLabel uiText"  data-textKey="uiSpecialties"></label>
+					    </td>		
+					    <td class="inputCell cell">
+						    <div class="input" id="specialtiesInput">
+                                <span rv-each-specialty="pj.traits.specialties">
+                                    <span class="localizable" rv-data-textKey="specialty" rv-text="specialty | localize"></span>,                                
+                                </span>
+                            </div>
+					    </td>
+				    </tr>
+				    <tr>
+					    <td class="labelCell cell">
+						    <label class="narrowLabel uiText"  data-textKey="uiDistinctivefeatures"></label>
+					    </td>		
+					    <td class="inputCell cell">
+						    <div class="input" id="distinctiveFeaturesInput" rv-on-click="menus.featuresMenu">
+                                <span rv-each-feature="pj.traits.features">
+                                    <span class="localizable" rv-data-textKey="feature" rv-text="feature | localize" rv-on-click="menus.changeFeatureMenu"></span>,
+                                </span>
+                            </div>
+					    </td>
+				    </tr>
+			    </table>
+			</section>
+            <section class="attributes">
+                <div class="heading uiText" data-textKey="uiAttributes">
+				    uiAttributes
+			    </div>
+			    <div class="attributeContainerBox">		
+					    <div class="bodyBox attributeBox">
+						    <label class="localizable"  data-textKey="body">body</label>
+						    <input type="text" id="bodyScoreInput" rv-value="pj.stats.attributes.base.body" />
+					        <div class="favouredBodyBox favouredAttributeBox">
+						        <label class="uiText"  data-textKey="uiFavoured">uiFavoured</label>
+						        <input type="text" id="favouredBodyScoreInput" rv-value="pj.stats.attributes.favoured.body"/>
+					        </div>
                         </div>
-					</td>
-				</tr>
-				<tr>
-					<td class="labelCell cell">
-						<label class="narrowLabel uiText"  data-textKey="uiDistinctivefeatures"></label>
-					</td>		
-					<td class="inputCell cell">
-						<div class="input" id="distinctiveFeaturesInput" rv-on-click="menus.featuresMenu">
-                            <span rv-each-feature="pj.traits.features">
-                                <span class="localizable" rv-data-textKey="feature" rv-text="feature | localize" rv-on-click="menus.changeFeatureMenu"></span>,
-                            </span>
+					    		
+					
+					    <div class="heartBox attributeBox">
+						    <label class="localizable"  data-textKey="heart">heart</label>
+						    <input type="text" id="heartScoreInput" rv-value="pj.stats.attributes.base.heart"/>
+					        <div class="favouredHeartBox favouredAttributeBox">
+						        <label  class="uiText"  data-textKey="uiFavoured">uiFavoured</label>
+						        <input type="text" id="favouredHeartScoreInput" rv-value="pj.stats.attributes.favoured.heart"/>
+					        </div>		
                         </div>
-					</td>
-				</tr>
-			</table>
-			<div class="heading uiText" data-textKey="uiAttributes">
-				uiAttributes
-			</div>
-			<div class="attributeContainerBox">		
-					<div class="bodyBox attributeBox" attribute="body">
-						<label class="localizable"  data-textKey="body">body</label>
-						<input type="text" id="bodyScoreInput" rv-value="pj.stats.attributes.base.body" />
-					</div>
-					<div class="favouredBodyBox favouredAttributeBox" attribute="body">
-						<label class="uiText"  data-textKey="uiFavoured">uiFavoured</label>
-						<input type="text" id="favouredBodyScoreInput" rv-value="pj.stats.attributes.favoured.body"/>
-					</div>		
+					    
 					
-					<div class="heartBox attributeBox" attribute="heart">
-						<label class="localizable"  data-textKey="heart">heart</label>
-						<input type="text" id="heartScoreInput" rv-value="pj.stats.attributes.base.heart"/>
-					</div>
-					<div class="favouredHeartBox favouredAttributeBox" attribute="heart">
-						<label  class="uiText"  data-textKey="uiFavoured">uiFavoured</label>
-						<input type="text" id="favouredHeartScoreInput" rv-value="pj.stats.attributes.favoured.heart"/>
-					</div>		
-					
-					<div class="witsBox attributeBox" attribute="wits">
-						<label class="localizable"  data-textKey="wits">wits</label>
-						<input type="text" id="witsScoreInput" rv-value="pj.stats.attributes.base.wits"/>
-					</div>
-					<div class="favouredWitsBox favouredAttributeBox" attribute="wits">
-						<label class="uiText"  data-textKey="uiFavoured">uiFavoured</label>
-						<input type="text" id="favouredWitsScoreInput" rv-value="pj.stats.attributes.favoured.wits"/>
-					</div>		
-			</div>
-			
-			<div class="heading uiText" data-textKey="uiCommonSkills">
-				uiCommonSkills
-			</div>
-			<div class="skillsBox">
-				<table class="skillTable">				
-				</table>
-			</div>
-			<div class="heading uiText" data-textKey="uiWeaponSkills">
-				uiWeaponSkills
-			</div>
-			<div class="weaponSkillsBox">
-				<div rv-each-ws="pj.skills.weapon" class="weaponSkill">
-                    <div class="skillNameCell">
-                        <div class="input weaponSkillNameInput localizable" 
-                            rv-data-textKey="ws.id" 
-                            rv-text="ws.id | localize" 
-                            rv-class-favoured="ws.favoured"
-                            rv-on-click="menus.weaponSkillMenu"></div>
+					    <div class="witsBox attributeBox">
+						    <label class="localizable"  data-textKey="wits">wits</label>
+						    <input type="text" id="witsScoreInput" rv-value="pj.stats.attributes.base.wits"/>
+                            <div class="favouredWitsBox favouredAttributeBox">
+						        <label class="uiText"  data-textKey="uiFavoured">uiFavoured</label>
+						        <input type="text" id="favouredWitsScoreInput" rv-value="pj.stats.attributes.favoured.wits"/>
+					        </div>		
+					    </div>
+					    
+			    </div>
+			</section>
+            <section class="skills noHighlight">
+                <section class="common">
+			        <div class="heading uiText" data-textKey="uiCommonSkills"></div>
+			        <div class="skillsBox">
+				        <table class="skillTable">				
+				        </table>
+			        </div>
+                </section>
+                <section class="weapon" rv-on-click="menus.simpleAddWeaponSkillMenu">
+			        <div class="heading uiText" data-textKey="uiWeaponSkills"></div>
+			        <div class="weaponSkillsBox">
+				        <div rv-each-ws="pj.skills.weapon" class="weaponSkill">
+                            <div class="skillNameCell">
+                                <div class="input weaponSkillNameInput localizable" 
+                                    rv-data-textKey="ws.id" 
+                                    rv-text="ws.id | localize" 
+                                    rv-class-favoured="ws.favoured"
+                                    rv-on-click="menus.weaponSkillMenu"></div>
+                            </div>
+                            <div class="skillRankCell" rv-weaponskillrank="ws.rank">
+                                <div class="skillRankIcon" rv-data-weaponskill="ws.id" data-rank="1"><img /></div>
+                                <div class="skillRankIcon" rv-data-weaponskill="ws.id" data-rank="2"><img /></div>
+                                <div class="skillRankIcon" rv-data-weaponskill="ws.id" data-rank="3"><img /></div>
+                                <div class="skillRankIcon" rv-data-weaponskill="ws.id" data-rank="4"><img /></div>
+                                <div class="skillRankIcon" rv-data-weaponskill="ws.id" data-rank="5"><img /></div>
+                                <div class="skillRankIcon" rv-data-weaponskill="ws.id" data-rank="6"><img /></div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="skillRankCell" rv-weaponskillrank="ws.rank">
-                        <div class="skillRankIcon" rv-data-weaponskill="ws.id" data-rank="1"><img /></div>
-                        <div class="skillRankIcon" rv-data-weaponskill="ws.id" data-rank="2"><img /></div>
-                        <div class="skillRankIcon" rv-data-weaponskill="ws.id" data-rank="3"><img /></div>
-                        <div class="skillRankIcon" rv-data-weaponskill="ws.id" data-rank="4"><img /></div>
-                        <div class="skillRankIcon" rv-data-weaponskill="ws.id" data-rank="5"><img /></div>
-                        <div class="skillRankIcon" rv-data-weaponskill="ws.id" data-rank="6"><img /></div>
-                    </div>
-                </div>
-            </div>
-			<div class="virtuesRewardsContainer">
-				<div class="rewardsContainer">
+                </section>
+            </section>
+            <section class="virtuesRewards noHighlight">
+				<section class="rewards">
 					<div class="heading uiText" data-textKey="uiRewards">
 						uiRewards
 					</div>
@@ -147,8 +156,8 @@
                             </span>
                         </div>
 					</div>
-				</div>
-				<div class="virtuesContainer">
+				</section>
+				<section class="virtues">
 					<div class="heading uiText" data-textKey="uiVirtues">
 						uiVirtues
 					</div>
@@ -157,43 +166,120 @@
                             <span rv-each-virtue="pj.traits.virtues" class="localizable" rv-data-textkey="virtue" rv-on-click="menus.oneVirtueRewardMenu">{virtue | localize}, </span>
                         </div>
 					</div>
+				</section>
+                <hr />
+            </section>
+			
+            <section class="weaponGear" rv-on-click="menus.simpleAddWeaponMenu">            
+                <div class="weaponGearBox">
+				    <div class="heading uiText" data-textKey="uiGear"></div>
+				    <table id="weaponGearTable">
+                        <tr rv-each-weapon="pj.belongings.weaponGear">
+                            <td class="weaponGearStatCell">
+                                <input type="checkbox" class='weaponGearCarriedStatus statusBox' rv-checked="weapon.carried" rv-on-change="controller.onEncChanged"/>                            
+                            </td>
+                            <td class="weaponGearNameCell">
+                                <div class='input weaponGearNameInput localizable' 
+                                    rv-data-textKey="weapon.id" 
+                                    rv-text="weapon.id | localize"                                
+                                    rv-on-click="menus.weaponGearMenu"></div>
+                            </td>
+                            <td class="statNameCell uiText" data-textkey="uiWSDamage"></td>
+                            <td class="weaponGearStatCell">
+                                <input type='text' class='weaponGearDamageInput' rv-value="weapon.stats.damage" />
+                            </td>
+                            <td class="statNameCell uiText" data-textkey="uiWSEdge"></td>
+                            <td class="weaponGearStatCell">
+                                <input type='text' class='weaponGearEdgeInput'  rv-value="weapon.stats.edge" />
+                            </td>
+                            <td class="statNameCell uiText" data-textkey="uiWSInjury"></td>
+                            <td class="weaponGearStatCell">
+                                <input type='text' class='weaponGearEdgeInput'  rv-value="weapon.stats.injury" />
+                            </td>
+                            <td class="statNameCell uiText" data-textkey="uiEnc"></td>
+                            <td class="weaponGearStatCell">
+                                <input type='text' class='weaponGearEdgeInput'  rv-value="weapon.stats.enc" rv-on-change="controller.onEncChanged" />
+                            </td>
+                        </tr>
+				    </table>
+			    </div>
+            </section>
+        </main>
+        <aside class="misc">
+        	<div class="roundStatBox" data-stat="experience">
+				<label class="uiText"  data-textKey="uiExperience"></label>
+				<input type="text" rv-value="pj.progress.experience" />
+				<div class="top left subRoundStatBox" stat="total">
+					<label class="uiText"  data-textKey="uiTotal"></label>
+					<input type="text" rv-value="pj.progress.total" />
+				</div>
+			</div>  
+            <div class="roundStatBox" data-stat="valour">
+				<label class="uiText"  data-textKey="uiValour"></label>
+				<input type="text" rv-value="pj.stats.valour" />		
+			</div>
+			<div class="roundStatBox" data-stat="wisdom">
+				<label class="uiText"  data-textKey="uiWisdom"></label>
+				<input type="text" rv-value="pj.stats.wisdom" />		
+			</div>
+			<div class="roundStatBox" data-stat="damage">
+				<label class="uiText"  data-textKey="uiDamage"></label>
+				<input type="text" rv-value="pj.status.damage" />
+				<div class="bottom left subRoundStatBox" stat="ranged">
+					<label class="uiText"  data-textKey="uiRanged"></label>
+					<input type="text" rv-value="pj.status.ranged" />
 				</div>
 			</div>
-			<div class="weaponGearBox">
-				<div class="heading uiText" data-textKey="uiGear">
-					uiGear
+			<div class="roundStatBox" data-stat="parry">
+				<label class="uiText"  data-textKey="uiParry"></label>
+				<input type="text" rv-value="pj.status.armour" />
+				<div class="bottom left subRoundStatBox" stat="shield">
+					<label class="uiText"  data-textKey="uiShield"></label>
+					<input type="text" rv-value="pj.status.armour" />
 				</div>
-				<table id="weaponGearTable">
-                    <tr rv-each-weapon="pj.belongings.weaponGear">
-                        <td class="weaponGearStatCell">
-                            <input type="checkbox" class='weaponGearCarriedStatus statusBox' rv-checked="weapon.carried" rv-on-change="controller.onEncChanged"/>                            
-                        </td>
-                        <td class="weaponGearNameCell">
-                            <div class='input weaponGearNameInput localizable' 
-                                rv-data-textKey="weapon.id" 
-                                rv-text="weapon.id | localize"                                
-                                rv-on-click="menus.weaponGearMenu"></div>
-                        </td>
-                        <td class="statNameCell uiText" data-textkey="uiWSDamage"></td>
-                        <td class="weaponGearStatCell">
-                            <input type='text' class='weaponGearDamageInput' rv-value="weapon.stats.damage" />
-                        </td>
-                        <td class="statNameCell uiText" data-textkey="uiWSEdge"></td>
-                        <td class="weaponGearStatCell">
-                            <input type='text' class='weaponGearEdgeInput'  rv-value="weapon.stats.edge" />
-                        </td>
-                        <td class="statNameCell uiText" data-textkey="uiWSInjury"></td>
-                        <td class="weaponGearStatCell">
-                            <input type='text' class='weaponGearEdgeInput'  rv-value="weapon.stats.injury" />
-                        </td>
-                        <td class="statNameCell uiText" data-textkey="uiEnc"></td>
-                        <td class="weaponGearStatCell">
-                            <input type='text' class='weaponGearEdgeInput'  rv-value="weapon.stats.enc" rv-on-change="controller.onEncChanged" />
-                        </td>
-                    </tr>
-				</table>
 			</div>
-			<div class="gearContainer">
+            <div class="roundStatBox" data-stat="armour">
+				<label class="uiText" data-textKey="uiArmour"></label>
+				<input type="text" rv-value="pj.status.armour" />
+				<div class="bottom left subRoundStatBox" stat="headgear">
+					<label class="uiText"  data-textKey="uiHeadgear"></label>
+					<input type="text" rv-value="pj.status.headgear" />
+				</div>
+			</div>
+            
+            <div class="conditions">
+			    <div  class="statusBox">
+				    <label class="uiText" data-textKey="uiWeary"></label>
+                    <div class="checkbox">
+                        <input type="checkbox" rv-checked="pj.status.weary" />
+                    </div>
+			    </div>
+                <div  class="statusBox">
+				    <label class="uiText" data-textKey="uiMiserable"></label>
+                    <div class="checkbox">
+                        <input type="checkbox" rv-checked="pj.status.miserable" />
+                    </div>
+			    </div>
+                <div  class="statusBox">
+				    <label class="uiText" data-textKey="uiWounded"></label>
+                    <div class="checkbox">
+                        <input type="checkbox" rv-checked="pj.status.wounded" />
+                    </div>
+			    </div>
+                <div  class="statusBox">
+				    <label class="uiText" data-textKey="uiWoundTreated"></label>
+                    <div class="checkbox">
+                        <input type="checkbox" rv-checked="pj.status.woundTreated" />
+                    </div>
+			    </div>
+            </div>
+            <div class="commentContainer">
+                <div class="comment" rv-each-comment="pj.characterTexts.comments" rv-text="comment.text" rv-data-target="comment.for"></div>
+            </div>
+        </aside>
+        <hr />
+        <footer class="gearAndStatus">
+			<section class="gear" rv-on-click="menus.simpleAddGearMenu">
 				<table class="gearTable">
                     <tr rv-each-gear="pj.belongings.gear">
                         <td class="gearCarried">
@@ -217,112 +303,51 @@
                         </td>
                     </tr>
 				</table>		
-			</div>
+			</section>
 			
-			<div class="roundStatBox" data-stat="endurance">
-				<label class="uiText" data-textKey="uiEndurance"></label>
-				<input type="text" rv-value="pj.status.endurance" />
-				<div class="top left subRoundStatBox">
-					<label class="uiText" data-textKey="uiEndStartingScore"></label>
-					<input type="text" rv-value="pj.stats.startingEndurance" />
-				</div>
-				<div class="bottom left subRoundStatBox">
-					<label class="uiText" data-textKey="uiFatigue"></label>
-					<input type="text" rv-value="pj.status.fatigue"/>
-				</div>
-				<div class="subbottom left subRoundStatBox" >
-					<label class="uiText" data-textKey="uiFatigueTravel"></label>
-					<input type="text" rv-value="pj.status.fatigueTravel" rv-on-change="controller.onEncChanged" />
-				</div>
-				<div class="bottom right subRoundStatBox" >
-					<label class="uiText" data-textKey="uiFatigueTotal"></label>
-					<input type="text" readonly="readonly" rv-value="pj.status.fatigueTotal" />
-				</div>
+            <section class="status">
+                <div class="roundStatBox" data-stat="endurance">
+				    <label class="uiText" data-textKey="uiEndurance"></label>
+				    <input type="text" rv-value="pj.status.endurance" />
+				    <div class="top left subRoundStatBox">
+					    <label class="uiText" data-textKey="uiEndStartingScore"></label>
+					    <input type="text" rv-value="pj.stats.startingEndurance" />
+				    </div>
+				    <div class="bottom left subRoundStatBox">
+					    <label class="uiText" data-textKey="uiFatigue"></label>
+					    <input type="text" rv-value="pj.status.fatigue"/>
+				    </div>
+				    <div class="subbottom left subRoundStatBox" >
+					    <label class="uiText" data-textKey="uiFatigueTravel"></label>
+					    <input type="text" rv-value="pj.status.fatigueTravel" rv-on-change="controller.onEncChanged" />
+				    </div>
+				    <div class="bottom right subRoundStatBox" >
+					    <label class="uiText" data-textKey="uiFatigueTotal"></label>
+					    <input type="text" readonly="readonly" rv-value="pj.status.fatigueTotal" />
+				    </div>
+		        </div>
 
-		    </div>
+			    <div class="roundStatBox" data-stat="hope">
+				    <label class="uiText" data-textKey="uiHope"></label>
+				    <input type="text" rv-value="pj.status.hope"/>
+				    <div class="top left subRoundStatBox" >
+					    <label class="uiText" data-textKey="uiHopeStartingScore"></label>
+					    <input type="text" rv-value="pj.stats.startingHope"/>
+				    </div>
+				    <div class="bottom left subRoundStatBox" >
+					    <label class="uiText" data-textKey="uiShadow"></label>
+					    <input type="text" rv-value="pj.status.shadow" rv-on-change="controller.onShadowChanged"/>
+				    </div>
+				    <div class="subbottom left subRoundStatBox" >
+					    <label class="uiText" data-textKey="uipermanentShadow"></label>
+					    <input type="text" rv-value="pj.status.permanentShadow" rv-on-change="controller.onShadowChanged"/>
+				    </div>
+				    <div class="bottom right subRoundStatBox" >
+					    <label class="uiText" data-textKey="uitotalShadow"></label>
+					    <input type="text" readonly="readonly" rv-value="pj.status.totalShadow" />
+				    </div>
+			    </div>			
+            </section>
+        </footer>
 
-			<div class="roundStatBox" data-stat="hope">
-				<label class="uiText" data-textKey="uiHope"></label>
-				<input type="text" rv-value="pj.status.hope"/>
-				<div class="top left subRoundStatBox" >
-					<label class="uiText" data-textKey="uiHopeStartingScore"></label>
-					<input type="text" rv-value="pj.stats.startingHope"/>
-				</div>
-				<div class="bottom left subRoundStatBox" >
-					<label class="uiText" data-textKey="uiShadow"></label>
-					<input type="text" rv-value="pj.status.shadow" rv-on-change="controller.onShadowChanged"/>
-				</div>
-				<div class="subbottom left subRoundStatBox" >
-					<label class="uiText" data-textKey="uipermanentShadow"></label>
-					<input type="text" rv-value="pj.status.permanentShadow" rv-on-change="controller.onShadowChanged"/>
-				</div>
-				<div class="bottom right subRoundStatBox" >
-					<label class="uiText" data-textKey="uitotalShadow"></label>
-					<input type="text" readonly="readonly" rv-value="pj.status.totalShadow" />
-				</div>
-			</div>
-			<div class="roundStatBox" data-stat="armour">
-				<label class="uiText" data-textKey="uiArmour"></label>
-				<input type="text" rv-value="pj.status.armour" />
-				<div class="bottom left subRoundStatBox" stat="headgear">
-					<label class="uiText"  data-textKey="uiHeadgear"></label>
-					<input type="text" rv-value="pj.status.headgear" />
-				</div>
-			</div>
-
-			<div class="roundStatBox" data-stat="parry">
-				<label class="uiText"  data-textKey="uiParry">uiParry</label>
-				<input type="text" rv-value="pj.status.armour" />
-				<div class="bottom left subRoundStatBox" stat="shield">
-					<label class="uiText"  data-textKey="uiShield">uiShield</label>
-					<input type="text" rv-value="pj.status.armour" />
-				</div>
-			</div>
-			<div class="roundStatBox" data-stat="damage">
-				<label class="uiText"  data-textKey="uiDamage">uiDamage</label>
-				<input type="text" rv-value="pj.status.damage" />
-				<div class="bottom left subRoundStatBox" stat="ranged">
-					<label class="uiText"  data-textKey="uiRanged">uiRanged</label>
-					<input type="text" rv-value="pj.status.ranged" />
-				</div>
-			</div>
-			<div class="roundStatBox" data-stat="wisdom">
-				<label class="uiText"  data-textKey="uiWisdom">uiWisdom</label>
-				<input type="text" rv-value="pj.stats.wisdom" />		
-			</div>
-			<div class="roundStatBox" data-stat="valour">
-				<label class="uiText"  data-textKey="uiValour">uiValour</label>
-				<input type="text" rv-value="pj.stats.valour" />		
-			</div>
-			<div class="roundStatBox" data-stat="experience">
-				<label class="uiText"  data-textKey="uiExperience">uiExperience</label>
-				<input type="text" rv-value="pj.progress.experience" />
-				<div class="top left subRoundStatBox" stat="total">
-					<label class="uiText"  data-textKey="uiTotal">uiTotal</label>
-					<input type="text" rv-value="pj.progress.total" />
-				</div>
-			</div>  
-
-			<div class="statusBox" data-stat="weary">
-				<label class="uiText"  data-textKey="uiWeary">uiWeary</label>
-                <input type="checkbox" rv-checked="pj.status.weary" />
-			</div>
-			<div class="statusBox" data-stat="miserable">
-				<label class="uiText"  data-textKey="uiMiserable">uiMiserable</label>
-                <input type="checkbox" rv-checked="pj.status.miserable" />
-			</div>
-			<div class="statusBox" data-stat="wounded">
-				<label class="uiText"  data-textKey="uiWounded">uiWounded</label>
-                <input type="checkbox" rv-checked="pj.status.wounded" />
-			</div>
-			<div class="statusBox" data-stat="woundTreated">
-				<label class="uiText"  data-textKey="uiWoundTreated">uiWoundTreated</label>
-                <input type="checkbox" rv-checked="pj.status.woundTreated" />
-			</div>
-            <div class="commentContainer">
-                <div class="comment"
-                    rv-each-comment="pj.characterTexts.comments"
-                    rv-text="comment.text"
-                    rv-data-target="comment.for"></div>
-            </div>
-		</div>
+	</div>

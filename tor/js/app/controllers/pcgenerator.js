@@ -28,7 +28,7 @@ function (Pj, PjSheet, Gamedata, Text, Rivets, $,
         { start: wsPackStart },
         { start: specialtiesStart, finish: specialtiesFinish },
         { start: backgroundStart, finish: backgroundFinish },
-        { start: callingStart },
+        { start: callingStart, finish: callingFinish },
         { start: additionalTraitStart, finish: additionalTraitFinish },
         { start: favouredSkillsStart, finish: favouredSkillsFinish },
         { start: favouredAttributeStart },
@@ -190,13 +190,13 @@ function (Pj, PjSheet, Gamedata, Text, Rivets, $,
         models.packs.forEach(function (p) {
             p.selected = (p === models.pack);
         });
-        
+
         // Empty the weapon skills table (without destroying the whole object)
         Object.keys(pj.skills.weapon)
             .forEach(function (ws) {
                 delete pj.skills.weapon[ws];
             });
-        
+
         pack.skills
             .forEach(function (s) {
                 pj.skills.weapon[s.name] = { id: s.name, favoured: !!s.favoured, rank: s.score | 0 };
@@ -316,7 +316,15 @@ function (Pj, PjSheet, Gamedata, Text, Rivets, $,
 
             });
         PcGenerator.selectedCalling = pj.traits.calling;
-        var models = { pj: pj, controller: PcGenerator, callings: callings };
+        // Remove from the character all Calling-given traits
+        pj.traits.specialties = pj.traits.specialties
+            .filter(function (s) {
+                return callings.every(function (c) {
+                    return c.additionalTrait.indexOf(s) === -1;
+                });
+            });
+
+        var models = { pj: pj, controller: PcGenerator, callings: callings, selection: { calling: null} };
         var viewElement = createView(callingTemplate, models);
     }
 
@@ -328,6 +336,7 @@ function (Pj, PjSheet, Gamedata, Text, Rivets, $,
         pj.traits.calling = models.calling.name;
         pj.traits.shadowWeakness = models.calling.shadowWeakness[0].name;
         PcGenerator.selectedCalling = pj.traits.calling;
+        models.selection.calling = models.calling;
     };
 
     PcGenerator.readyForNext = function () {
@@ -337,6 +346,14 @@ function (Pj, PjSheet, Gamedata, Text, Rivets, $,
     PcGenerator.readyForSlayerTraitSelect = function () {
         return pj.traits.calling === "slayer";
     };
+
+    function callingFinish(event, models) {
+        if (models.selection.calling.name !== "slayer") {
+            var trait = models.selection.calling.additionalTrait[0];
+            pj.traits.specialties.push(trait);
+        }
+    }
+
 
     // Slayer Addtional Trait selection
     PcGenerator.selectedAdditionalTrait = null;

@@ -112,7 +112,7 @@
             }
 
             MenuItem.prototype.render = function () {
-                var element = $("<div>")
+                var element = $("<menuitem>")
                     .addClass("action")
                     .addClass("menuItem")
                     .addClass(this.cssClass)

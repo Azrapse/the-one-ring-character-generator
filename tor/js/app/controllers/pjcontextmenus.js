@@ -36,6 +36,14 @@
                 this.menu.close();
             }
 
+            function addGearOption(context) {
+                this.menu.close();
+                var newGear = { id: "uiATChooseone", enc: 0 };
+
+                Pj.belongings.gear["uiATChooseone"] = newGear;
+                databind();
+            }
+
             var showMenu = function (m, e) {
                 m.show(e.pageX + 1, e.pageY + 1);
             };
@@ -313,15 +321,7 @@
                         return Object.keys(Pj.skills.weapon).length > 1;
                     }
                 };
-
-                var addWeaponSkillOption = function (context) {
-                    this.menu.close();
-                    var newWeaponSkill = { id: "uiATChooseone", rank: 0, favoured: false };
-
-                    Pj.skills.weapon["uiATChooseone"] = newWeaponSkill;
-                    databind();
-                };
-
+                                
                 var m = new popupMenu({
                     context: { key: key },
                     container: menu,
@@ -336,6 +336,14 @@
                     }
                 })
                 .show(e.pageX + 1, e.pageY + 1);
+            }
+
+            function addWeaponSkillOption(context) {
+                this.menu.close();
+                var newWeaponSkill = { id: "uiATChooseone", rank: 0, favoured: false };
+
+                Pj.skills.weapon["uiATChooseone"] = newWeaponSkill;
+                databind();
             }
 
             function weaponGearMenu(e) {
@@ -393,14 +401,7 @@
                         return Object.keys(Pj.belongings.weaponGear).length > 1;
                     }
                 };
-                var addWeaponGearOption = function (context) {
-                    this.menu.close();
-                    var newWeaponGear = { id: "uiATChooseone", carried: false, stats: { damage: 0, edge: "G", injury: 0, enc: 0} };
-
-                    Pj.belongings.weaponGear["uiATChooseone"] = newWeaponGear;
-                    databind();
-                };
-
+                
                 var m = new popupMenu({
                     context: { key: key },
                     container: menu,
@@ -412,6 +413,14 @@
                     }
                 })
                 .show(e.pageX + 1, e.pageY + 1);
+            }
+
+            function addWeaponGearOption(context) {
+                this.menu.close();
+                var newWeaponGear = { id: "uiATChooseone", carried: false, stats: { damage: 0, edge: "G", injury: 0, enc: 0} };
+
+                Pj.belongings.weaponGear["uiATChooseone"] = newWeaponGear;
+                databind();
             }
 
             function gearMenu(e) {
@@ -478,14 +487,6 @@
                         return Object.keys(Pj.belongings.weaponGear).length > 1;
                     }
                 };
-                var addGearOption = function (context) {
-                    this.menu.close();
-                    var newGear = { id: "uiATChooseone", enc: 0 };
-
-                    Pj.belongings.gear["uiATChooseone"] = newGear;
-                    databind();
-                };
-
 
                 var m = new popupMenu({
                     context: { key: key },
@@ -500,6 +501,52 @@
                 })
                 .show(e.pageX + 1, e.pageY + 1);
             }
+
+            function simpleAddGearMenu(e, models) {
+                // Ignore if clicking an input
+                if (e.target != this && e.target instanceof HTMLInputElement) {
+                    return true;
+                }
+                var m = new popupMenu({                    
+                    container: _menu,
+                    items: {
+                        uiMenuNevermind: nevermindOption,
+                        uiMenuAddRow: addGearOption
+                    }
+                })
+                .show(e.pageX + 1, e.pageY + 1);
+            }
+
+            function simpleAddWeaponSkillMenu(e, models) {
+                // Ignore if clicking an input or a rank icon
+                if (e.target != this && (e.target instanceof HTMLInputElement || e.target instanceof HTMLImageElement)) {
+                    return true;
+                }
+                var m = new popupMenu({
+                    container: _menu,
+                    items: {
+                        uiMenuNevermind: nevermindOption,
+                        uiMenuAddRow: addWeaponSkillOption
+                    }
+                })
+                .show(e.pageX + 1, e.pageY + 1);
+            }
+
+            function simpleAddWeaponMenu(e, models) {
+                // Ignore if clicking an input
+                if (e.target != this && e.target instanceof HTMLInputElement) {
+                    return true;
+                }
+                var m = new popupMenu({
+                    container: _menu,
+                    items: {
+                        uiMenuNevermind: nevermindOption,
+                        uiMenuAddRow: addWeaponGearOption
+                    }
+                })
+                .show(e.pageX + 1, e.pageY + 1);
+            }
+
 
             function featuresMenu(e) {
                 if (e.target != this) {
@@ -642,6 +689,9 @@
             PjContextMenuManager.prototype.featuresMenu = featuresMenu;
             PjContextMenuManager.prototype.changeFeatureMenu = changeFeatureMenu;
             PjContextMenuManager.prototype.simpleCommentMenu = simpleCommentMenu;
+            PjContextMenuManager.prototype.simpleAddGearMenu = simpleAddGearMenu;
+            PjContextMenuManager.prototype.simpleAddWeaponSkillMenu = simpleAddWeaponSkillMenu;
+            PjContextMenuManager.prototype.simpleAddWeaponMenu = simpleAddWeaponMenu;
 
             return PjContextMenuManager;
         })();
