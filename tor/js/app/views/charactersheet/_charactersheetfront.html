@@ -1,6 +1,6 @@
 ﻿	<!-- Character Sheet -->
 	<div class="characterSheet front">			
-        <main>
+        <section ="main">
 			<div class="logoContainer">
 				<img src="css/TorLogoEn.jpg" />
 			</div>
@@ -152,7 +152,8 @@
                                 <span class="localizable" 
                                     rv-data-textkey="reward" 
                                     rv-on-click="menus.oneVirtueRewardMenu"                                    
-                                    rv-text="reward | localize"></span>, 
+                                    rv-text="reward | localize"></span>
+                                <span rv-text="controller.getComment"></span>, 
                             </span>
                         </div>
 					</div>
@@ -204,7 +205,7 @@
 				    </table>
 			    </div>
             </section>
-        </main>
+        </section>
         <aside class="misc">
         	<div class="roundStatBox" data-stat="experience">
 				<label class="uiText"  data-textKey="uiExperience"></label>

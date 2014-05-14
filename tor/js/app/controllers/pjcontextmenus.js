@@ -2,19 +2,19 @@
     function ($, Gamedata, Text, popupMenu) {
 
         var PjContextMenuManager = (function () {
-            // Private variables (for closure, easier than dealing with this for the 
-            var Pj = null;
-            var Sheet = null;
-            var _menu = null;
+            // Private variables (for closure, easier than dealing with this for the             
+            var _sheet = null;
+            var _menu = null;            
+
             // Constructor            
-            function PjContextMenuManager(menu, pj, sheet) {
+            function PjContextMenuManager(menu, sheet) {
                 _menu = menu;
-                Pj = this.pj = pj;
-                Sheet = sheet;
+                _sheet = sheet;                
             }
+            
 
             function databind() {
-                Sheet.view.bind();
+                _sheet.databind();
             }
 
             var nevermindOption = {
@@ -23,14 +23,14 @@
             };
 
             function addCommentMenuOption(context) {
-                var currentText = Pj.getComment(context.key);
+                var currentText = _sheet.pc.getComment(context.key);
 
                 if (currentText === undefined) {
                     currentText = "";
                 }
                 var commentText = prompt("Please insert the comment text", currentText);
                 if (commentText !== null) {
-                    Pj.setComment(context.key, commentText);
+                    _sheet.pc.setComment(context.key, commentText);
                 }
                 databind();
                 this.menu.close();
@@ -40,7 +40,7 @@
                 this.menu.close();
                 var newGear = { id: "uiATChooseone", enc: 0 };
 
-                Pj.belongings.gear["uiATChooseone"] = newGear;
+                _sheet.pc.belongings.gear["uiATChooseone"] = newGear;
                 databind();
             }
 
@@ -60,21 +60,21 @@
                     items: {
                         uiMenuNotFavoured: {
                             callback: function (context) {
-                                Pj.skills.common.favoured[context.skill] = false;
+                                _sheet.pc.skills.common.favoured[context.skill] = false;
                                 this.menu.close();
                             },
-                            condition: function (context) { return Pj.skills.common.favoured[context.skill]; }
+                            condition: function (context) { return _sheet.pc.skills.common.favoured[context.skill]; }
                         },
                         uiMenuFavoured: {
                             callback: function (context) {
-                                Pj.skills.common.favoured[context.skill] = true;
+                                _sheet.pc.skills.common.favoured[context.skill] = true;
                                 this.menu.close();
                             },
-                            condition: function (context) { return !(Pj.skills.common.favoured[context.skill]); }
+                            condition: function (context) { return !(_sheet.pc.skills.common.favoured[context.skill]); }
                         },
                         uiMenuNevermind: nevermindOption
                     },
-                    context: { skill: skill, pj: Pj }
+                    context: { skill: skill, pj: _sheet.pc }
                 });
 
                 showMenu(m, e);
@@ -93,7 +93,7 @@
                 var showAddOptionsSubmenu = function (context) {
                     this.menu.close();
 
-                    var virtues = Gamedata.cultures[Pj.traits.culture].virtues.slice(0); // Copy the array
+                    var virtues = Gamedata.cultures[_sheet.pc.traits.culture].virtues.slice(0); // Copy the array
                     var masteries = Gamedata.masteries;
                     for (var m in masteries) {
                         virtues.push(m);
@@ -106,11 +106,11 @@
                             var virtue = virtues[i];
                             var entry = {
                                 callback: function (context) {
-                                    Pj.traits.virtues.push(virtue);
+                                    _sheet.pc.traits.virtues.push(virtue);
                                     this.menu.close();
                                 },
                                 condition: function (context) {
-                                    var current = Pj.traits.virtues;
+                                    var current = _sheet.pc.traits.virtues;
                                     return current.indexOf(this.key) == -1;
                                 }
                             };
@@ -121,7 +121,7 @@
                     var m = new popupMenu({
                         container: menu,
                         items: entries,
-                        context: { pj: Pj }
+                        context: { pj: _sheet.pc }
                     });
                     showMenu(m, e);
                 };
@@ -133,7 +133,7 @@
                         uiMenuAdd: showAddOptionsSubmenu,
                         uiMenuNevermind: nevermindOption
                     },
-                    context: { pj: Pj }
+                    context: { pj: _sheet.pc }
                 });
 
                 showMenu(m, e);
@@ -148,13 +148,13 @@
                     container: _menu,
                     items: {
                         uiMenuRemove: function (context) {
-                            var index = Pj.traits.virtues.indexOf(context.key);
+                            var index = _sheet.pc.traits.virtues.indexOf(context.key);
                             if (index != -1) {
-                                Pj.traits.virtues.splice(index, 1);
+                                _sheet.pc.traits.virtues.splice(index, 1);
                             } else {
-                                index = Pj.belongings.rewards.indexOf(context.key);
+                                index = _sheet.pc.belongings.rewards.indexOf(context.key);
                                 if (index != -1) {
-                                    Pj.belongings.rewards.splice(index, 1);
+                                    _sheet.pc.belongings.rewards.splice(index, 1);
                                 }
                             }
                             this.menu.close();
@@ -179,7 +179,7 @@
                 var showAddOptionsSubmenu = function (context) {
                     this.menu.close();
 
-                    var rewards = Object.keys(Gamedata.cultures[Pj.traits.culture].rewards);
+                    var rewards = Object.keys(Gamedata.cultures[_sheet.pc.traits.culture].rewards);
                     rewards = rewards.concat(Object.keys(Gamedata.qualities));
 
                     var entries = {
@@ -190,11 +190,11 @@
                             var reward = rewards[i];
                             var entry = {
                                 callback: function (context) {
-                                    Pj.belongings.rewards.push(reward);
+                                    _sheet.pc.belongings.rewards.push(reward);
                                     this.menu.close();
                                 },
                                 condition: function (context) {
-                                    var current = Pj.belongings.rewards;
+                                    var current = _sheet.pc.belongings.rewards;
                                     return current.indexOf(this.key) == -1;
                                 }
                             };
@@ -205,7 +205,7 @@
                     var m = new popupMenu({
                         container: _menu,
                         items: entries,
-                        context: { pj: Pj }
+                        context: { pj: _sheet.pc }
                     });
                     showMenu(m, e);
                 };
@@ -217,7 +217,7 @@
                         uiMenuAdd: showAddOptionsSubmenu,
                         uiMenuNevermind: nevermindOption
                     },
-                    context: { pj: Pj }
+                    context: { pj: _sheet.pc }
                 })
                 .show(e.pageX + 1, e.pageY + 1);
             }
@@ -229,20 +229,20 @@
 
                 var notFavouredOption = {
                     callback: function (context) {
-                        Pj.skills.weapon[context.key].favoured = false;
+                        _sheet.pc.skills.weapon[context.key].favoured = false;
                         this.menu.close();
                     },
                     condition: function (context) {
-                        return Pj.skills.weapon[context.key].favoured;
+                        return _sheet.pc.skills.weapon[context.key].favoured;
                     }
                 };
                 var favouredOption = {
                     callback: function (context) {
-                        Pj.skills.weapon[context.key].favoured = true;
+                        _sheet.pc.skills.weapon[context.key].favoured = true;
                         this.menu.close();
                     },
                     condition: function (context) {
-                        return !(Pj.skills.weapon[context.key].favoured || (context.key.replace(/[()]/ig, "") in Gamedata.weaponGroups));
+                        return !(_sheet.pc.skills.weapon[context.key].favoured || (context.key.replace(/[()]/ig, "") in Gamedata.weaponGroups));
                     }
                 };
 
@@ -258,12 +258,12 @@
                                 callback: function () {
                                     this.menu.close();
 
-                                    Pj.skills.weapon[weaponKey] = Pj.skills.weapon[key];
-                                    delete Pj.skills.weapon[key];
-                                    Pj.skills.weapon[weaponKey].id = weaponKey;
+                                    _sheet.pc.skills.weapon[weaponKey] = _sheet.pc.skills.weapon[key];
+                                    delete _sheet.pc.skills.weapon[key];
+                                    _sheet.pc.skills.weapon[weaponKey].id = weaponKey;
                                 },
                                 condition: function () {
-                                    return !(weaponKey in Pj.skills.weapon) && (weaponKey != key);
+                                    return !(weaponKey in _sheet.pc.skills.weapon) && (weaponKey != key);
                                 }
                             };
 
@@ -290,13 +290,13 @@
                                 callback: function () {
                                     this.menu.close();
 
-                                    Pj.skills.weapon[cultural] = Pj.skills.weapon[key];
-                                    delete Pj.skills.weapon[key];
-                                    Pj.skills.weapon[cultural].id = cultural;
-                                    Pj.skills.weapon[cultural].favoured = false;
+                                    _sheet.pc.skills.weapon[cultural] = _sheet.pc.skills.weapon[key];
+                                    delete _sheet.pc.skills.weapon[key];
+                                    _sheet.pc.skills.weapon[cultural].id = cultural;
+                                    _sheet.pc.skills.weapon[cultural].favoured = false;
                                 },
                                 condition: function () {
-                                    return !(cultural in Pj.skills.weapon) && (cultural != key);
+                                    return !(cultural in _sheet.pc.skills.weapon) && (cultural != key);
                                 }
                             };
 
@@ -314,14 +314,14 @@
                     callback: function (context) {
                         this.menu.close();
 
-                        delete Pj.skills.weapon[context.key];
+                        delete _sheet.pc.skills.weapon[context.key];
                         databind();
                     },
                     condition: function (context) {
-                        return Object.keys(Pj.skills.weapon).length > 1;
+                        return Object.keys(_sheet.pc.skills.weapon).length > 1;
                     }
                 };
-                                
+
                 var m = new popupMenu({
                     context: { key: key },
                     container: menu,
@@ -342,7 +342,7 @@
                 this.menu.close();
                 var newWeaponSkill = { id: "uiATChooseone", rank: 0, favoured: false };
 
-                Pj.skills.weapon["uiATChooseone"] = newWeaponSkill;
+                _sheet.pc.skills.weapon["uiATChooseone"] = newWeaponSkill;
                 databind();
             }
 
@@ -363,19 +363,19 @@
                                 callback: function () {
                                     this.menu.close();
 
-                                    Pj.belongings.weaponGear[weaponKey] = Pj.belongings.weaponGear[key];
-                                    delete Pj.belongings.weaponGear[key];
-                                    Pj.belongings.weaponGear[weaponKey].id = weaponKey;
+                                    _sheet.pc.belongings.weaponGear[weaponKey] = _sheet.pc.belongings.weaponGear[key];
+                                    delete _sheet.pc.belongings.weaponGear[key];
+                                    _sheet.pc.belongings.weaponGear[weaponKey].id = weaponKey;
                                     var normalstats = Gamedata.weapons[weaponKey];
-                                    Pj.belongings.weaponGear[weaponKey].stats.enc = normalstats.enc;
-                                    Pj.belongings.weaponGear[weaponKey].stats.damage = normalstats.damage;
-                                    Pj.belongings.weaponGear[weaponKey].stats.injury = normalstats.injury;
-                                    Pj.belongings.weaponGear[weaponKey].stats.edge = normalstats.edge;
-                                    Pj.updateEncFatigue();
-                                    Pj.updateTotalFatigue();
+                                    _sheet.pc.belongings.weaponGear[weaponKey].stats.enc = normalstats.enc;
+                                    _sheet.pc.belongings.weaponGear[weaponKey].stats.damage = normalstats.damage;
+                                    _sheet.pc.belongings.weaponGear[weaponKey].stats.injury = normalstats.injury;
+                                    _sheet.pc.belongings.weaponGear[weaponKey].stats.edge = normalstats.edge;
+                                    _sheet.pc.updateEncFatigue();
+                                    _sheet.pc.updateTotalFatigue();
                                 },
                                 condition: function () {
-                                    return !(weaponKey in Pj.belongings.weaponGear) && (weaponKey != key);
+                                    return !(weaponKey in _sheet.pc.belongings.weaponGear) && (weaponKey != key);
                                 }
                             };
 
@@ -392,16 +392,16 @@
                     callback: function (context) {
                         this.menu.close();
 
-                        delete Pj.belongings.weaponGear[context.key];
+                        delete _sheet.pc.belongings.weaponGear[context.key];
                         databind();
-                        Pj.updateEncFatigue();
-                        Pj.updateTotalFatigue();
+                        _sheet.pc.updateEncFatigue();
+                        _sheet.pc.updateTotalFatigue();
                     },
                     condition: function (context) {
-                        return Object.keys(Pj.belongings.weaponGear).length > 1;
+                        return Object.keys(_sheet.pc.belongings.weaponGear).length > 1;
                     }
                 };
-                
+
                 var m = new popupMenu({
                     context: { key: key },
                     container: menu,
@@ -419,7 +419,7 @@
                 this.menu.close();
                 var newWeaponGear = { id: "uiATChooseone", carried: false, stats: { damage: 0, edge: "G", injury: 0, enc: 0} };
 
-                Pj.belongings.weaponGear["uiATChooseone"] = newWeaponGear;
+                _sheet.pc.belongings.weaponGear["uiATChooseone"] = newWeaponGear;
                 databind();
             }
 
@@ -451,17 +451,17 @@
                                 callback: function () {
                                     this.menu.close();
 
-                                    Pj.belongings.gear[weaponKey] = Pj.belongings.gear[key];
-                                    delete Pj.belongings.gear[key];
-                                    Pj.belongings.gear[weaponKey].id = weaponKey;
+                                    _sheet.pc.belongings.gear[weaponKey] = _sheet.pc.belongings.gear[key];
+                                    delete _sheet.pc.belongings.gear[key];
+                                    _sheet.pc.belongings.gear[weaponKey].id = weaponKey;
                                     var normalstats = gearGroup[weaponKey];
-                                    Pj.belongings.gear[weaponKey].enc = normalstats.enc;
+                                    _sheet.pc.belongings.gear[weaponKey].enc = normalstats.enc;
 
-                                    Pj.updateEncFatigue();
-                                    Pj.updateTotalFatigue();
+                                    _sheet.pc.updateEncFatigue();
+                                    _sheet.pc.updateTotalFatigue();
                                 },
                                 condition: function () {
-                                    return !(weaponKey in Pj.belongings.gear) && (weaponKey != key);
+                                    return !(weaponKey in _sheet.pc.belongings.gear) && (weaponKey != key);
                                 }
                             };
 
@@ -478,13 +478,13 @@
                     callback: function (context) {
                         this.menu.close();
 
-                        delete Pj.belongings.gear[context.key];
+                        delete _sheet.pc.belongings.gear[context.key];
                         databind();
-                        Pj.updateEncFatigue();
-                        Pj.updateTotalFatigue();
+                        _sheet.pc.updateEncFatigue();
+                        _sheet.pc.updateTotalFatigue();
                     },
                     condition: function (context) {
-                        return Object.keys(Pj.belongings.weaponGear).length > 1;
+                        return Object.keys(_sheet.pc.belongings.weaponGear).length > 1;
                     }
                 };
 
@@ -507,7 +507,7 @@
                 if (e.target != this && e.target instanceof HTMLInputElement) {
                     return true;
                 }
-                var m = new popupMenu({                    
+                var m = new popupMenu({
                     container: _menu,
                     items: {
                         uiMenuNevermind: nevermindOption,
@@ -558,11 +558,11 @@
                 var addDegenerationOption = function (context) {
                     this.menu.close();
 
-                    var features = Pj.traits.features;
-                    var degeneration = Pj.getNextDegeneration();
+                    var features = _sheet.pc.traits.features;
+                    var degeneration = _sheet.pc.getNextDegeneration();
                     var entries = { uiMenuNevermind: nevermindOption };
                     if (degeneration) {
-                        entries[degeneration] = function () { Pj.traits.features.push(degeneration); this.menu.close(); };
+                        entries[degeneration] = function () { _sheet.pc.traits.features.push(degeneration); this.menu.close(); };
                     }
                     var m = new popupMenu({
                         container: menu,
@@ -588,7 +588,7 @@
 
                 var exchangeFeatureOption = {
                     condition: function () {
-                        var degenerations = Gamedata.getDegenerationsForCalling(Pj.traits.calling);
+                        var degenerations = Gamedata.getDegenerationsForCalling(_sheet.pc.traits.calling);
                         return degenerations.indexOf(key) == -1;
                     },
                     callback: function () {
@@ -600,11 +600,11 @@
                             (function () { // Code block for closure
 
                                 var feature = features[i];
-                                if (Pj.traits.features.indexOf(feature) === -1) {
+                                if (_sheet.pc.traits.features.indexOf(feature) === -1) {
                                     entries[feature] = function () {
                                         this.menu.close();
-                                        var index = Pj.traits.features.indexOf(key);
-                                        Pj.traits.features[index] = feature;
+                                        var index = _sheet.pc.traits.features.indexOf(key);
+                                        _sheet.pc.traits.features[index] = feature;
                                         databind();
                                     };
                                 }
@@ -642,10 +642,10 @@
                         var entry = {};
                         var standard = s;
                         entry.condition = function (context) {
-                            return Pj.stats.standard != standard;
+                            return _sheet.pc.stats.standard != standard;
                         };
                         entry.callback = function (context) {
-                            Pj.stats.standard = standard;
+                            _sheet.pc.stats.standard = standard;
                             this.menu.close();
                         };
                         entries[s] = entry;
@@ -656,7 +656,7 @@
                 var m = new popupMenu({
                     container: menu,
                     items: entries,
-                    context: { pj: Pj }
+                    context: { pj: _sheet.pc }
                 });
                 showMenu(m, e);
             }

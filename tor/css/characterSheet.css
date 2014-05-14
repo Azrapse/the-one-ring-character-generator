@@ -135,12 +135,12 @@
 
 .characterSheet section
 {
-	border: 2px solid transparent;	
+	border: 2px solid transparent;		
 }
 .characterSheet section:hover:not(.noHighlight)
 {
 	border: 2px dashed #555;
-	border-radius: 3px;
+	border-radius: 5px;	
 }
 
 .characterSheet .statBlock
@@ -651,7 +651,7 @@ div.inventory .input
 {	
 	text-align: right;
 }
-.characterSheet main
+.characterSheet section.main
 {
 	float: left;
 	width: 80%;

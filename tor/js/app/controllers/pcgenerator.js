@@ -13,9 +13,7 @@
     "txt!views/generator/previousxp.html",
     "txt!views/generator/finish.html",
     "jquery.linq", "jquery.ui"],
-function (Pj, PjSheet, Gamedata, Text, Rivets, $,
-    cultureTemplate, wsPackageTemplate, specialtiesTemplate, backgroundTemplate, callingTemplate, additionalTraitTemplate,
-    favouredSkillTemplate, favouredAttributeTemplate, valourWisdomTemplate, rewardsTemplate, virtuesTemplate, xpTemplate, finishTemplate) {
+function (Pj, PjSheet, Gamedata, Text, Rivets, $) {
     var PcGenerator = {};
     var pj = null;
     var sheet = null;
@@ -24,83 +22,78 @@ function (Pj, PjSheet, Gamedata, Text, Rivets, $,
     var element = null;
 
     var creationSteps = [
-        { start: cultureSelectionStart },
-        { start: wsPackStart },
-        { start: specialtiesStart, finish: specialtiesFinish },
-        { start: backgroundStart, finish: backgroundFinish },
-        { start: callingStart, finish: callingFinish },
-        { start: additionalTraitStart, finish: additionalTraitFinish },
-        { start: favouredSkillsStart, finish: favouredSkillsFinish },
-        { start: favouredAttributeStart },
-        { start: valourWisdomStart, finish: valourWisdomFinish },
-        { start: rewardStart },
-        { start: virtueStart },
-        { start: xpStart, finish: xpFinish },
-        { start: endStart }
+        { start: cultureSelectionStart, template: "views/generator/culture.html" },
+        { start: wsPackStart, template: "views/generator/wspackage.html" },
+        { start: specialtiesStart, finish: specialtiesFinish, template: "views/generator/specialties.html" },
+        { start: backgroundStart, finish: backgroundFinish, template: "views/generator/background.html" },
+        { start: callingStart, finish: callingFinish, template: "views/generator/calling.html" },
+        { start: additionalTraitStart, finish: additionalTraitFinish, template: "views/generator/additionaltrait.html" },
+        { start: favouredSkillsStart, finish: favouredSkillsFinish, template: "views/generator/favouredskillgroups.html" },
+        { start: favouredAttributeStart, template: "views/generator/favouredattribute.html" },
+        { start: valourWisdomStart, finish: valourWisdomFinish, template: "views/generator/valorwisdom.html" },
+        { start: rewardStart, template: "views/generator/rewards.html" },
+        { start: virtueStart, template: "views/generator/virtues.html" },
+        { start: xpStart, finish: xpFinish, template: "views/generator/previousxp.html" },
+        { start: endStart, template: "views/generator/finish.html" }
     ];
-    var creationStepIndex = 0;
-    PcGenerator.promise = null;
 
-    PcGenerator.startAsync = function (initializer) {
-        PcGenerator.promise = {
-            initializer: initializer,
-            completed: function (onSuccess) {
-                this.onSuccess = onSuccess;
-            },
-            cancelled: function (onCancel) {
-                this.onCancel = onCancel;
-            }
-        };
-    };
+    function getTemplate(stepIndex) {
+        var path = creationSteps[stepIndex].template;
+        var result = require("txt!" + path);
+        return result;
+    }
+
+    function startStep(stepIndex) {
+        var template = getTemplate(stepIndex);
+        var models = creationSteps[stepIndex].start();
+        models._stepIndex = stepIndex;
+        return createView(template, models);
+    }
+
+    function finishStep(event, models) {
+        var stepIndex = models._stepIndex;
+        if (creationSteps[stepIndex].finish) {
+            creationSteps[stepIndex].finish(event, models);
+        }
+    }
 
     PcGenerator.start = function (initializer) {
         pj = new Pj("???");
         sheet = initializer.sheet;
         container = $(initializer.container || container);
         sheet.setPc(pj);
-        creationStepIndex = 0;
-        creationSteps[creationStepIndex].start();
+        startStep(0);
     };
 
     PcGenerator.goNext = function (event, models) {
-        if (creationSteps[creationStepIndex].finish) {
-            creationSteps[creationStepIndex].finish(event, models);
-        }
-        if (creationStepIndex < creationSteps.length - 1) {
-            creationStepIndex++;
-            creationSteps[creationStepIndex].start();
+        var stepIndex = models._stepIndex;
+        finishStep(event, models);
+        if (stepIndex < creationSteps.length - 1) {
+            startStep(stepIndex + 1);
         }
     };
 
     PcGenerator.goNextSkipOne = function (event, models) {
-        if (creationSteps[creationStepIndex].finish) {
-            creationSteps[creationStepIndex].finish(event, models);
-        }
-        if (creationStepIndex < creationSteps.length - 2) {
-            creationStepIndex += 2;
-            creationSteps[creationStepIndex].start();
+        var stepIndex = models._stepIndex;
+        finishStep(event, models);
+        if (stepIndex < creationSteps.length - 2) {
+            startStep(stepIndex + 2);
         }
     };
 
     PcGenerator.goPrevious = function (event, models) {
-        if (creationSteps[creationStepIndex].finish) {
-            creationSteps[creationStepIndex].finish(event, models);
-        }
-
-        if (creationStepIndex > 0) {
-            creationStepIndex--;
-            creationSteps[creationStepIndex].start();
+        var stepIndex = models._stepIndex;
+        finishStep(event, models);
+        if (stepIndex > 0) {
+            startStep(stepIndex - 1);
         }
     };
 
     PcGenerator.goPreviousSkipOne = function (event, models) {
-        if (creationSteps[creationStepIndex].finish) {
-            creationSteps[creationStepIndex].finish(event, models);
-        }
-
-        if (creationStepIndex > 1) {
-            creationStepIndex -= 2;
-            creationSteps[creationStepIndex].start();
+        var stepIndex = models._stepIndex;
+        finishStep(event, models);
+        if (stepIndex > 1) {
+            startStep(stepIndex - 2);
         }
     };
 
@@ -143,7 +136,7 @@ function (Pj, PjSheet, Gamedata, Text, Rivets, $,
                     return $.extend({ selected: false }, c);
                 })
         };
-        var viewElement = createView(cultureTemplate, models);
+        return models;
     }
 
     PcGenerator.cultureClick = function (event, models) {
@@ -182,7 +175,7 @@ function (Pj, PjSheet, Gamedata, Text, Rivets, $,
             });
         pj.skills.weapon = pj.skills.weapon || {};
         var models = { pj: pj, controller: PcGenerator, packs: packs, nextStatus: { show: false} };
-        var viewElement = createView(wsPackageTemplate, models);
+        return models;
     };
 
     PcGenerator.wsPackClick = function (event, models) {
@@ -211,7 +204,7 @@ function (Pj, PjSheet, Gamedata, Text, Rivets, $,
         pj.traits.specialties = pj.traits.specialties || [];
         PcGenerator.specialtiesDep = pj.traits.specialties;
         var models = { pj: pj, controller: PcGenerator, specialties: specialties };
-        var viewElement = createView(specialtiesTemplate, models);
+        return models
     }
 
     PcGenerator.specialtiesDep = [];
@@ -254,7 +247,7 @@ function (Pj, PjSheet, Gamedata, Text, Rivets, $,
             });
         PcGenerator.backgrounds = backgrounds;
         var models = { pj: pj, controller: PcGenerator, backgrounds: backgrounds };
-        var viewElement = createView(backgroundTemplate, models);
+        return models;
     }
     PcGenerator.selectedBackground = null;
     PcGenerator.featureClick = function (event, models) {
@@ -325,7 +318,7 @@ function (Pj, PjSheet, Gamedata, Text, Rivets, $,
             });
 
         var models = { pj: pj, controller: PcGenerator, callings: callings, selection: { calling: null} };
-        var viewElement = createView(callingTemplate, models);
+        return models;
     }
 
     PcGenerator.callingClick = function (event, models) {
@@ -369,7 +362,7 @@ function (Pj, PjSheet, Gamedata, Text, Rivets, $,
                 return trait;
             });
         var models = { pj: pj, controller: PcGenerator, traits: traits };
-        var viewElement = createView(additionalTraitTemplate, models);
+        return models;
     }
 
     PcGenerator.additionalTraitClick = function (event, models) {
@@ -387,7 +380,6 @@ function (Pj, PjSheet, Gamedata, Text, Rivets, $,
 
     // Favoured Skill Groups Selection
     function favouredSkillsStart() {
-        PcGenerator.selectedAdditionalTrait = [];
         var skills = Gamedata.callings[pj.traits.calling].favouredSkillGroups
         // Get skill groups' skills
             .map(function (sg) {
@@ -404,9 +396,17 @@ function (Pj, PjSheet, Gamedata, Text, Rivets, $,
             .map(function (s) {
                 return { name: s, selected: false };
             });
+        // In case we are here coming back from a later step, undo this step first by removing 'favoured' from skills other than background and cultural one
+        Object.keys(pj.skills.common.favoured)
+            .filter(function (s) {
+                return PcGenerator.selectedBackground.favouredSkill !== s && Gamedata.cultures[pj.traits.culture].favouredSkill !== s;
+            })
+            .forEach(function (s) {
+                pj.skills.common.favoured[s] = false;
+            });
 
         var models = { pj: pj, controller: PcGenerator, skills: skills };
-        var viewElement = createView(favouredSkillTemplate, models);
+        return models;
     }
     PcGenerator.selectedFavouredSkills = [];
 
@@ -434,7 +434,7 @@ function (Pj, PjSheet, Gamedata, Text, Rivets, $,
         PcGenerator.favouredAttributes = attributes;
         updateFavouredAttributes(attributes);
         var models = { pj: pj, controller: PcGenerator, attributes: attributes };
-        var viewElement = createView(favouredAttributeTemplate, models);
+        return models;
     }
 
     PcGenerator.shiftAttributeLeft = function (event, models) {
@@ -487,7 +487,7 @@ function (Pj, PjSheet, Gamedata, Text, Rivets, $,
         }];
         PcGenerator.valourWisdomSelection = null;
         var models = { pj: pj, controller: PcGenerator, selections: selections };
-        var viewElement = createView(valourWisdomTemplate, models);
+        return models;
     }
 
     PcGenerator.valourWisdomClick = function (event, models) {
@@ -524,7 +524,7 @@ function (Pj, PjSheet, Gamedata, Text, Rivets, $,
                     return { name: q, selected: false };
                 }));
         var models = { pj: pj, controller: PcGenerator, rewards: rewards };
-        var viewElement = createView(rewardsTemplate, models);
+        return models;
     }
     PcGenerator.selectedReward = null;
     PcGenerator.rewardClick = function (event, models) {
@@ -547,7 +547,7 @@ function (Pj, PjSheet, Gamedata, Text, Rivets, $,
                     return { name: m, selected: false };
                 }));
         var models = { pj: pj, controller: PcGenerator, virtues: virtues };
-        var viewElement = createView(virtuesTemplate, models);
+        return models;
     }
     PcGenerator.selectedVirtue = null;
     PcGenerator.virtueClick = function (event, models) {
@@ -631,7 +631,7 @@ function (Pj, PjSheet, Gamedata, Text, Rivets, $,
                 return new RankUpButton(ini, models);
             });
         models.rankbuttons = rankbuttons;
-        var viewElement = createView(xpTemplate, models);
+        return models;
     }
 
     PcGenerator.rankbuttonClick = function (event, models) {
@@ -649,7 +649,7 @@ function (Pj, PjSheet, Gamedata, Text, Rivets, $,
             return new RankUpButton(ini, models);
         });
         disposeView();
-        createView(xpTemplate, models);
+        startStep(models._stepIndex);
     };
 
     function xpFinish(event, models) {
@@ -667,16 +667,18 @@ function (Pj, PjSheet, Gamedata, Text, Rivets, $,
 
                     // Give also a free weapon of this kind
                     var stats = Gamedata.weapons[rb.name];
-                    pj.belongings.weaponGear[rb.name] = {
-                        id: rb.name,
-                        carried: true,
-                        stats: {
-                            damage: stats.damage | 0,
-                            edge: stats.edge,
-                            injury: stats.injury | 0,
-                            enc: stats.enc | 0
-                        }
-                    };
+                    if (stats) {
+                        pj.belongings.weaponGear[rb.name] = {
+                            id: rb.name,
+                            carried: true,
+                            stats: {
+                                damage: stats.damage | 0,
+                                edge: stats.edge,
+                                injury: stats.injury | 0,
+                                enc: stats.enc | 0
+                            }
+                        };
+                    }
                 }
             }
         });
@@ -685,7 +687,7 @@ function (Pj, PjSheet, Gamedata, Text, Rivets, $,
     // Completion
     function endStart() {
         var models = { pj: pj, controller: PcGenerator };
-        var viewElement = createView(finishTemplate, models);
+        return models;
     }
 
     PcGenerator.finishClick = function (event, models) {

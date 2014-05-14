@@ -17,7 +17,7 @@
                     this.name = jsonOrName;
                 }
             }
-
+            finalTouches.call(this);
         }
 
         Pj.prototype.toString = function () {
@@ -31,19 +31,18 @@
         // Load functions
         var fromJson = function (json) {
             var data = typeof (json) === "object" ? json : JSON.parse(json);
-            switch ("" + data.version) {
-                case "2":
+            switch (data.version | 0) {
+                case 2:
                     fromJsonV2.call(this, data);
                     break;
 
-                case "3":
+                case 3:
                     fromJsonV3.call(this, data);
                     break;
 
                 default:
                     throw "Unsupported character version";
             }
-            finalTouches.call(this);
         }
 
         var fromJsonV2 = function (data) {
@@ -278,6 +277,7 @@
                 .filter(function (d) { return features.indexOf(d) == -1; })
                 .splice(0, 1)[0];
         };
+                        
         return Pj;
     })(Character);
 

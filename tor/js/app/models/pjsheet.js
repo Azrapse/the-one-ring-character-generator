@@ -18,7 +18,7 @@
                 PjSheet.view.models.pj = pc;
             },
             getPc: function () {
-                return PjSheet.view.models.pj;
+                return PjSheet.pj;
             }
         };
 
@@ -210,7 +210,7 @@
                     });
                     Rivets.binders['each-*'].baseroutine.call(this, el, array);
                 }
-            };
+            };            
         }
         PjSheet.pj = null;
         PjSheet.bind = function (pj) {
@@ -218,7 +218,7 @@
                 view.unbind();
             };
             PjSheet.pj = pj;
-            PjSheet.menuManager = new PjContextMenus($(".contextMenu"), pj, this);
+            PjSheet.menuManager = new PjContextMenus($(".contextMenu"), this);
             PjSheet.view = Rivets.bind($(".characterSheet"), {
                 pj: pj,
                 controller: PjSheet,
@@ -236,6 +236,16 @@
             PjSheet.pj.updateShadow();
         }
 
+        PjSheet.databind = function () {
+            if (PjSheet.view) {
+                PjSheet.view.bind();
+            }
+        }
+
+        Object.defineProperty(PjSheet, "pc", {
+            get: PjSheet.getPc,
+            set: PjSheet.setPc
+        });
         // Character Sheet building functions
         function insertTemplate() {
             var front = $.parseHTML(frontTemplate);
@@ -335,6 +345,10 @@
             });
 
         }
+
+        PjSheet.getComment = function(arg1, arg2, arg3){
+            return "TAtaTA";
+        };
 
         return PjSheet;
     }
