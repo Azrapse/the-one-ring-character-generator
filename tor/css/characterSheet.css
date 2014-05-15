@@ -653,15 +653,16 @@ div.inventory .input
 }
 .characterSheet section.main
 {
-	float: left;
-	width: 80%;
+	/*float: left;*/
+	width: 79%;
+	display: inline-block;
 }
 .characterSheet aside.misc
 {
 	position: relative;
-	float: right;
-	display: block;
-	width: 20%;
+	/*float: right;*/
+	display: inline-block;
+	width: 19%;
 }
 
 .characterSheet .roundStatBox{

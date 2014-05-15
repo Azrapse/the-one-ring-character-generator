@@ -1,5 +1,34 @@
 ﻿define(["extends", "character", "gamedata", "json"], function (_extends, Character, Gamedata) {
 
+    var PcItem = (function () {
+        var _owner;
+        var _id;
+        function PcItem(ownerPc, id, value) {
+            _owner = ownerPc;
+            _id = id;
+            for (var p in value) if (value.hasOwnProperty(p)) this[p] = value[p];
+        }
+        PcItem.prototype.getComment = function () {
+            return ownerPc.getComment(_id);
+        };
+        return PcItem;
+    })();
+
+    var Reward = (function () {
+
+        function Reward(ownerPc, reward) {
+            this.name = reward.name;
+            this.target = reward.target;
+            this._ownerPc = ownerPc;
+        }
+
+        Reward.prototype.getComment = function () {
+            return this._ownerPc.getComment(this.name);
+        };
+
+        return Reward;
+    })();
+
     var Pj = (function (_super) {
         _extends(Pj, Character);
 
@@ -130,16 +159,35 @@
 
                 if (prop in Gamedata.belongings) {
                     this.belongings = this.belongings || {};
-                    if (prop === "weaponGear" || prop == "gear") {
-                        for (var i = 0; i < data[prop].length; i++) {
-                            var ws = data[prop][i];
-                            this.belongings[prop] = this.belongings[prop] || {};
-                            this.belongings[prop][ws.id] = ws;
-                        }
+                    switch (prop) {
+                        case "weaponGear":
+                        case "gear":
+                            for (var i = 0; i < data[prop].length; i++) {
+                                var ws = data[prop][i];
+                                this.belongings[prop] = this.belongings[prop] || {};
+                                this.belongings[prop][ws.id] = ws;
+                            }
+                            break;
+                        case "rewards":
+                            this.belongings.rewards = data.rewards
+                                .map(function (r) {
+                                    return { name: r, target: null };
+                                });
+                            break;
+                        default:
+                            this.belongings[prop] = data[prop];
+                            break;
                     }
-                    else {
-                        this.belongings[prop] = data[prop];
-                    }
+                    //                    if (prop === "weaponGear" || prop == "gear") {
+                    //                        for (var i = 0; i < data[prop].length; i++) {
+                    //                            var ws = data[prop][i];
+                    //                            this.belongings[prop] = this.belongings[prop] || {};
+                    //                            this.belongings[prop][ws.id] = ws;
+                    //                        }
+                    //                    }
+                    //                    else {
+                    //                        this.belongings[prop] = data[prop];
+                    //                    }
                     continue;
                 }
 
@@ -186,6 +234,11 @@
             while (this.characterTexts.taleOfYears.length < 13) {
                 this.characterTexts.taleOfYears.push({ year: "", events: "" });
             }
+            var self = this;
+            this.belongings.rewards = this.belongings.rewards
+                .map(function (r) {
+                    return new Reward(self, { name: r, target: null });
+                });
         };
 
         // Accessors
@@ -277,7 +330,7 @@
                 .filter(function (d) { return features.indexOf(d) == -1; })
                 .splice(0, 1)[0];
         };
-                        
+
         return Pj;
     })(Character);
 

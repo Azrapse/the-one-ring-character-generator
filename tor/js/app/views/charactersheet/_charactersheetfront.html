@@ -1,6 +1,6 @@
 ﻿	<!-- Character Sheet -->
 	<div class="characterSheet front">			
-        <section ="main">
+        <section class="main">
 			<div class="logoContainer">
 				<img src="css/TorLogoEn.jpg" />
 			</div>
@@ -150,10 +150,10 @@
 						<div class="input" rv-on-click="menus.rewardsMenu">
                             <span rv-each-reward="pj.belongings.rewards">
                                 <span class="localizable" 
-                                    rv-data-textkey="reward" 
+                                    rv-data-textkey="reward.name" 
                                     rv-on-click="menus.oneVirtueRewardMenu"                                    
-                                    rv-text="reward | localize"></span>
-                                <span rv-text="controller.getComment"></span>, 
+                                    rv-text="reward.name | localize"></span>
+                                <span rv-show="reward.getComment">(<span rv-text="reward.getComment"></span>)</span>, 
                             </span>
                         </div>
 					</div>
@@ -275,7 +275,11 @@
 			    </div>
             </div>
             <div class="commentContainer">
-                <div class="comment" rv-each-comment="pj.characterTexts.comments" rv-text="comment.text" rv-data-target="comment.for"></div>
+                <label class="uiText title" data-textKey="uiComments"></label>
+                <div class="comment" rv-each-comment="pj.characterTexts.comments">                    
+                    <label class="localizable" rv-data-textKey="comment.for" rv-text="comment.for | localize"></label>:
+                    <span rv-text="comment.text"></span>
+                </div>
             </div>
         </aside>
         <hr />

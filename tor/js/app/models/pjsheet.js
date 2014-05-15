@@ -210,7 +210,7 @@
                     });
                     Rivets.binders['each-*'].baseroutine.call(this, el, array);
                 }
-            };            
+            };
         }
         PjSheet.pj = null;
         PjSheet.bind = function (pj) {
@@ -345,10 +345,6 @@
             });
 
         }
-
-        PjSheet.getComment = function(arg1, arg2, arg3){
-            return "TAtaTA";
-        };
 
         return PjSheet;
     }
