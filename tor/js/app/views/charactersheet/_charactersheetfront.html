@@ -152,8 +152,7 @@
                                 <span class="localizable" 
                                     rv-data-textkey="reward.name" 
                                     rv-on-click="menus.oneVirtueRewardMenu"                                    
-                                    rv-text="reward.name | localize"></span>
-                                <span rv-show="reward.getComment">(<span rv-text="reward.getComment"></span>)</span>, 
+                                    rv-text="reward.name | localize"></span>, 
                             </span>
                         </div>
 					</div>
@@ -273,13 +272,6 @@
                         <input type="checkbox" rv-checked="pj.status.woundTreated" />
                     </div>
 			    </div>
-            </div>
-            <div class="commentContainer">
-                <label class="uiText title" data-textKey="uiComments"></label>
-                <div class="comment" rv-each-comment="pj.characterTexts.comments">                    
-                    <label class="localizable" rv-data-textKey="comment.for" rv-text="comment.for | localize"></label>:
-                    <span rv-text="comment.text"></span>
-                </div>
             </div>
         </aside>
         <hr />

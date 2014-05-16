@@ -1,33 +1,58 @@
 ﻿define(["extends", "character", "gamedata", "json"], function (_extends, Character, Gamedata) {
 
-    var PcItem = (function () {
-        var _owner;
-        var _id;
-        function PcItem(ownerPc, id, value) {
-            _owner = ownerPc;
-            _id = id;
-            for (var p in value) if (value.hasOwnProperty(p)) this[p] = value[p];
+    var PcAttribute = (function () {
+        function PcAttribute(ownerPc) {
+            Object.defineProperty(this, "_id", { writable: true });
+            Object.defineProperty(this, "_ownerPc", { value: ownerPc });
         }
-        PcItem.prototype.getComment = function () {
-            return ownerPc.getComment(_id);
+
+        PcAttribute.prototype.toString = function () {
+            return this._id;
         };
-        return PcItem;
+
+        return PcAttribute;
     })();
 
-    var Reward = (function () {
+
+    var Commentable = (function (_super) {
+        _extends(Commentable, _super);
+        function Commentable(ownerPc) {
+            _super.call(this, ownerPc);
+            
+            Object.defineProperty(this, "_comment", {
+                configurable: true,
+                enumerable: false,
+                get: function () {
+                    return this._ownerPc.getComment(this._id);
+                },
+                set: function (value) {
+                    this._ownerPc.setComment(this._id, value);
+                }
+            });            
+        }
+        return Commentable;
+    })(PcAttribute);
+
+    var Reward = (function (_super) {
+        _extends(Reward, _super);
 
         function Reward(ownerPc, reward) {
-            this.name = reward.name;
-            this.target = reward.target;
-            this._ownerPc = ownerPc;
+            _super.call(this, ownerPc);
+            Object.defineProperty(this, "name", {
+                configurable: true,
+                get: function () { return this._id; },
+                set: function (value) { this._id = value; },
+                enumerable: true
+            });
+            if (typeof reward === "string") {
+                this.name = reward;
+            } else {
+                this.name = reward.name;
+                this.target = reward.target;
+            }
         }
-
-        Reward.prototype.getComment = function () {
-            return this._ownerPc.getComment(this.name);
-        };
-
         return Reward;
-    })();
+    })(Commentable);
 
     var Pj = (function (_super) {
         _extends(Pj, Character);
@@ -167,27 +192,11 @@
                                 this.belongings[prop] = this.belongings[prop] || {};
                                 this.belongings[prop][ws.id] = ws;
                             }
-                            break;
-                        case "rewards":
-                            this.belongings.rewards = data.rewards
-                                .map(function (r) {
-                                    return { name: r, target: null };
-                                });
-                            break;
+                            break; //                        
                         default:
                             this.belongings[prop] = data[prop];
                             break;
                     }
-                    //                    if (prop === "weaponGear" || prop == "gear") {
-                    //                        for (var i = 0; i < data[prop].length; i++) {
-                    //                            var ws = data[prop][i];
-                    //                            this.belongings[prop] = this.belongings[prop] || {};
-                    //                            this.belongings[prop][ws.id] = ws;
-                    //                        }
-                    //                    }
-                    //                    else {
-                    //                        this.belongings[prop] = data[prop];
-                    //                    }
                     continue;
                 }
 
@@ -237,7 +246,7 @@
             var self = this;
             this.belongings.rewards = this.belongings.rewards
                 .map(function (r) {
-                    return new Reward(self, { name: r, target: null });
+                    return new Reward(self, r);
                 });
         };
 
@@ -286,13 +295,16 @@
         };
 
         Pj.prototype.getComment = function (key) {
-            if (this.characterTexts.comments) {
-                for (var i = 0; i < this.characterTexts.comments.length; i++) {
-                    if (this.characterTexts.comments[i]["for"] === key) {
-                        return this.characterTexts.comments[i].text;
-                    }
-                }
-            }
+            return this.characterTexts.comments && this.characterTexts.comments
+                .filter(function (c) {
+                    return c["for"] === key;
+                })
+                .map(function (c) {
+                    return c.text;
+                })
+                .reduce(function (a, b) {
+                    return b;
+                }, null);            
         };
         Pj.prototype.setComment = function (key, text) {
             // If no comment section, add it.
@@ -321,6 +333,15 @@
                 }
             }
         };
+        Pj.prototype.getCommentObject = function (key) {
+            return this.characterTexts.comments && this.characterTexts.comments
+                .filter(function (c) {
+                    return c["for"] === key;
+                })
+                .reduce(function (a, b) {
+                    return b;
+                }, null);
+        }
 
         Pj.prototype.getNextDegeneration = function () {
             var features = this.traits.features;
@@ -333,6 +354,10 @@
 
         return Pj;
     })(Character);
+
+    Pj.Identifiable = Identifiable;
+    Pj.Commentable = Commentable;
+    Pj.Reward = Reward;
 
     return Pj;
 });

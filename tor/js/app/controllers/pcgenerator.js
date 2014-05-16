@@ -14,6 +14,8 @@
     "txt!views/generator/finish.html",
     "jquery.linq", "jquery.ui"],
 function (Pj, PjSheet, Gamedata, Text, Rivets, $) {
+    var Reward = Pj.Reward;
+
     var PcGenerator = {};
     var pj = null;
     var sheet = null;
@@ -528,7 +530,7 @@ function (Pj, PjSheet, Gamedata, Text, Rivets, $) {
     }
     PcGenerator.selectedReward = null;
     PcGenerator.rewardClick = function (event, models) {
-        pj.belongings.rewards = [models.reward.name];
+        pj.belongings.rewards = [new Reward(pj, models.reward.name)];
         pj.traits.virtues = [];
         PcGenerator.selectedReward = models.reward;
         models.rewards.forEach(function (r) {

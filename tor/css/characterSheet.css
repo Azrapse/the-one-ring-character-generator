@@ -656,6 +656,7 @@ div.inventory .input
 	/*float: left;*/
 	width: 79%;
 	display: inline-block;
+	vertical-align: top;
 }
 .characterSheet aside.misc
 {
@@ -925,7 +926,8 @@ div.inventory .input
 	text-shadow:2px 2px 8px #000000;
 }
 
-.localizable .commentText{
+.commentText
+{
 	font-size: 9pt;
 	letter-spacing: -1px;	
 	text-shadow:0px 0px 0px #000000;
