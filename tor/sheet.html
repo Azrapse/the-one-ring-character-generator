@@ -6,6 +6,7 @@
         <link href='css/wizard.css' rel='stylesheet' type='text/css' />
 		<link href='css/print.css' rel='stylesheet' type='text/css' media="print" />		
 		<link type="text/css" href="css/smoothness/jquery-ui-1.8.16.custom.css" rel="Stylesheet" />	
+        <link href="css/slicknav.css" rel="stylesheet" type="text/css" />
 		<script data-main="js/app" src="js/lib/require.js" type="text/javascript"></script>		
 		
 		<!-- Google Analytics -->
@@ -25,7 +26,64 @@
         <meta name="Description" content="Web Character Sheet and Generator for The One Ring roleplaying game. A freeware application to create and share your The One Ring characters online. Author: David Esparza-Guerrero" />
 	</head>
 
-	<body>
+	<body >
+        <nav>
+            <ul id="globalmenu">
+                
+                <li>
+                    <span>Character</span>
+                    <ul>
+                        <li>
+                            <a>Create</a>
+                        </li>
+                        <li>
+                            <a>From Server</a>
+                        </li>
+                        <li>
+                            <a>From Code</a>
+                        </li>
+                        <li>
+                            <a>To Server</a>
+                        </li>
+                        <li>
+                            <a>To Code</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <span>Sheet</span>
+                    <ul>
+                        <li>
+                            <a>Font</a>
+                        </li>
+                        <li>
+                            <a>Volatile cells</a>
+                        </li>                        
+                    </ul>
+                </li>            
+                <li>
+                    <span>Info</span>
+                    <ul>
+                        <li>
+                            <a>Tooltips</a>
+                        </li>
+                        <li>
+                            <a>News</a>
+                        </li>
+                        <li>
+                            <a>About</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a>Chat</a>
+                </li>
+                <li>
+                    <a>Dice roller</a>
+                </li>
+            </ul>            
+        </nav>        
+
 		<div class="actionMenu" style="display: none;">
 			<button id="startButton" class="action uiText" data-textKey="uiCreateNewCharacter">uiCreateNewCharacter</button>
 			<br />

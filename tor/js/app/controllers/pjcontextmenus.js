@@ -4,14 +4,14 @@
         var PjContextMenuManager = (function () {
             // Private variables (for closure, easier than dealing with this for the             
             var _sheet = null;
-            var _menu = null;            
+            var _menu = null;
 
             // Constructor            
             function PjContextMenuManager(menu, sheet) {
                 _menu = menu;
-                _sheet = sheet;                
+                _sheet = sheet;
             }
-            
+
 
             function databind() {
                 _sheet.databind();
@@ -34,6 +34,35 @@
                 }
                 databind();
                 this.menu.close();
+            }
+
+            function selectRewardTargetOption(context) {
+                var e = context.e;
+                e.stopPropagation();
+                this.menu.close();
+                var reward = context.reward;
+                var targets = Object.keys(_sheet.pc.belongings.weaponGear)
+                    .concat(Object.keys(_sheet.pc.belongings.gear));
+                var menu = _menu;
+                var items = { uiMenuNevermind: nevermindOption };
+                targets.forEach(function (t) {
+                    var target = t;
+                    items[target] = {
+                        callback: function () {
+                            this.menu.close();
+                            reward.target = target;
+                        },
+                        condition: function () {
+                            return !(reward.target === target);
+                        }
+                    };
+                });
+
+                var m = new popupMenu({
+                    container: menu,
+                    items: items
+                })
+                .show(e.pageX + 1, e.pageY + 1);
             }
 
             function addGearOption(context) {
@@ -139,30 +168,36 @@
                 showMenu(m, e);
             }
 
-            function oneVirtueRewardMenu(e) {
+            function oneVirtueRewardMenu(e, models) {
                 e.stopPropagation();
                 // showMenu                
                 var sender = $(this);
 
+                var items = {};
+                if (models.reward) {
+                    items.uiMenuSelectRewardTarget = selectRewardTargetOption;
+                }
+                $.extend(items, {
+                    uiMenuRemove: function (context) {
+                        var index = _sheet.pc.traits.virtues.indexOf(context.key);
+                        if (index != -1) {
+                            _sheet.pc.traits.virtues.splice(index, 1);
+                        } else {
+                            index = _sheet.pc.belongings.rewards.indexOf(context.key);
+                            if (index != -1) {
+                                _sheet.pc.belongings.rewards.splice(index, 1);
+                            }
+                        }
+                        this.menu.close();
+                    },
+                    uiMenuSetComment: addCommentMenuOption,
+                    uiMenuNevermind: nevermindOption
+                });
+
                 var m = new popupMenu({
                     container: _menu,
-                    items: {
-                        uiMenuRemove: function (context) {
-                            var index = _sheet.pc.traits.virtues.indexOf(context.key);
-                            if (index != -1) {
-                                _sheet.pc.traits.virtues.splice(index, 1);
-                            } else {
-                                index = _sheet.pc.belongings.rewards.indexOf(context.key);
-                                if (index != -1) {
-                                    _sheet.pc.belongings.rewards.splice(index, 1);
-                                }
-                            }
-                            this.menu.close();
-                        },
-                        uiMenuSetComment: addCommentMenuOption,
-                        uiMenuNevermind: nevermindOption
-                    },
-                    context: { key: sender.attr("data-textKey") }
+                    items: items,
+                    context: { key: sender.attr("data-textKey"), reward: models.reward, virute: models.virtue, e: e }
                 })
                 .show(e.pageX + 1, e.pageY + 1);
             }

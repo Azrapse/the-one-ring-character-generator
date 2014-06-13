@@ -66,6 +66,7 @@
     <Content Include="tor\css\6.png" />
     <Content Include="tor\css\characterSheet.css" />
     <Content Include="tor\css\checked.png" />
+    <Content Include="tor\css\slicknav.css" />
     <Content Include="tor\css\wizard.css" />
     <Content Include="tor\css\d12.png" />
     <Content Include="tor\css\d12discarded.png" />
@@ -135,6 +136,7 @@
     <Content Include="tor\js\lib\jquery.cookies.js" />
     <Content Include="tor\js\lib\jquery.linq-vsdoc.js" />
     <Content Include="tor\js\lib\jquery.linq.min.js" />
+    <Content Include="tor\js\lib\jquery.slicknav.min.js" />
     <Content Include="tor\js\lib\json-serialization.js" />
     <Content Include="tor\js\lib\modernizr-1.7.min.js" />
     <Content Include="tor\js\lib\require.js" />

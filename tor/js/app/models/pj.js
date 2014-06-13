@@ -18,7 +18,7 @@
         _extends(Commentable, _super);
         function Commentable(ownerPc) {
             _super.call(this, ownerPc);
-            
+
             Object.defineProperty(this, "_comment", {
                 configurable: true,
                 enumerable: false,
@@ -28,7 +28,7 @@
                 set: function (value) {
                     this._ownerPc.setComment(this._id, value);
                 }
-            });            
+            });
         }
         return Commentable;
     })(PcAttribute);
@@ -51,6 +51,7 @@
                 this.target = reward.target;
             }
         }
+                
         return Reward;
     })(Commentable);
 
@@ -304,7 +305,7 @@
                 })
                 .reduce(function (a, b) {
                     return b;
-                }, null);            
+                }, null);
         };
         Pj.prototype.setComment = function (key, text) {
             // If no comment section, add it.
@@ -355,7 +356,7 @@
         return Pj;
     })(Character);
 
-    Pj.Identifiable = Identifiable;
+
     Pj.Commentable = Commentable;
     Pj.Reward = Reward;
 

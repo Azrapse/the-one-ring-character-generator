@@ -15,6 +15,7 @@
         "modernizr": "lib/modernizr-1.7.min",
         "json": "lib/json-serialization",
         "rivets": "lib/rivets",
+        "jquery.slicknav": "lib/jquery.slicknav.min",
 
         "gamedata": "app/models/gamedata",
         "text": "app/text",
@@ -33,7 +34,8 @@
         "jquery.linq": ["jquery"],
         "jquery.ui": ["jquery"],
         "jquery.cookies": ["jquery"],
-        "jquery.migrate": ["jquery"]
+        "jquery.migrate": ["jquery"],
+        "jquery.slicknav": ["jquery"]
     }
 });
 

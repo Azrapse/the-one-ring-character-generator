@@ -1,10 +1,10 @@
 ﻿	<!-- Character Sheet -->
 	<div class="characterSheet front">			
-        <section class="main">
+        <section class="main noHighlight">
 			<div class="logoContainer">
 				<img src="css/TorLogoEn.jpg" />
 			</div>
-			<section class="main">
+			<section class="mainDescriptors">
                 <div class="statBlock">
                     <label class='uiText' for="name" data-textKey="uiName"></label>
                     <input type="text" id="name" rv-value="pj.name | urlEncode" />
@@ -80,30 +80,30 @@
 			    </div>
 			    <div class="attributeContainerBox">		
 					    <div class="bodyBox attributeBox">
-						    <label class="localizable"  data-textKey="body">body</label>
+						    <label class="localizable"  data-textKey="body" for="bodyScoreInput"></label>
 						    <input type="text" id="bodyScoreInput" rv-value="pj.stats.attributes.base.body" />
 					        <div class="favouredBodyBox favouredAttributeBox">
-						        <label class="uiText"  data-textKey="uiFavoured">uiFavoured</label>
+						        <label class="uiText"  data-textKey="uiFavoured" for="favouredBodyScoreInput"></label>
 						        <input type="text" id="favouredBodyScoreInput" rv-value="pj.stats.attributes.favoured.body"/>
 					        </div>
                         </div>
 					    		
 					
 					    <div class="heartBox attributeBox">
-						    <label class="localizable"  data-textKey="heart">heart</label>
+						    <label class="localizable"  data-textKey="heart" for="heartScoreInput"></label>
 						    <input type="text" id="heartScoreInput" rv-value="pj.stats.attributes.base.heart"/>
 					        <div class="favouredHeartBox favouredAttributeBox">
-						        <label  class="uiText"  data-textKey="uiFavoured">uiFavoured</label>
+						        <label  class="uiText"  data-textKey="uiFavoured" for="favouredHeartScoreInput"></label>
 						        <input type="text" id="favouredHeartScoreInput" rv-value="pj.stats.attributes.favoured.heart"/>
 					        </div>		
                         </div>
 					    
 					
 					    <div class="witsBox attributeBox">
-						    <label class="localizable"  data-textKey="wits">wits</label>
+						    <label class="localizable"  data-textKey="wits" for="witsScoreInput"></label>
 						    <input type="text" id="witsScoreInput" rv-value="pj.stats.attributes.base.wits"/>
                             <div class="favouredWitsBox favouredAttributeBox">
-						        <label class="uiText"  data-textKey="uiFavoured">uiFavoured</label>
+						        <label class="uiText"  data-textKey="uiFavoured" for="favouredWitsScoreInput"></label>
 						        <input type="text" id="favouredWitsScoreInput" rv-value="pj.stats.attributes.favoured.wits"/>
 					        </div>		
 					    </div>
@@ -152,7 +152,7 @@
                                 <span class="localizable" 
                                     rv-data-textkey="reward.name" 
                                     rv-on-click="menus.oneVirtueRewardMenu"                                    
-                                    rv-text="reward.name | localize"></span>, 
+                                    rv-text="reward.name | localize"></span><span rv-if="reward.target"> (<span rv-text="reward.target | localize"></span>)</span>, 
                             </span>
                         </div>
 					</div>
@@ -249,27 +249,27 @@
             
             <div class="conditions">
 			    <div  class="statusBox">
-				    <label class="uiText" data-textKey="uiWeary"></label>
+				    <label class="uiText" data-textKey="uiWeary" for="wearyCheckbox"></label>
                     <div class="checkbox">
-                        <input type="checkbox" rv-checked="pj.status.weary" />
+                        <input id="wearyCheckbox" type="checkbox" rv-checked="pj.status.weary" />
                     </div>
 			    </div>
                 <div  class="statusBox">
-				    <label class="uiText" data-textKey="uiMiserable"></label>
+				    <label class="uiText" data-textKey="uiMiserable" for="miserableCheckbox"></label>
                     <div class="checkbox">
-                        <input type="checkbox" rv-checked="pj.status.miserable" />
+                        <input id="miserableCheckbox" type="checkbox" rv-checked="pj.status.miserable" />
                     </div>
 			    </div>
                 <div  class="statusBox">
-				    <label class="uiText" data-textKey="uiWounded"></label>
+				    <label class="uiText" data-textKey="uiWounded" for="woundedCheckbox"></label>
                     <div class="checkbox">
-                        <input type="checkbox" rv-checked="pj.status.wounded" />
+                        <input id="woundedCheckbox" type="checkbox" rv-checked="pj.status.wounded" />
                     </div>
 			    </div>
                 <div  class="statusBox">
-				    <label class="uiText" data-textKey="uiWoundTreated"></label>
+				    <label class="uiText" data-textKey="uiWoundTreated" for="woundTreatedCheckbox"></label>
                     <div class="checkbox">
-                        <input type="checkbox" rv-checked="pj.status.woundTreated" />
+                        <input id="woundTreatedCheckbox" type="checkbox" rv-checked="pj.status.woundTreated" />
                     </div>
 			    </div>
             </div>

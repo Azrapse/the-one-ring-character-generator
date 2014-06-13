@@ -46,6 +46,12 @@
 
 }
 
+/* * {
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+}
+*/
+
 .actionMenu {
 	left: 690px;
 	top: 10px;
@@ -353,32 +359,25 @@ div.inventory .input
 	height: 60px;	
 }
 .characterSheet .attributeContainerBox .attributeBox{
-	position: relative;	
-	width: 50px;
-	height: 50px;
+	position: relative;		
+	display: inline-block;
+	margin: 0 20px 0 70px;
+}
+
+.characterSheet .attributeContainerBox > .attributeBox > input
+{
+	z-index: 1;
+	position: relative;		
+	width: 45px;
+	height: 45px;
 	border-style: double; 
 	border-color: #000;
 	border-width: 5px;
 	border-radius: 25px;
 	vertical-align: middle;
 	text-align: center;	
-	display: inline-block;
-	margin: 0 20px 0 70px;
-}
-
-.characterSheet .attributeContainerBox .witsBox > input,
-.characterSheet .attributeContainerBox .heartBox > input,
-.characterSheet .attributeContainerBox .bodyBox > input{
-	z-index: 1;
-	position: relative;		
-	width: 1.7em;
-	height: 1.7em;	
 	font-size: 1.7em;
 	line-height: 1.7em;
-	text-align: center;
-	background-color: transparent;
-	display: inline-block;
-	vertical-align: middle;
 	overflow: visible;
 }
 
@@ -393,7 +392,13 @@ div.inventory .input
 	z-index: 2;
 	position: absolute;
 	top: -5px;	
-	right: -25px;
+	right: -25px;	
+}
+
+.characterSheet .attributeContainerBox .favouredAttributeBox > input{
+	z-index: 3;
+	font-size: 1em;	
+	line-height: 1em;
 	width: 30px;
 	height: 30px;
 	border-style: solid; 
@@ -403,19 +408,6 @@ div.inventory .input
 	vertical-align: middle;
 	text-align: center;
 	background-color: #fff;
-}
-
-.characterSheet .attributeContainerBox .favouredAttributeBox > input{
-	z-index: 3;
-	position: relative;
-	top: 13%;	
-	left: 0;	
-	width: 1em;
-	height: 1em;	
-	font-size: 1em;	
-	line-height: 1em;
-	text-align: center;
-	background-color: transparent;
 }
 
 .characterSheet .attributeContainerBox .favouredAttributeBox > label{
@@ -669,11 +661,7 @@ div.inventory .input
 .characterSheet .roundStatBox{
 	position: relative;	
 	width: 50px;
-	height: 50px;
-	border-style: solid; 
-	border-color: #000;
-	border-width: 2px;
-	border-radius: 25px;
+	height: 50px;		
 	vertical-align: middle;
 	text-align: center;	
 	margin: 30px 20px 40px 70px;
@@ -688,17 +676,19 @@ div.inventory .input
 
 .characterSheet .roundStatBox > input{
 	z-index: 1;
-	position: relative;
-	top: 17%;
-	left: 0;
-	width: 1.5em; /*50px;*/
-	height: 34px;	
+	width: 100%;
+	height: 100%;
+	/*padding: 10px 0 10px 0;*/
 	font-size: 20pt;	
+	line-height: 50px;
 	text-align: center;
 	background-color: transparent;
+	border-style: solid; 
+	border-color: #000;
+	border-width: 2px;
+	border-radius: 25px;
+	vertical-align: middle;	
 }
-
-
 
 .characterSheet .roundStatBox > label{
 	position: absolute;
@@ -715,8 +705,15 @@ div.inventory .input
 .characterSheet .subRoundStatBox{
 	z-index: 2;
 	position: absolute;
-	width: 33px;
+}
+
+.characterSheet .subRoundStatBox > input{
+	z-index: 3;
+	width: 30px;
 	height: 30px;
+	line-height: 30px;
+	font-size: 14pt;	
+	text-align: center;
 	border-style: solid; 
 	border-color: #000;
 	border-width: 2px;
@@ -724,18 +721,6 @@ div.inventory .input
 	vertical-align: middle;
 	text-align: center;
 	background-color: #fff;
-}
-
-.characterSheet .subRoundStatBox input{
-	z-index: 3;
-	position: relative;
-	top: 13%;
-	left: 0;
-	width: 1.5em; /*33px;*/
-	height: 24px;	
-	font-size: 14pt;	
-	text-align: center;
-	background-color: transparent;
 }
 
 
@@ -782,56 +767,17 @@ div.inventory .input
 .characterSheet .conditions .statusBox .checkbox
 {
 	font-family: 'AloisLightRegular', "Palatino Linotype", "Book Antiqua3", Palatino, serif;
-	position: relative;
-	width: 25px;
-	height: 20px;
-	border-style: solid; 
-	border-color: #000;
-	border-width: 2px;	
-	border-radius: 15px;
+	position: relative;		
+	display: inline-block;	
 	vertical-align: middle;
-	text-align: center;
-	background-color: #fff;
-	display: inline-block;
 }
 
-.characterSheet .statusBox input[type=checkbox]
+.characterSheet .statusBox input[type=checkbox],
+.characterSheet input[type=checkbox].statusBox
 {
-	width: 15px;
-	height: 15px;	
+	width: 1em;
+	height: 1em;		
 }
-
-.characterSheet .weaponGearBox .statusBox,
-.characterSheet section.gear .statusBox
-{	
-	position: relative;
-	width: 15px;
-	height: 15px;
-	border-style: solid; 
-	border-color: #000;
-	border-width: 1px;	
-	border-radius: 15px;
-	vertical-align: middle;
-	text-align: center;
-	background-color: #fff;
-	padding: 0;
-	font-size: 0em;    
-}
- 
-.characterSheet .statusBox img
-{
-	width: 25px;
-	height: 20px;
-}
-
-.characterSheet .weaponGearBox .statusBox img,
-.characterSheet section.gear .statusBox img,
-.characterSheet .weaponGearBox .carriedBoxLabel img
-{
-	width: 15px;
-	height: 15px;
-}
-
 
 .characterSheet .statusBox label
 {
@@ -1300,4 +1246,93 @@ div.inventory .input
 	width: auto;
 	height: auto;
 	background-color: #eea;	
+}
+
+.slicknav_menu
+{
+    z-index: 100;
+    font-family: 'AloisLightRegular', "Palatino Linotype", "Book Antiqua3", Palatino, serif;    
+}
+
+.slicknav_menu {
+	display:none;
+}
+
+#globalmenu
+{
+    font-family: 'AloisLightRegular', "Palatino Linotype", "Book Antiqua3", Palatino, serif; 
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 20px;
+    height: 20px;
+    z-index: 100;        
+    -webkit-margin-before: 0;
+    -webkit-padding-start: 0;       
+    overflow: hidden;    
+}
+
+#globalmenu:hover
+{
+    width: auto;
+    height: auto;
+}
+
+#globalmenu a,
+#globalmenu span
+{
+    background-color: #eee;
+    opacity: 1;
+    display: inline-block;
+    padding: 2px 3px;
+    margin: 0 2px;        
+    min-width: 5em;
+    text-align: center;
+    vertical-align: middle;
+    border: 2px solid #000;
+    border-radius: 2px;
+}
+
+#globalmenu li,
+#globalmenu ul
+{
+    display: none;
+    list-style-type: none;    
+    -webkit-margin-before: 0;
+    -webkit-margin-after: 0;
+    -webkit-padding-start: 0;  
+    position: relative;           
+}
+#globalmenu li
+{
+    opacity: 1;
+}
+#globalmenu ul
+{
+    background-color: #bbb;
+    opacity: .8; 
+}
+
+#globalmenu > li
+{
+    display: block;
+    position: relative;
+}
+
+
+#globalmenu li:hover > ul,
+#globalmenu li:hover > ul > li
+{
+    display: inline-block;
+}
+
+@media screen and (max-width: 40em) {	
+	.js #globalmenu {
+		display:none;
+	}
+	
+	.js .slicknav_menu {
+		display:block;
+	}
 }

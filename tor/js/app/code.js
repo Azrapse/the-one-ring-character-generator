@@ -1,5 +1,5 @@
 ﻿define(["jquery", "rivets", "gamedata", "text", "pj", "pjsheet", "tooltip", "pcgenerator",
-"jquery.ui", "jquery.linq", "json", "jquery.cookies", "jquery.migrate", "modernizr"],
+"jquery.ui", "jquery.linq", "json", "jquery.cookies", "jquery.migrate", "modernizr", "jquery.slicknav"],
     function ($, Rivets, Gamedata, Text, Pj, PjSheet, Tooltip, PcGenerator) {
         // Aliases
         var localizeOne = Text.localizeOne;
@@ -16,6 +16,11 @@
         function mainInitialize() {
             $.when(initializeLocale(), initializeGamedata())
                 .done(function () {
+                    $("#globalmenu").slicknav({
+                        label: '',
+                        allowParentLinks: true,
+                        closeOnClick: true
+                    });
                     PjSheet.build();
                     setClickablesEvents();
 
@@ -78,12 +83,12 @@
             $(".actionMenu").draggable();
 
             // resizable Character Sheet
-//            $(".characterSheet").resizable({
-//                "maxWidth": 620,
-//                "minHeight": 840,
-//                "minWidth": 620,
-//                "handles": "s"
-//            });
+            //            $(".characterSheet").resizable({
+            //                "maxWidth": 620,
+            //                "minHeight": 840,
+            //                "minWidth": 620,
+            //                "handles": "s"
+            //            });
 
             //            // Wizard windows	
             //            $(".wizardWindow:not(.noDraggable)").draggable();
@@ -175,13 +180,13 @@
             //            });
 
 
-                        $(window).scroll(function () {
-                            var top = $(window).scrollTop();
-                            var notification = $(".notification");
-                            if (notification.length > 0) {
-                                notification.css({ top: top });
-                            }
-                        });
+            $(window).scroll(function () {
+                var top = $(window).scrollTop();
+                var notification = $(".notification");
+                if (notification.length > 0) {
+                    notification.css({ top: top });
+                }
+            });
 
             //            // Cancel Character Creation with button or ESCAPE. Accept ENTER as Next and BACKSPACE as Previous
             //            $(".wizardWindow").on("click", ".cancel", function () {
