@@ -16,11 +16,7 @@
         function mainInitialize() {
             $.when(initializeLocale(), initializeGamedata())
                 .done(function () {
-                    $("#globalmenu").slicknav({
-                        label: '',
-                        allowParentLinks: true,
-                        closeOnClick: true
-                    });
+                    $("#globalmenu").slicknav({ label: '', allowParentLinks: true, closeOnClick: true });
                     PjSheet.build();
                     setClickablesEvents();
 

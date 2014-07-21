@@ -646,7 +646,8 @@ div.inventory .input
 .characterSheet section.main
 {
 	/*float: left;*/
-	width: 79%;
+	width: 80%;
+	min-width: 500px;
 	display: inline-block;
 	vertical-align: top;
 }
@@ -655,7 +656,7 @@ div.inventory .input
 	position: relative;
 	/*float: right;*/
 	display: inline-block;
-	width: 19%;
+	width: 18%;
 }
 
 .characterSheet .roundStatBox{
@@ -754,7 +755,7 @@ div.inventory .input
 }
 
 .characterSheet .subRoundStatBox.right label{
-	top: 30px;
+	top: 35px;
 	left: -10px;
 	text-align: left;
 }
@@ -1260,7 +1261,9 @@ div.inventory .input
 
 #globalmenu
 {
-    font-family: 'AloisLightRegular', "Palatino Linotype", "Book Antiqua3", Palatino, serif; 
+    font-family: 'LibraRegular', "Palatino Linotype", "Book Antiqua3", Palatino, serif; 
+    font-size: 18pt;
+    text-transform: capitalize;
     display: block;
     position: absolute;
     top: 0;
@@ -1270,53 +1273,106 @@ div.inventory .input
     z-index: 100;        
     -webkit-margin-before: 0;
     -webkit-padding-start: 0;       
-    overflow: hidden;    
+    overflow: hidden;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    border: 2px solid #000;
+    border-radius: 10px;
+    background-image: url(g.png);
+    background-position: center center;
+}
+
+#globalmenu > li
+{
+	display: none;	
 }
 
 #globalmenu:hover
 {
     width: auto;
     height: auto;
+    border: 0 none transparent;
+    background-image: none;
+    border-radius: 0;
 }
 
 #globalmenu a,
 #globalmenu span
 {
-    background-color: #eee;
-    opacity: 1;
+	background: #7d7e7d; /* Old browsers */
+	/* IE9 SVG, needs conditional override of 'filter' to 'none' */
+	background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPHJhZGlhbEdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgY3g9IjUwJSIgY3k9IjUwJSIgcj0iNzUlIj4KICAgIDxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiM3ZDdlN2QiIHN0b3Atb3BhY2l0eT0iMSIvPgogICAgPHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjMGUwZTBlIiBzdG9wLW9wYWNpdHk9IjEiLz4KICA8L3JhZGlhbEdyYWRpZW50PgogIDxyZWN0IHg9Ii01MCIgeT0iLTUwIiB3aWR0aD0iMTAxIiBoZWlnaHQ9IjEwMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+	background: -moz-radial-gradient(center, ellipse cover,  #7d7e7d 0%, #0e0e0e 100%); /* FF3.6+ */
+	background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%,#7d7e7d), color-stop(100%,#0e0e0e)); /* Chrome,Safari4+ */
+	background: -webkit-radial-gradient(center, ellipse cover,  #7d7e7d 0%,#0e0e0e 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-radial-gradient(center, ellipse cover,  #7d7e7d 0%,#0e0e0e 100%); /* Opera 12+ */
+	background: -ms-radial-gradient(center, ellipse cover,  #7d7e7d 0%,#0e0e0e 100%); /* IE10+ */
+	background: radial-gradient(ellipse at center,  #7d7e7d 0%,#0e0e0e 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#7d7e7d', endColorstr='#0e0e0e',GradientType=1 ); /* IE6-8 fallback on horizontal gradient */
+    
+    color: #ddd;
+    /*opacity: 1;*/
     display: inline-block;
     padding: 2px 3px;
-    margin: 0 2px;        
+    /*margin: 0 2px;        */
     min-width: 5em;
     text-align: center;
     vertical-align: middle;
-    border: 2px solid #000;
-    border-radius: 2px;
+    border: 2px solid #666;
+    border-radius: 5px;    
+    min-height: 1.5em; 
+    line-height: 1.5em;   
+}
+
+#globalmenu a:hover,
+#globalmenu span:hover
+{
+	background: #a0a0a0; /* Old browsers */
+	/* IE9 SVG, needs conditional override of 'filter' to 'none' */
+	background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPHJhZGlhbEdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgY3g9IjUwJSIgY3k9IjUwJSIgcj0iNzUlIj4KICAgIDxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiNhMGEwYTAiIHN0b3Atb3BhY2l0eT0iMSIvPgogICAgPHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjMzMzMzMzIiBzdG9wLW9wYWNpdHk9IjEiLz4KICA8L3JhZGlhbEdyYWRpZW50PgogIDxyZWN0IHg9Ii01MCIgeT0iLTUwIiB3aWR0aD0iMTAxIiBoZWlnaHQ9IjEwMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+	background: -moz-radial-gradient(center, ellipse cover, #a0a0a0 0%, #333333 100%); /* FF3.6+ */
+	background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%,#a0a0a0), color-stop(100%,#333333)); /* Chrome,Safari4+ */
+	background: -webkit-radial-gradient(center, ellipse cover, #a0a0a0 0%,#333333 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-radial-gradient(center, ellipse cover, #a0a0a0 0%,#333333 100%); /* Opera 12+ */
+	background: -ms-radial-gradient(center, ellipse cover, #a0a0a0 0%,#333333 100%); /* IE10+ */
+	background: radial-gradient(ellipse at center, #a0a0a0 0%,#333333 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a0a0a0', endColorstr='#333333',GradientType=1 ); /* IE6-8 fallback on horizontal gradient */
 }
 
 #globalmenu li,
 #globalmenu ul
 {
     display: none;
-    list-style-type: none;    
+    list-style: none;    
+    padding: 0;
+    margin: 0;
     -webkit-margin-before: 0;
     -webkit-margin-after: 0;
     -webkit-padding-start: 0;  
-    position: relative;           
+    position: relative;                   
 }
-#globalmenu li
+#globalmenu li > ul
 {
-    opacity: 1;
-}
-#globalmenu ul
-{
-    background-color: #bbb;
-    opacity: .8; 
+    background-image: url(menubackground.png);
+    background-repeat: repeat-x;
+    background-position: left center;
 }
 
-#globalmenu > li
+#globalmenu li > a > img,
+#globalmenu li > span > img,
+.slicknav_nav a > img,
+.slicknav_nav span > img
 {
-    display: block;
+    width: 1.5em;
+    height: 1.5em;
+    vertical-align: middle;
+    margin-right: .5em;
+}
+
+#globalmenu:hover > li
+{
+    display: block;    
     position: relative;
 }
 
@@ -1324,7 +1380,7 @@ div.inventory .input
 #globalmenu li:hover > ul,
 #globalmenu li:hover > ul > li
 {
-    display: inline-block;
+    display: inline-block;    
 }
 
 @media screen and (max-width: 40em) {	
