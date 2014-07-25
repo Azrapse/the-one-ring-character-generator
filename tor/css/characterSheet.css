@@ -601,6 +601,46 @@ div.inventory .input
 	min-height: 55px;
 }
 
+.characterSheet .localizable.hascomment
+{
+    border-right: 5px solid #afa;
+    cursor: help;
+}
+.characterSheet .localizable.hastarget
+{
+    border-bottom: 1px dotted #000;
+}
+.characterSheet .rewardVirtueItem:after
+{
+    content: ',';
+}
+
+.characterSheet .rewardVirtueItem .target
+{	
+    display: none;
+	font-size: 12px;
+	color: #ba2;		
+	text-shadow: 1px 1px 0px #000;
+}
+.characterSheet .rewardVirtueItem:hover .target
+{
+    display: inline-block;
+}
+
+.characterSheet .target:before
+{		
+	content: '(';
+}
+.characterSheet .target:after
+{		
+	content: ')';		
+}
+
+.characterSheet .commentText
+{	
+    display: none;	
+}
+
 .characterSheet section.gear,
 .characterSheet section.status
 {
@@ -874,10 +914,18 @@ div.inventory .input
 }
 
 .commentText
-{
+{    
 	font-size: 9pt;
-	letter-spacing: -1px;	
+	letter-spacing: -1px;
 	text-shadow:0px 0px 0px #000000;
+}
+.commentText:before
+{    
+    content: '(';
+}
+.commentText:after
+{
+    content: ')';
 }
 
 #rollerDiv{
@@ -1262,7 +1310,7 @@ div.inventory .input
 #globalmenu
 {
     font-family: 'LibraRegular', "Palatino Linotype", "Book Antiqua3", Palatino, serif; 
-    font-size: 18pt;
+    font-size: 16pt;
     text-transform: capitalize;
     display: block;
     position: absolute;

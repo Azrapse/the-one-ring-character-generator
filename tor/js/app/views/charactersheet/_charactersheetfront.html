@@ -20,7 +20,10 @@
 					<div class="input localizable" id="culturalBlessing" 
                         rv-data-textKey="pj.traits.culturalBlessing" 
                         rv-text="pj.traits.culturalBlessing | localize"
-                        rv-on-click="menus.simpleCommentMenu"></div>
+                        rv-on-click="menus.simpleCommentMenu"
+                        rv-class-hasComment="pj.traits.culturalBlessing#comment"
+                        rv-title="pj.traits.culturalBlessing#comment"></div>
+                        <span rv-if="pj.traits.culturalBlessing#comment" class="commentText" rv-text="pj.traits.culturalBlessing#comment"></span>
                 </div>                
                 <div class="statBlock">
                 	<label class="uiText" for="calling" data-textKey="uiCalling"></label>
@@ -55,7 +58,11 @@
 					    <td class="inputCell cell">
 						    <div class="input" id="specialtiesInput">
                                 <span rv-each-specialty="pj.traits.specialties">
-                                    <span class="localizable" rv-data-textKey="specialty" rv-text="specialty | localize"></span>,                                
+                                    <span class="localizable" 
+                                        rv-data-textKey="specialty" 
+                                        rv-text="specialty | localize"
+                                        rv-class-hasComment="specialty#comment"
+                                        rv-title="specialty#comment"></span><span rv-if="specialty#comment" class="commentText" rv-text="specialty#comment"></span>,                                
                                 </span>
                             </div>
 					    </td>
@@ -67,7 +74,12 @@
 					    <td class="inputCell cell">
 						    <div class="input" id="distinctiveFeaturesInput" rv-on-click="menus.featuresMenu">
                                 <span rv-each-feature="pj.traits.features">
-                                    <span class="localizable" rv-data-textKey="feature" rv-text="feature | localize" rv-on-click="menus.changeFeatureMenu"></span>,
+                                    <span class="localizable" 
+                                        rv-data-textKey="feature" 
+                                        rv-text="feature | localize" 
+                                        rv-on-click="menus.changeFeatureMenu"
+                                        rv-class-hasComment="feature#comment"
+                                        rv-title="feature#comment"></span><span rv-if="feature#comment" class="commentText" rv-text="feature#comment"></span>,
                                 </span>
                             </div>
 					    </td>
@@ -143,16 +155,20 @@
             </section>
             <section class="virtuesRewards noHighlight">
 				<section class="rewards">
-					<div class="heading uiText" data-textKey="uiRewards">
-						uiRewards
+					<div class="heading uiText" data-textKey="uiRewards">						
 					</div>
 					<div class="rewardsContent" >				
 						<div class="input" rv-on-click="menus.rewardsMenu">
-                            <span rv-each-reward="pj.belongings.rewards">
+                            <span rv-each-reward="pj.belongings.rewards" class="rewardVirtueItem">
                                 <span class="localizable" 
                                     rv-data-textkey="reward.name" 
                                     rv-on-click="menus.oneVirtueRewardMenu"                                    
-                                    rv-text="reward.name | localize"></span><span rv-if="reward.target"> (<span rv-text="reward.target | localize"></span>)</span>, 
+                                    rv-text="reward.name | localize"
+                                    rv-title="reward#comment"
+                                    rv-class-hasTarget="reward.target"
+                                    rv-class-hasComment="reward#comment"></span>
+                                <span rv-if="reward.target" class="target" rv-text="reward.target | localize" title="target"></span>
+                                <span rv-if="reward#comment" class="commentText" rv-text="reward#comment"></span>
                             </span>
                         </div>
 					</div>
@@ -163,7 +179,15 @@
 					</div>
 					<div class="virtuesContent">				
 						<div class="input" rv-on-click="menus.virtuesMenu">
-                            <span rv-each-virtue="pj.traits.virtues" class="localizable" rv-data-textkey="virtue" rv-on-click="menus.oneVirtueRewardMenu">{virtue | localize}, </span>
+                            <span rv-each-virtue="pj.traits.virtues" class="rewardVirtueItem">
+                                <span class="localizable" 
+                                    rv-data-textkey="virtue" 
+                                    rv-on-click="menus.oneVirtueRewardMenu"
+                                    rv-text="virtue | localize"
+                                    rv-title="virtue#comment"
+                                    rv-class-hasComment="virtue#comment"></span>                                
+                                <span rv-if="virtue#comment" class="commentText" rv-text="virtue#comment"></span>
+                            </span>
                         </div>
 					</div>
 				</section>

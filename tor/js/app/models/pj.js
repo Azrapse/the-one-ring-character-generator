@@ -51,8 +51,29 @@
                 this.target = reward.target;
             }
         }
-                
+
         return Reward;
+    })(Commentable);
+
+    var Trait = (function (_super) {
+        _extends(Trait, _super);
+
+        function Trait(ownerPc, trait) {
+            _super.call(this, ownerPc);
+            Object.defineProperty(this, "name", {
+                configurable: true,
+                get: function () { return this._id; },
+                set: function (value) { this._id = value; },
+                enumerable: true
+            });
+            if (typeof trait === "string") {
+                this.name = trait;
+            } else {
+                this.name = trait.name;
+                this._comment = trait.comment;
+            }
+        };
+        return Trait;
     })(Commentable);
 
     var Pj = (function (_super) {
@@ -249,6 +270,19 @@
                 .map(function (r) {
                     return new Reward(self, r);
                 });
+            this.traits.virtues = this.traits.virtues
+                .map(function (v) {
+                    return new Trait(self, v);
+                });
+            this.traits.specialties = this.traits.specialties
+                .map(function (s) {
+                    return new Trait(self, s);
+                });
+            this.traits.features = this.traits.features
+                .map(function (f) {
+                    return new Trait(self, f);
+                });
+            this.traits.culturalBlessing = new Trait(self, this.traits.culturalBlessing);
         };
 
         // Accessors
@@ -296,7 +330,7 @@
         };
 
         Pj.prototype.getComment = function (key) {
-            return this.characterTexts.comments && this.characterTexts.comments
+            return this.characterTexts.comments && this.characterTexts.comments.filter && this.characterTexts.comments
                 .filter(function (c) {
                     return c["for"] === key;
                 })
@@ -333,6 +367,7 @@
                     this.characterTexts.comments.splice(index, 1);
                 }
             }
+            this.publishComment(key, text);
         };
         Pj.prototype.getCommentObject = function (key) {
             return this.characterTexts.comments && this.characterTexts.comments
@@ -343,7 +378,26 @@
                     return b;
                 }, null);
         }
-
+        var commentSubscriptions = {};
+        Pj.prototype.subscribeComment = function (key, callback) {
+            commentSubscriptions[key] = commentSubscriptions[key] || [];
+            commentSubscriptions[key].push(callback);
+        }
+        Pj.prototype.unsubscribeComment = function (key, callback) {
+            if (key in commentSubscriptions) {
+                var pos = commentSubscriptions[key].indexOf(callback);
+                if (pos > -1) {
+                    commentSubscriptions[key] = commentSubscriptions[key].splice(pos, 1);
+                }
+            }
+        }
+        Pj.prototype.publishComment = function (key, comment) {
+            if (key in commentSubscriptions) {
+                for (var i = 0; i < commentSubscriptions[key].length; i++) {
+                    commentSubscriptions[key][i](comment);
+                }
+            }
+        }
         Pj.prototype.getNextDegeneration = function () {
             var features = this.traits.features;
             var degenerations = Gamedata.getDegenerationsForCalling(this.traits.calling);

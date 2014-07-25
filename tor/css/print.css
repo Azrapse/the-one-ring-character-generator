@@ -51,6 +51,15 @@
 	page-break-before: always;
 }
 
+.characterSheet .commentText
+{
+    display: inline-block;
+}
+.characterSheet .rewardVirtueItem.hascomment .localizable,
+.localizable.hascomment
+{
+    border-right: 0px none transparent;
+}
 
 .noPrint > input,
 .noPrint > img

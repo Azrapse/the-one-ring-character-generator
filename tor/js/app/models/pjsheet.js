@@ -211,6 +211,28 @@
                     Rivets.binders['each-*'].baseroutine.call(this, el, array);
                 }
             };
+            Rivets.adapters['#'] = {
+                subscribe: function (obj, keypath, callback) {
+                    if (keypath == "comment") {
+                        obj._ownerPc.subscribeComment(obj.name, callback);
+                    }
+                },
+                unsubscribe: function (obj, keypath, callback) {
+                    if (keypath == "comment") {
+                        obj._ownerPc.unsubscribeComment(obj.name, callback);
+                    }
+                },
+                read: function (obj, keypath) {
+                    if (keypath == "comment") {
+                        return obj._comment;
+                    }
+                },
+                publish: function (obj, keypath, value) {
+                    if (keypath == "comment") {
+                        return obj._comment = value;
+                    }
+                }
+            };
         }
         PjSheet.pj = null;
         PjSheet.bind = function (pj) {
