@@ -410,9 +410,10 @@
         return Pj;
     })(Character);
 
-
+    Pj.PcAttribute = PcAttribute;
     Pj.Commentable = Commentable;
     Pj.Reward = Reward;
+    Pj.Trait = Trait;
 
     return Pj;
 });

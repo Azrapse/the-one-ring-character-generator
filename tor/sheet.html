@@ -32,9 +32,8 @@
                 <li>
                     <span>Character</span>
                     <ul>
-                        <li>
-                            
-                            <a><img src="css/img/menuicon_new_sheet.png" /> Create</a>
+                        <li>                            
+                            <a rv-on-click="controller.createNew"><img src="css/img/menuicon_new_sheet.png" /> Create</a>
                         </li>
                         <li>
                             <a><img src="css/img/menuicon_sheet_from_server.png" />From Server</a>
@@ -54,10 +53,10 @@
                     <span>Sheet</span>
                     <ul>
                         <li>
-                            <a><img src="css/img/menuicon_toggle_font.png" />Font</a>
+                            <a id="fontToggleButton" href="#"><img src="css/img/menuicon_toggle_font.png" />Font</a>
                         </li>
                         <li>
-                            <a><img src="css/img/menuicon_toggle_volatile.png" />Volatile cells</a>
+                            <a id="hideVolatileButton" href="#"><img src="css/img/menuicon_toggle_volatile.png" />Volatile cells</a>
                         </li>                        
                     </ul>
                 </li>            
@@ -65,7 +64,7 @@
                     <span>Info</span>
                     <ul>
                         <li>
-                            <a><img src="css/img/menuicon_toggle_tooltips.png" />Tooltips</a>
+                            <a id="descriptionsToggleButton" href="#"><img src="css/img/menuicon_toggle_tooltips.png" />Tooltips</a>
                         </li>
                         <li>
                             <a><img src="css/img/menuicon_news.png" />News</a>

@@ -1371,6 +1371,7 @@ div.inventory .input
     border-radius: 5px;    
     min-height: 1.5em; 
     line-height: 1.5em;   
+    text-decoration: none;
 }
 
 #globalmenu a:hover,

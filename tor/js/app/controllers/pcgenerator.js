@@ -146,7 +146,7 @@ function (Pj, PjSheet, Gamedata, Text, Rivets, $) {
             c.selected = (c === models.culture);
         });
         pj.traits.culture = models.culture.name;
-        pj.traits.culturalBlessing = models.culture.culturalBlessing;
+        pj.traits.culturalBlessing = new Pj.Trait(pj, models.culture.culturalBlessing);
         pj.status.endurance = pj.stats.startingEndurance = models.culture.enduranceBonus;
         pj.status.hope = pj.stats.startingHope = models.culture.hopeBonus;
         pj.stats.standard = models.culture.standardOfLiving;
@@ -227,7 +227,8 @@ function (Pj, PjSheet, Gamedata, Text, Rivets, $) {
 
     function specialtiesFinish(event, models) {
         pj.traits.specialties = PcGenerator.specialtiesDep
-            .slice(0, PcGenerator.specialtiesDep.length);
+            .slice(0, PcGenerator.specialtiesDep.length)
+            .map(function (s) { return new Pj.Trait(pj, s); });
     };
 
     // Background Selection
@@ -278,7 +279,8 @@ function (Pj, PjSheet, Gamedata, Text, Rivets, $) {
             .replace(/\s\s/ig, " ");
         pj.traits.features = PcGenerator.selectedBackground.distinctiveFeatures
             .filter(function (f) { return f.selected; })
-            .map(function (f) { return f.name; });
+            .map(function (f) { return f.name; })
+            .map(function (f) { return new Pj.Trait(pj, f); });
         pj.skills.common.favoured[PcGenerator.selectedBackground.favouredSkill] = true;
         pj.stats.attributes.base.body = PcGenerator.selectedBackground.attributeScores.body | 0;
         pj.stats.attributes.base.heart = PcGenerator.selectedBackground.attributeScores.heart | 0;
@@ -345,7 +347,7 @@ function (Pj, PjSheet, Gamedata, Text, Rivets, $) {
     function callingFinish(event, models) {
         if (models.selection.calling.name !== "slayer") {
             var trait = models.selection.calling.additionalTrait[0];
-            pj.traits.specialties.push(trait);
+            pj.traits.specialties.push(new Pj.Trait(pj, trait));
         }
     }
 
@@ -377,7 +379,7 @@ function (Pj, PjSheet, Gamedata, Text, Rivets, $) {
     };
 
     function additionalTraitFinish() {
-        pj.traits.specialties.push(PcGenerator.selectedAdditionalTrait.name);
+        pj.traits.specialties.push(new Pj.Trait(pj, PcGenerator.selectedAdditionalTrait.name));
     }
 
     // Favoured Skill Groups Selection
@@ -518,13 +520,10 @@ function (Pj, PjSheet, Gamedata, Text, Rivets, $) {
     // Reward selection
     function rewardStart() {
         var rewards = Object.keys(Gamedata.cultures[pj.traits.culture].rewards)
-            .map(function (r) {
-                return { name: r, selected: false };
-            })
+            .map(function (r) { return { name: r, selected: false }; })
             .concat(Object.keys(Gamedata.qualities)
-                .map(function (q) {
-                    return { name: q, selected: false };
-                }));
+                .map(function (q) { return { name: q, selected: false }; })
+            );
         var models = { pj: pj, controller: PcGenerator, rewards: rewards };
         return models;
     }

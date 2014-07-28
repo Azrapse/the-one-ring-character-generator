@@ -73,31 +73,28 @@
             tooltip.show = localStorage["popups"] || "popupTooltips";
         }
 
+        var mainMenuController = {
+            createNew: function () {
+                PcGenerator.start({ sheet: PjSheet });
+            }
+        };
+
         var backupOfCurrentSheet = null;
         function setClickablesEvents() {
+            Rivets.bind($("#globalmenu"), { controller: mainMenuController });
+
             // moveable action menu
             $(".actionMenu").draggable();
-
-            // resizable Character Sheet
-            //            $(".characterSheet").resizable({
-            //                "maxWidth": 620,
-            //                "minHeight": 840,
-            //                "minWidth": 620,
-            //                "handles": "s"
-            //            });
-
-            //            // Wizard windows	
-            //            $(".wizardWindow:not(.noDraggable)").draggable();
 
             // set up start button
             $("#startButton").click(function (e) {
                 PcGenerator.start({ sheet: PjSheet });
             });
 
-            //            // toggle font button
-            //            $("#fontToggleButton").click(function (e) {
-            //                alternateFontToggle();
-            //            });
+            // toggle font button
+            $("#fontToggleButton").click(function (e) {
+                alternateFontToggle();
+            });
 
             // toggle volatile
             $("#hideVolatileButton").click(function (e) {
@@ -157,23 +154,23 @@
             //                downloadChatHistory();
             //            });
 
-            //            // About button
-            //            $("#aboutButton").click(function (e) {
-            //                $("#aboutDiv").show();
-            //                $("#aboutDiv #aboutCloseButton").unbind().click(function () {
-            //                    $("#aboutDiv").hide();
-            //                });
-            //            });
+            // About button
+            $("#aboutButton").click(function (e) {
+                $("#aboutDiv").show();
+                $("#aboutDiv #aboutCloseButton").unbind().click(function () {
+                    $("#aboutDiv").hide();
+                });
+            });
 
-            //            // changes button
-            //            $("#changesButton").click(function (e) {
-            //                $("#changesButton").removeClass("highlight");
-            //                $.cookie("latestVisited", $("#changesButton").attr("latest"), { expires: 3650 });
-            //                $("#changesDiv").show();
-            //            });
-            //            $("#changesCloseButton").click(function (e) {
-            //                $("#changesDiv").hide();
-            //            });
+            // changes button
+            $("#changesButton").click(function (e) {
+                $("#changesButton").removeClass("highlight");
+                $.cookie("latestVisited", $("#changesButton").attr("latest"), { expires: 3650 });
+                $("#changesDiv").show();
+            });
+            $("#changesCloseButton").click(function (e) {
+                $("#changesDiv").hide();
+            });
 
 
             $(window).scroll(function () {
