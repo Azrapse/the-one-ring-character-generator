@@ -13,7 +13,6 @@
         return PcAttribute;
     })();
 
-
     var Commentable = (function (_super) {
         _extends(Commentable, _super);
         function Commentable(ownerPc) {
@@ -93,6 +92,56 @@
                     this.name = jsonOrName;
                 }
             }
+
+            // Initialize collection accessors
+            this.belongings = this.belongings || {};
+            this.traits = this.traits || {};
+
+            Object.defineProperty(this, "rewards", {
+                configurable: true,
+                enumerable: false,
+                get: function () {
+                    this.belongings.rewards = this.belongings.rewards || [];
+                    return this.belongings.rewards;
+                },
+                set: function (value) {
+                    this.belongings.rewards = value;
+                }
+            });
+            Object.defineProperty(this, "virtues", {
+                configurable: true,
+                enumerable: false,
+                get: function () {
+                    this.traits.virtues = this.traits.virtues || [];
+                    return this.traits.virtues;
+                },
+                set: function (value) {
+                    this.traits.virtues = value;
+                }
+            });
+            Object.defineProperty(this, "specialties", {
+                configurable: true,
+                enumerable: false,
+                get: function () {
+                    this.traits.specialties = this.traits.specialties || [];
+                    return this.traits.specialties;
+                },
+                set: function (value) {
+                    this.traits.specialties = value;
+                }
+            });
+            Object.defineProperty(this, "features", {
+                configurable: true,
+                enumerable: false,
+                get: function () {
+                    this.traits.features = this.traits.features || [];
+                    return this.traits.features;
+                },
+                set: function (value) {
+                    this.traits.features = value;
+                }
+            });
+
             finalTouches.call(this);
         }
 
@@ -259,6 +308,7 @@
         };
 
         var finalTouches = function () {
+
             while (this.belongings.inventory.length < 10) {
                 this.belongings.inventory.push("");
             }
@@ -285,8 +335,81 @@
             this.traits.culturalBlessing = new Trait(self, this.traits.culturalBlessing);
         };
 
-        // Accessors
+        // Attributes       
+        var collectionPropertyByType = {
+            "reward": "rewards",
+            "virtue": "virtues",
+            "specialty": "specialties",
+            "feature": "features"
+        };
+        Pj.prototype.addAttribute = function (type, attribute) {
+            switch (type) {
+                case "reward":
+                    this.rewards.push(new Reward(this, attribute));
+                    break;
+                case "virtue":
+                case "specialty":
+                case "feature":
+                    var collection = collectionPropertyByType[type];
+                    this[collection].push(new Trait(this, attribute));
+                    break;
+            }
+        };
 
+        Pj.prototype.removeAttribute = function (type, attribute) {
+            var collection = collectionPropertyByType[type];
+            this[collection] = this[collection]
+                .filter(function (a) {
+                    var first = a._id || a;
+                    var second = attribute._id || attribute;
+                    return first !== second;
+                });
+        };
+
+        Pj.prototype.add = function (adding) {
+            for (var type in adding) {
+                this.addAttribute(type, adding[type]);
+            }
+        };
+
+        Pj.prototype.remove = function (removing) {
+            for (var type in removing) {
+                this.removeAttribute(type, removing[type]);
+            }
+        };
+
+        Pj.prototype.setAttribute = function (type, attribute) {
+            switch (type) {
+                case "blessing":
+                    this.traits.culturalBlessing = new Trait(this, attribute);
+                    break;
+                case "culture":
+                    this.traits.culture = attribute;
+                    break;
+                case "endurance":
+                    this.status.endurance = attribute;
+                    break;
+                case "hope":
+                    this.status.hope = attribute;
+                    break;
+                case "standard":
+                    this.stats.standard = attribute;
+                    break;
+            }
+        };
+
+        Pj.prototype.setFavoured = function (type, skill) {
+            switch (type) {
+                case "common":
+                    this.skills.common.favoured = this.skills.common.favoured || {};
+                    this.skills.common.favoured[skill] = true;
+                    break;
+                case "weapon":
+                    break;
+            }
+        };
+
+        // Accessors
         var itemSearch = function (container) {
             for (var gear in this.belongings.gear) {
                 var item = this.belongings.gear[gear];
@@ -320,15 +443,14 @@
             }
             this.status.fatigue = total;
         };
-
         Pj.prototype.updateTotalFatigue = function () {
             this.status.fatigueTotal = (+this.status.fatigue || 0) + (+this.status.fatigueTravel || 0);
         };
-
         Pj.prototype.updateShadow = function () {
             this.status.totalShadow = (+this.status.shadow || 0) + (+this.status.permanentShadow || 0);
         };
 
+        // Comments
         Pj.prototype.getComment = function (key) {
             return this.characterTexts.comments && this.characterTexts.comments.filter && this.characterTexts.comments
                 .filter(function (c) {
@@ -378,6 +500,8 @@
                     return b;
                 }, null);
         }
+
+        // Comment helpers
         var commentSubscriptions = {};
         Pj.prototype.subscribeComment = function (key, callback) {
             commentSubscriptions[key] = commentSubscriptions[key] || [];

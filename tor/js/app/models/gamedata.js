@@ -49,7 +49,7 @@
         },
         characterTexts: {
             backgroundText: "",
-            comments: {},
+            comments: [],
             fellowshipFocusText: "",
             fellowshipNotesText: "",
             guideText: "",

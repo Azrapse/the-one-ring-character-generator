@@ -76,6 +76,26 @@
         var mainMenuController = {
             createNew: function () {
                 PcGenerator.start({ sheet: PjSheet });
+            },
+            toggleFont: function (e) {
+                alternateFontToggle();
+            },
+            toggleVolatile: function (e) {
+                toggleVolatileCells();
+            },
+            toggleDescriptions: function (e) {
+                toggleDescriptions();
+            },
+            about: function (e) {
+                $("#aboutDiv").show();
+                $("#aboutDiv #aboutCloseButton").unbind().click(function () {
+                    $("#aboutDiv").hide();
+                });
+            },
+            whatsNew: function (e) {
+                $("#changesButton").removeClass("highlight");
+                $.cookie("latestVisited", $("#changesButton").attr("latest"), { expires: 3650 });
+                $("#changesDiv").show();
             }
         };
 
@@ -86,26 +106,26 @@
             // moveable action menu
             $(".actionMenu").draggable();
 
-            // set up start button
-            $("#startButton").click(function (e) {
-                PcGenerator.start({ sheet: PjSheet });
-            });
+//            // set up start button
+//            $("#startButton").click(function (e) {
+//                PcGenerator.start({ sheet: PjSheet });
+//            });
 
             // toggle font button
-            $("#fontToggleButton").click(function (e) {
-                alternateFontToggle();
-            });
+//            $("#fontToggleButton").click(function (e) {
+//                alternateFontToggle();
+//            });
 
             // toggle volatile
-            $("#hideVolatileButton").click(function (e) {
-                toggleVolatileCells();
-            });
+//            $("#hideVolatileButton").click(function (e) {
+//                toggleVolatileCells();
+//            });
 
 
             // set up description toggle button
-            $("#descriptionsToggleButton").click(function (e) {
-                toggleDescriptions();
-            });
+//            $("#descriptionsToggleButton").click(function (e) {
+//                toggleDescriptions();
+//            });
 
             //            // synched toggle button
             //            $("#synchedToggleButton").click(function (e) {

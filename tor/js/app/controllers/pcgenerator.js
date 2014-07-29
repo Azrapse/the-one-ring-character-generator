@@ -145,9 +145,10 @@ function (Pj, PjSheet, Gamedata, Text, Rivets, $) {
         models.cultures.forEach(function (c) {
             c.selected = (c === models.culture);
         });
-        pj.traits.culture = models.culture.name;
-        pj.traits.culturalBlessing = new Pj.Trait(pj, models.culture.culturalBlessing);
-        pj.status.endurance = pj.stats.startingEndurance = models.culture.enduranceBonus;
+        pj.setAttribute("culture", models.culture.name);
+        pj.setAttribute("culturalBlessing", models.culture.culturalBlessing);
+        pj.setAttribute("endurance", models.culture.enduranceBonus);
+        pj.setAttribute("startingEndurance", models.culture.enduranceBonus);
         pj.status.hope = pj.stats.startingHope = models.culture.hopeBonus;
         pj.stats.standard = models.culture.standardOfLiving;
         // Favoured skills
@@ -220,7 +221,7 @@ function (Pj, PjSheet, Gamedata, Text, Rivets, $) {
         pj.traits.specialties = [];
         $("#wizardSpecialtiesButtonsDiv .specialtyButton.selected").each(function () {
             var specialty = $(this).attr("data-specialty");
-            pj.traits.specialties.push(specialty);
+            pj.traits.specialties.push(new Pj.Trait(pj, specialty));
         });
         PcGenerator.specialtiesDep = pj.traits.specialties;
     }
@@ -552,7 +553,7 @@ function (Pj, PjSheet, Gamedata, Text, Rivets, $) {
     }
     PcGenerator.selectedVirtue = null;
     PcGenerator.virtueClick = function (event, models) {
-        pj.traits.virtues = [models.virtue.name];
+        pj.traits.virtues = [new Pj.Trait(pj, models.virtue.name)];
         pj.belongings.rewards = [];
         PcGenerator.selectedVirtue = models.virtue;
         models.virtues.forEach(function (v) {

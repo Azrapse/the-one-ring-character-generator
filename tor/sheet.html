@@ -33,7 +33,7 @@
                     <span>Character</span>
                     <ul>
                         <li>                            
-                            <a rv-on-click="controller.createNew"><img src="css/img/menuicon_new_sheet.png" /> Create</a>
+                            <a rv-on-click="controller.createNew"><img src="css/img/menuicon_new_sheet.png" />Create</a>
                         </li>
                         <li>
                             <a><img src="css/img/menuicon_sheet_from_server.png" />From Server</a>
@@ -53,10 +53,10 @@
                     <span>Sheet</span>
                     <ul>
                         <li>
-                            <a id="fontToggleButton" href="#"><img src="css/img/menuicon_toggle_font.png" />Font</a>
+                            <a rv-on-click="controller.toggleFont"><img src="css/img/menuicon_toggle_font.png" />Font</a>
                         </li>
                         <li>
-                            <a id="hideVolatileButton" href="#"><img src="css/img/menuicon_toggle_volatile.png" />Volatile cells</a>
+                            <a rv-on-click="controller.toggleVolatile"><img src="css/img/menuicon_toggle_volatile.png" />Volatile cells</a>
                         </li>                        
                     </ul>
                 </li>            
@@ -64,13 +64,13 @@
                     <span>Info</span>
                     <ul>
                         <li>
-                            <a id="descriptionsToggleButton" href="#"><img src="css/img/menuicon_toggle_tooltips.png" />Tooltips</a>
+                            <a rv-on-click="controller.toggleDescriptions"><img src="css/img/menuicon_toggle_tooltips.png" />Tooltips</a>
                         </li>
                         <li>
-                            <a><img src="css/img/menuicon_news.png" />News</a>
+                            <a rv-on-click="controller.whatsNew"><img src="css/img/menuicon_news.png" />News</a>
                         </li>
                         <li>
-                            <a><img src="css/img/menuicon_about.png" />About</a>
+                            <a rv-on-click="controller.about"><img src="css/img/menuicon_about.png" />About</a>
                         </li>
                     </ul>
                 </li>
