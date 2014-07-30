@@ -1,6 +1,6 @@
-﻿define(["jquery", "rivets", "gamedata", "text", "pj", "pjsheet", "tooltip", "pcgenerator",
+﻿define(["jquery", "rivets", "gamedata", "text", "pj", "pjsheet", "tooltip", "pcgenerator", "server",
 "jquery.ui", "jquery.linq", "json", "jquery.cookies", "jquery.migrate", "modernizr", "jquery.slicknav"],
-    function ($, Rivets, Gamedata, Text, Pj, PjSheet, Tooltip, PcGenerator) {
+    function ($, Rivets, Gamedata, Text, Pj, PjSheet, Tooltip, PcGenerator, Server) {
         // Aliases
         var localizeOne = Text.localizeOne;
         var localize = Text.localizeAll;
@@ -77,6 +77,11 @@
             createNew: function () {
                 PcGenerator.start({ sheet: PjSheet });
             },
+            loadFromServer: function () {
+                if (!Server.connected) {
+                    Server.connectDialog();
+                }
+            },
             toggleFont: function (e) {
                 alternateFontToggle();
             },
@@ -106,26 +111,26 @@
             // moveable action menu
             $(".actionMenu").draggable();
 
-//            // set up start button
-//            $("#startButton").click(function (e) {
-//                PcGenerator.start({ sheet: PjSheet });
-//            });
+            //            // set up start button
+            //            $("#startButton").click(function (e) {
+            //                PcGenerator.start({ sheet: PjSheet });
+            //            });
 
             // toggle font button
-//            $("#fontToggleButton").click(function (e) {
-//                alternateFontToggle();
-//            });
+            //            $("#fontToggleButton").click(function (e) {
+            //                alternateFontToggle();
+            //            });
 
             // toggle volatile
-//            $("#hideVolatileButton").click(function (e) {
-//                toggleVolatileCells();
-//            });
+            //            $("#hideVolatileButton").click(function (e) {
+            //                toggleVolatileCells();
+            //            });
 
 
             // set up description toggle button
-//            $("#descriptionsToggleButton").click(function (e) {
-//                toggleDescriptions();
-//            });
+            //            $("#descriptionsToggleButton").click(function (e) {
+            //                toggleDescriptions();
+            //            });
 
             //            // synched toggle button
             //            $("#synchedToggleButton").click(function (e) {

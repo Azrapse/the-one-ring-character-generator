@@ -102,6 +102,7 @@
     <Content Include="tor\js\app\code.js" />
     <Content Include="tor\js\app\controllers\pcgenerator.js" />
     <Content Include="tor\js\app\controllers\pjcontextmenus.js" />
+    <Content Include="tor\js\app\controllers\server.js" />
     <Content Include="tor\js\app\extends.js" />
     <Content Include="tor\js\app\models\character.js" />
     <Content Include="tor\js\app\models\gamedata.js" />
@@ -126,6 +127,7 @@
     <Content Include="tor\js\app\views\generator\valorwisdom.html" />
     <Content Include="tor\js\app\views\generator\virtues.html" />
     <Content Include="tor\js\app\views\generator\wspackage.html" />
+    <Content Include="tor\js\app\views\server\connect.html" />
     <Content Include="tor\js\app\views\tooltip\helpdiv.html" />
     <Content Include="tor\js\controllers.js" />
     <Content Include="tor\js\lib\jquery-1.11.0-vsdoc.js" />

@@ -1,0 +1,27 @@
+﻿<div class="wizardWindow serverConnect">
+	<fieldset>
+		<legend class="uiText" data-textKey="uiConnect"></legend>
+		<div>
+            <span class="info">
+                <label class='uiText' data-textKey="uiUsername"></label>
+            </span>
+            <input type="text" class="input username" rv-value="credentials.username" />
+        </div>
+        <div>
+            <span class="info">
+                <label class='uiText' data-textKey="uiPassword"></label>
+            </span>
+            <input type="password" class="input password" rv-value="credentials.password" />
+        </div>
+        <div>
+            <span class="info">
+                <label class='uiText' data-textKey="uiChatAlias"></label>
+            </span>
+            <input type="text" class="input alias" rv-value="credentials.alias" />
+        </div>
+		<div class="buttonContainer">
+			<button class="uiText next" data-textKey="uiConnect" rv-on-click="controller.connectClick"></button>
+			<button class="uiText cancel" data-textKey="uiClose" rv-on-click="controller.cancelClick"></button>
+		</div>
+	</fieldset>
+</div>

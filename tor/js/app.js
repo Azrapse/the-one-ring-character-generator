@@ -28,7 +28,8 @@
         "tooltip": "app/tooltip",
         "popupMenu": "app/popupmenu",
         "pjcontextmenus": "app/controllers/pjcontextmenus",
-        "pcgenerator": "app/controllers/pcgenerator"
+        "pcgenerator": "app/controllers/pcgenerator",
+        "server": "app/controllers/server"
     },
     "shim": {
         "jquery.linq": ["jquery"],
