@@ -28,6 +28,7 @@
         "tooltip": "app/tooltip",
         "popupMenu": "app/popupmenu",
         "pjcontextmenus": "app/controllers/pjcontextmenus",
+        "basecontroller": "app/controllers/basecontroller",
         "pcgenerator": "app/controllers/pcgenerator",
         "server": "app/controllers/server"
     },

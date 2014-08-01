@@ -1441,3 +1441,13 @@ div.inventory .input
 		display:block;
 	}
 }
+
+
+
+.serverConnect .info
+{
+    display: inline-block;
+    width: 8em;
+    text-align: right;
+    padding-right: .5em;
+}

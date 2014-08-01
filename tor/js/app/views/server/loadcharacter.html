@@ -1,0 +1,39 @@
+﻿<div class="wizardWindow serverConnect">
+	<fieldset>
+		<legend class="uiText" data-textKey="uiOnlineCharacters"></legend>
+        <div>
+            <button class="uiText" data-textKey="uiOnlineGetMyCharacters"></button>		
+			<button class="uiText" data-textKey="uiOnlineGetPublicCharacters"></button>
+        </div>
+
+		<div class="characterList">
+            <div>
+                <span class="uiText" data-textKey="uiOnlineCharacterList"></span>:
+            </div>			
+			<div>
+				<div id="onlineCharacterListLoadingIndicator" style="display: none;" class="uiText selector" data-textKey="uiLoading"></div>
+				<div id="onlineCharacterList">
+                    <table>
+                        <tr rv-each-character="characters" rv-data-characterId="character.id" rv-class-selected="character.selected">
+                            <td>
+                                <span class="name" rv-text="character.name"></span>
+                            </td>
+                            <td>
+                                <span class="culture" rv-text="character.culture | localize"></span>
+                            </td>
+                            <td>
+                                <span class="calling" rv-text="character.calling | localize"></span>
+                            </td>                            
+                        </tr>
+                    </table>
+                </div>
+				<div id="onlineMessageBox"></div>
+			</div>						
+		</div>
+
+		<div class="buttonContainer">
+			<button class="uiText next" data-textKey="uiLoad" rv-on-click="controller.loadClick" rv-show="controller.selectedCharacter"></button>            
+			<button class="uiText cancel" data-textKey="uiClose" rv-on-click="controller.cancelClick"></button>
+		</div>
+	</fieldset>
+</div>

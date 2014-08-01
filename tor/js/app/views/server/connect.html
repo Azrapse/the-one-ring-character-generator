@@ -1,26 +1,27 @@
 ﻿<div class="wizardWindow serverConnect">
 	<fieldset>
-		<legend class="uiText" data-textKey="uiConnect"></legend>
+		<legend class="uiText" data-textKey="uiOnlineTitle"></legend>
 		<div>
             <span class="info">
                 <label class='uiText' data-textKey="uiUsername"></label>
             </span>
-            <input type="text" class="input username" rv-value="credentials.username" />
+            <input type="text" class="input username" rv-value="credentials.username" rv-on-change="controller.onTextChanged" />
         </div>
         <div>
             <span class="info">
                 <label class='uiText' data-textKey="uiPassword"></label>
             </span>
-            <input type="password" class="input password" rv-value="credentials.password" />
+            <input type="password" class="input password" rv-value="credentials.password" rv-on-change="controller.onTextChanged" />
         </div>
         <div>
             <span class="info">
                 <label class='uiText' data-textKey="uiChatAlias"></label>
             </span>
-            <input type="text" class="input alias" rv-value="credentials.alias" />
+            <input type="text" class="input alias" rv-value="credentials.alias" rv-on-change="controller.onTextChanged" />
         </div>
 		<div class="buttonContainer">
-			<button class="uiText next" data-textKey="uiConnect" rv-on-click="controller.connectClick"></button>
+			<button class="uiText next" data-textKey="uiNext" rv-on-click="controller.connectClick" rv-show="controller.isValid"></button>
+            <button class="uiText" data-textKey="uiRegister" rv-on-click="controller.registerClick"></button>
 			<button class="uiText cancel" data-textKey="uiClose" rv-on-click="controller.cancelClick"></button>
 		</div>
 	</fieldset>

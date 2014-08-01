@@ -1,60 +1,78 @@
-﻿define(["pj", "pjsheet", "gamedata", "rivets", "text", "jquery", "jquery.ui",
-    "txt!views/server/connect.html"],
-function (Pj, PjSheet, Gamedata, Rivets, Text, $) {
+﻿define(["pj", "pjsheet", "gamedata", "rivets", "text", "basecontroller", "jquery", "extends", "jquery.ui",
+    "txt!views/server/connect.html",
+    "txt!views/server/loadcharacter.html"],
+function (Pj, PjSheet, Gamedata, Rivets, Text, BaseController, $, _extends) {
 
-    var Server = {
-        connected: false,
-        username: null,
-        password: null,
-        alias: "Gollum",
-        serverBaseUrl: "http://azrapse.es/torServer"
-    };
+    var Server = (function (_super) {
+        _extends(Server, BaseController);
 
-    var container = $(document.body);
-    var view = null;
-    var element = null;
+        function Server() {
+            _super.call(this);
+            this.connected = false;
+            this.username = null;
+            this.password = null;
+            this.alias = "Gollum";
+            //            this.serverBaseUrl = "http://azrapse.es/torServer";
+            this.serverBaseUrl = "http://localhost:8080/torServer/";
+            this.characterLoadUrl = this.serverBaseUrl + "characters/ajax_list_public";
+            this.isValid = false;
+        };
 
-    function createView(template, models) {
-        disposeView();
-        var template = $.parseHTML(template)
-            .filter(function (e) { return e instanceof HTMLElement; })[0];
-        element = $(template);
-        container.append(element);
-        element.draggable();
-        view = Rivets.bind(element, models);
-        Text.localizeAll(element);
-        return { view: view, element: element };
-    }
+        /** Credentials **/
 
-    function disposeView() {
-        if (view) {
-            view.unbind();
-            view = null;
+        Server.prototype.connectDialog = function () {
+            var template = require("txt!views/server/connect.html");
+            var model = { controller: this, credentials: { username: this.username, password: this.password, alias: this.alias} };
+            return this.createView(template, model);
+        };
+
+        // Validate the username, password and alias
+
+        var checkValidTexts = function (username, password, alias) {
+            this.isValid = (username && password && alias);
         }
-        if (element) {
-            element.remove();
-            element = null;
+
+        Server.prototype.onTextChanged = function (event, models) {
+            checkValidTexts.call(models.controller, models.credentials.username, models.credentials.password, models.credentials.alias);
         }
-    }
 
-    Server.connectDialog = function () {
-        var template = require("txt!views/server/connect.html");
-        var model = { controller: Server, credentials: { username: Server.username, password: Server.password, alias: Server.alias} };
-        return createView(template, model);
-    };
+        Server.prototype.connectClick = function (event, models) {
+            var controller = models.controller;
+            checkValidTexts(models.credentials.username, models.credentials.password, models.credentials.alias);
+            if (controller.isValid) {
+                controller.disposeView();
+                controller.connectToServer(models.credentials.username, models.credentials.password, models.credentials.alias);
+            }
+        };
 
-    Server.connectClick = function (event, models) {
-        disposeView();
-        Server.connectToServer(models.credentials.username, models.credentials.password, models.credentials.alias);
-    };
+        Server.prototype.cancelClick = function (event, models) {
+            models.controller.disposeView();
+        };
 
-    Server.cancelClick = function (event, models) {
-        disposeView();
-    };
+        Server.prototype.connectToServer = function (username, password, alias) {
+            alert("Connecting to " + this.serverBaseUrl + " with group " + username + " as " + alias);
+            this.loadCharacterDialog();
+        };
 
-    Server.connectToServer = function (username, password, alias) {
-        alert("Connecting to " + Server.serverBaseUrl + " with group " + username + " as " + alias);
-    };
+        /** Load character **/
 
-    return Server;
+        Server.prototype.loadCharacterDialog = function () {
+            $.ajax({
+                cache: false,
+                url: this.characterLoadUrl
+                //dataType: "json"
+            })
+            .done(function (data, status, response) {
+                    var json = $.parseJSON(data);
+                    var template = require("txt!views/server/loadcharacter.html");
+                    var model = { controller: this, characters: json };
+                    return this.createView(template, model);
+                });
+        };
+
+        return Server;
+    })(BaseController);
+
+    var singleton = singleton || new Server();
+    return singleton;
 });

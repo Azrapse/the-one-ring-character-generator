@@ -1,4 +1,5 @@
-<?php foreach($characters as $character): ?>
+<?php echo json_encode($characters) ?>
+<?php /*foreach($characters as $character): ?>	
 	<div 
 		name="<?php echo $character['Character']['name'] ?>" 
 		user="<?php echo $character['User']['display_name'] ?>"
@@ -7,4 +8,4 @@
 		calling="<?php echo $character['Character']['calling'] ?>"
 		id="<?php echo $character['Character']['id'] ?>"
 	></div>
-<?php endforeach; ?>
+<?php endforeach;*/ ?> 
