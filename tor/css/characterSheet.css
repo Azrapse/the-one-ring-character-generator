@@ -1009,7 +1009,7 @@ div.inventory .input
 }
 
 #onlineCharacterList{
-	max-width: 550px;
+	max-width: 750px;
 	max-height: 250px;
 	overflow-y: auto;
 }

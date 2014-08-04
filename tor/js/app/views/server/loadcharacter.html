@@ -2,8 +2,8 @@
 	<fieldset>
 		<legend class="uiText" data-textKey="uiOnlineCharacters"></legend>
         <div>
-            <button class="uiText" data-textKey="uiOnlineGetMyCharacters"></button>		
-			<button class="uiText" data-textKey="uiOnlineGetPublicCharacters"></button>
+            <button class="uiText" data-textKey="uiOnlineGetMyCharacters" rv-on-click="controller.loadMineClick"></button>		
+			<button class="uiText" data-textKey="uiOnlineGetPublicCharacters" rv-on-click="controller.loadAllClick"></button>
         </div>
 
 		<div class="characterList">
@@ -11,9 +11,9 @@
                 <span class="uiText" data-textKey="uiOnlineCharacterList"></span>:
             </div>			
 			<div>
-				<div id="onlineCharacterListLoadingIndicator" style="display: none;" class="uiText selector" data-textKey="uiLoading"></div>
+				<div id="onlineCharacterListLoadingIndicator" rv-show="controller.isLoading" class="uiText selector" data-textKey="uiLoading"></div>
 				<div id="onlineCharacterList">
-                    <table>
+                    <table rv-hide="controller.isLoading">
                         <tr rv-each-character="characters" rv-data-characterId="character.id" rv-class-selected="character.selected">
                             <td>
                                 <span class="name" rv-text="character.name"></span>
@@ -24,10 +24,13 @@
                             <td>
                                 <span class="calling" rv-text="character.calling | localize"></span>
                             </td>                            
+                            <td>
+                                <span class="user" rv-text="character.user"></span>
+                            </td>
                         </tr>
                     </table>
                 </div>
-				<div id="onlineMessageBox"></div>
+				<div id="onlineMessageBox" rv-text="controller.message"></div>
 			</div>						
 		</div>
 

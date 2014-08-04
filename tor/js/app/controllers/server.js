@@ -50,24 +50,34 @@ function (Pj, PjSheet, Gamedata, Rivets, Text, BaseController, $, _extends) {
         };
 
         Server.prototype.connectToServer = function (username, password, alias) {
-            alert("Connecting to " + this.serverBaseUrl + " with group " + username + " as " + alias);
             this.loadCharacterDialog();
         };
 
         /** Load character **/
 
         Server.prototype.loadCharacterDialog = function () {
+            var template = require("txt!views/server/loadcharacter.html");
+            this.isLoading = false;
+            this.message = "0";
+            var model = { controller: this, characters: [] };
+            return this.createView(template, model);
+        };
+
+        Server.prototype.loadAllClick = function (e, models) {
+            var self = models.controller;
+            self.isLoading = true;
             $.ajax({
                 cache: false,
-                url: this.characterLoadUrl
-                //dataType: "json"
+                url: self.characterLoadUrl,
+                dataType: "json"
             })
             .done(function (data, status, response) {
-                    var json = $.parseJSON(data);
-                    var template = require("txt!views/server/loadcharacter.html");
-                    var model = { controller: this, characters: json };
-                    return this.createView(template, model);
-                });
+                models.characters = data;
+                self.message = data.length;
+            })
+            .always(function () {
+                self.isLoading = false;
+            });
         };
 
         return Server;

@@ -36,6 +36,7 @@ class CharactersController extends AppController {
 			);			
 		}, $characters);
 		$this->set('characters', $characters);	
+		$this->RequestHandler->setContent('json');
 		$this->render('ajax_list_own');
 	}
 
