@@ -10,12 +10,22 @@ class CharactersController extends AppController {
 		$password = $this->params['form']['password'];
 		
 		$characters = $this->Character->find('all', array(
-			"conditions" => array(
-				"User.username" => $username,
-				"User.password" => $password
-			)
+			"conditions" => array( "User.username" => $username, "User.password" => $password ),
+			"order" => array("Character.culture", "Character.calling", "Character.name", "User.display_name"),
+			"fields" => array("Character.id", "Character.name", "Character.culture", "Character.calling", "Character.user_id", "User.display_name")
 		));
+		$characters = array_map(function($c){ 
+			return array(
+				'id'=>$c['Character']['id'],
+				'user_id'=>$c['Character']['user_id'],
+				'name'=>$c['Character']['name'],
+				'culture'=>$c['Character']['culture'],
+				'calling'=>$c['Character']['calling'],
+				'user'=>$c['User']['display_name']
+			);			
+		}, $characters);
 		$this->set('characters', $characters);		
+		$this->RequestHandler->setContent('json');
 	}
 	
 	function ajax_list_public(){

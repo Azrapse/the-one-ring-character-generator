@@ -1008,11 +1008,27 @@ div.inventory .input
 	font-size: 12pt;
 }
 
-#onlineCharacterList{
+#onlineCharacterList
+{
 	max-width: 750px;
 	max-height: 250px;
 	overflow-y: auto;
+	border: 2px solid #000;
+	border-radius: 10px 0 0 10px;
+	min-height: 300px;
 }
+
+#onlineCharacterList tr:hover td
+{
+	background-color: #ddd;
+}
+
+#onlineCharacterList tr.selected td
+{
+	background-color: #ccc;
+}
+
+
 #onlineCharacterListLoadingIndicator
 {
 	position: absolute;
@@ -1052,12 +1068,8 @@ div.inventory .input
 	display: inline-block;
 	width: 25%;
 }
-#onlineCharacterList
-{
-	border: 2px solid #000;
-	border-radius: 10px 0 0 10px;
-	min-height: 300px;
-}
+
+
 #onlineDiv .header{
 	cursor: move;
 }

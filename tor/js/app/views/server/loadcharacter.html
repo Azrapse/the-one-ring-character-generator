@@ -14,7 +14,7 @@
 				<div id="onlineCharacterListLoadingIndicator" rv-show="controller.isLoading" class="uiText selector" data-textKey="uiLoading"></div>
 				<div id="onlineCharacterList">
                     <table rv-hide="controller.isLoading">
-                        <tr rv-each-character="characters" rv-data-characterId="character.id" rv-class-selected="character.selected">
+                        <tr rv-each-character="controller.characters" rv-data-characterId="character.id" rv-class-selected="character.selected" rv-on-click="controller.characterRowClick">
                             <td>
                                 <span class="name" rv-text="character.name"></span>
                             </td>
@@ -35,7 +35,8 @@
 		</div>
 
 		<div class="buttonContainer">
-			<button class="uiText next" data-textKey="uiLoad" rv-on-click="controller.loadClick" rv-show="controller.selectedCharacter"></button>            
+			<button class="uiText next" data-textKey="uiLoadOnlineCharacter" rv-on-click="controller.loadClick" rv-show="controller.selectedCharacter"></button>            
+            <button class="uiText" data-textKey="uiDeleteOnlineCharacter" rv-on-click="controller.deleteClick" rv-show="controller.selectedCharacter" rv-disabled="controller.readOnly"></button>            
 			<button class="uiText cancel" data-textKey="uiClose" rv-on-click="controller.cancelClick"></button>
 		</div>
 	</fieldset>
