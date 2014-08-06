@@ -119,8 +119,6 @@ class CharactersController extends AppController {
 	
 	function ajax_get_character(){
 		$this->layout = 'ajax';
-		$username = $this->params['form']['username'];
-		$password = $this->params['form']['password'];
 		if(array_key_exists("characterName", $this->params['form'])){
 			$characterName = $this->params['form']['characterName'];
 		}
@@ -131,21 +129,18 @@ class CharactersController extends AppController {
 		if ($characterId != null){
 			$character = $this->Character->find('first', array(
 				"conditions" => array(
-					"Character.id" => $characterId,
-					"User.username" => $username,
-					"User.password" => $password
+					"Character.id" => $characterId
 				)			
 			));	
 		} else {
 			$character = $this->Character->find('first', array(
 				"conditions" => array(
-					"Character.name LIKE" => $characterName,
-					"User.username" => $username,
-					"User.password" => $password
+					"Character.name LIKE" => $characterName
 				)			
 			));
 		}
 		$this->set("character", $character);
+		$this->RequestHandler->setContent('json');
 	}
 	
 	function index() {

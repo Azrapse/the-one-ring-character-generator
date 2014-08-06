@@ -15,13 +15,15 @@ function (Pj, PjSheet, Gamedata, Rivets, Text, BaseController, $, _extends) {
             //            this.serverBaseUrl = "http://azrapse.es/torServer";
             this.serverBaseUrl = "http://localhost:8080/torServer/";
             this.allCharactersLoadUrl = this.serverBaseUrl + "characters/ajax_list_public";
-            this.myCharactersLoadUrl = this.serverBaseUrl + "characters/ajax_list_own";            
+            this.myCharactersLoadUrl = this.serverBaseUrl + "characters/ajax_list_own";
+            this.characterDeleteUrl = this.serverBaseUrl + "characters/ajax_delete";
+            this.characterLoadUrl = this.serverBaseUrl + "characters/ajax_get_character";
         };
 
         /** Credentials **/
 
         Server.prototype.connectDialog = function () {
-            var template = require("txt!views/server/connect.html");            
+            var template = require("txt!views/server/connect.html");
             var model = { controller: this };
             this.createView(template, model);
         };
@@ -33,7 +35,7 @@ function (Pj, PjSheet, Gamedata, Rivets, Text, BaseController, $, _extends) {
         };
 
         Server.prototype.connectClick = function (event, models) {
-            var self = models.controller;            
+            var self = models.controller;
             if (self.isValid) {
                 self.disposeView();
                 self.connectToServer(self.username, self.password, self.alias);
@@ -121,6 +123,20 @@ function (Pj, PjSheet, Gamedata, Rivets, Text, BaseController, $, _extends) {
             var character = models.character;
             character.selected = true;
             self.selectedCharacter = character;
+        };
+
+        Server.prototype.loadClick = function (e, models) {
+            var self = models.controller;
+            if (self.selectedCharacter) {
+                $.post(self.characterLoadUrl, { characterId: self.selectedCharacter.id })
+                .done(function (data) {
+                    alert(data);
+                });
+            };
+        };
+
+        Server.prototype.deleteClick = function (e, models) {
+
         };
 
         return Server;
