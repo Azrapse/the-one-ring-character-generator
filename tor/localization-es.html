@@ -345,7 +345,7 @@ Vivir durante tanto tiempo bajo la omnipresente amenaza
 de Smaug el Terrible ha convertido a los hombres
 de Bardo en una raza valerosa. Después de todo, no hay
 muchas criaturas más temibles que un gran dragón.
-- Al llevar a cabo una prueba de miedo, los personajes
+- Al llevar a cabo una prueba de Valor, los personajes
 hombres de Bardo pueden tirar dos veces el dado de
 proeza, y quedarse con el mejor de los resultados.
 		</div>
@@ -426,11 +426,9 @@ enemigos mortales, pero los amigos que les demuestran
 ser de confianza, son amigos de por vida.
 		</div>
 		<div name="furious" fullname="Furioso">
-Un beórnida se ve invadido de una cólera repentina
-cuando le aciertan en combate y su sangre se derrama.<br/>
-- Cuando un beórnida resulta herido en combate, ignora
-los efectos de estar cansado durante la duración del
-mismo.
+Un beórnida lucha como bestia arrinconada: se ve invadido de una cólera repentina
+cuando ve su sangre derramada.<br/>
+- En combate, un beórnida ignora los efectos del Cansancio si está Herido (independientemente de si fue herido en ese enfrentamiento o en otro).
 		</div>
 		<div name="beorningBackground1" fullname="Hijo de dos pueblos">
 Hace muchos años, tu padre bajó de las montañas y
@@ -1192,6 +1190,8 @@ Estás dotado de buena salud, y muy raramente sufres de
 enfermedades o de dolencias.
 		</div>
 		<div name="secretive" fullname="Reservado">
+		<div name="small" fullname="Pequeño">
+Mides la mitad que un hombre adulto y pasas fácilmente desapercibido.</div>		
 No compartes fácilmente tus pensamientos, y prefieres
 ocultar tus intenciones a la vista de los demás, especialmente
 de los que no pertenecen a tu pueblo.
@@ -1401,7 +1401,7 @@ igual de puntos.
 Si se te permite moverte libremente mientras luchas, te
 puedes aprovechar de tu fuerza física y de tu agilidad
 superiores.<br/>
-- Si tu puntuación de cansancio es igual o menor que 12
+- Si tu puntuación total de impedimenta de los objetos que portas es igual o menor que 12
 cuando luchas en una posición de combate cuerpo a
 cuerpo, recibes un bonificador de +3 a tu puntuación de
 parada.
@@ -1562,8 +1562,7 @@ guerras contra la Sombra. Ni siquiera el paso de los
 siglos puede apagar el amargo odio que tu raza siente
 por el Enemigo.<br/>
 - Cuando luchas en una posición de vanguardia contra servidores
-de la Sombra, tus tiradas de ataque tienen un bonificador igual
-a +3, o a tu puntuación de valor (la más alta de las dos).
+de la Sombra (incluyendo Arañas, Orcos, Trolls y Hombres Malvados) añade un dado de éxito a todas tus tiradas de ataque (hasta un máximo de 6).
 		</div>
 		<div name="theSpeakers" fullname="Los oradores">
 Has aprendido a comunicarte con casi todo, desde
@@ -1651,7 +1650,7 @@ problema es que ellos hacen todo lo posible para evitar
 los aprietos…).<br/>
 - Cuando gastas un punto de esperanza para invocar
 un bonificador de atributo, eliminas además todas las
-penalizaciones a consecuencia de estar cansado.
+penalizaciones a consecuencia de estar cansado para esa acción.
 		</div>
 		<div name="fairShot" fullname="Buen lanzador">
 Has pasado gran cantidad de tiempo practicando todo
@@ -1664,11 +1663,10 @@ los dos resultados.
 Cuando puedes tomarte un descanso prolongado, recuperas
 tu salud a un ritmo prodigioso, ya estés herido o
 simplemente cansado.<br/>
-- Si no estás herido, recuperas 3 puntos de aguante mas
-tu puntuación favorita de Corazón cada día; si estás
-herido y tu herida ha sido tratada con éxito recuperas
-4 puntos de aguante; y si estás herido y tu herida no ha
-sido tratada, recuperas 2 puntos de aguante.
+- Si estás Herido y tus heridas no han sido tratadas, recuperas dos puntos de Aguante;
+ si estás Herido y tus heridas han sido tratadas, recuperas 4 puntos de Aguante;
+ si no estás Herido, recuperas 3 puntos de Aguatnes más tu puntuación favorita de Corazón.<br/>
+ Cuando viajas, te recuperas normalmente (la tasa de recuperación reducida de la página 11 no te afecta).
 		</div>
 		<div name="smallFolk" fullname="Pequeños">
 Has aprendido a obtener ventaja en una pelea gracias a
@@ -1816,8 +1814,7 @@ gran cuidado de una generación a la siguiente. Cantar
 sus palabras sobre una herida puede reducir la pérdida
 de sangre de un guerrero a un mero goteo, permitiéndola
 que fluya de vuelta al corazón.<br/>
-- Al final de un combate, si has resultado herido durante
-la confrontación puedes tirar Cantar contra un NO de
+- Al final de un combate puedes tirar Cantar contra un NO de
 14. Con un éxito, recuperas tantos puntos de aguante
 como tu puntuación de sabiduría, el doble de tu puntuación
 de sabiduría si la tirada fue un gran éxito, o tres
@@ -1915,7 +1912,7 @@ Los soldados de Girion, señor de Valle, llevaban grandes
 escudos, tan altos que se decía que un hombre hecho y
 derecho se podía ocultar por completo tras ellos.<br/>
 - Cuando utilizas un Escudo torreón, tu bonificador de
-parada obtiene un +2 adicional contra las armas a
+parada obtiene un +3 adicional contra las armas a
 distancia.
 		</div>
 		<div name="giantSlayingSpear" fullname="Lanza matagigantes">
@@ -1923,17 +1920,15 @@ distancia.
 Una Lanza matagigantes es una lanza inusualmente larga,
 hecha de madera de fresno, que antiguamente sólo
 se usaba a caballo.<br/>
-- Cuando atacas utilizando una Lanza matagigantes,
-tu puntuación de daño en combate cuerpo a cuerpo
-aumenta en 4 contra criaturas de tamaño mayor a un
-humano.
+- Cuando atacas contra criaturas de tamaño mayor a un
+humano, la puntuación de daño de la Lanza matagigantes aumenta en 4 .
 		</div>
 		<div name="nobleArmour" fullname="Armadura noble">
 		(armadura de cuero) <br/>
 Los antiguos artesanos trabajaron mucho tiempo en estas
 armaduras de cuero, moldeándolas y decorándolas
 con lacas y otros ornamentos.<br/>
-- Cuando llevas una Armadura noble, tus puntuaciones
+- Cuando llevas una Armadura noble, recibes un dado de ventaja de Encuentro gratuito. Además, tus puntuaciones
 de valor y de sabiduría se considera que disponen de un
 bonificador de +3 en cuanto a calcular la tolerancia en
 un encuentro se refiere.
@@ -1957,7 +1952,7 @@ cargado, puesto que llevaba las armas de quienes
 murieron aquel día, y cuyos cuerpos fueron quemados
 en la pira.<br/>
 - Cuando atacas a un enemigo con un nivel de atributo de
-6 menos, si obtienes una runa de Gandalf en el dado de proeza
+7 menos, si obtienes una runa de Gandalf en el dado de proeza
 utilizando este hacha, tu oponente queda cansado durante el
 resto del combate. 
 		</div>
@@ -2018,9 +2013,7 @@ batalla. Jamás volvieron, pero se dice que cierto número
 de arcos muy fuertes fue recuperado del campo de batalla,
 y se han conservado hasta el día de hoy.<br/>
 - Cuando llevas a cabo un ataque a distancia utilizando
-un Arco de las quebradas del Norte ignoras el bonificador
-de escudo (si lo lleva) a la puntuación de parada de
-tu objetivo.
+un Arco de las quebradas del Norte añade una bonificación de +3 o tu puntuación de Valor (lo que sea mayor).
 		</div>
 		<div name="kingsBlade" fullname="Hoja del rey">
 		(espada corta)<br/>
@@ -2029,7 +2022,7 @@ en túmulos, entre campos labrados, o arrastrados
 a la orilla de un río. Incapaces de descubrir su origen
 preciso, les llaman simplemente ‘Hojas del rey’.<br/>
 - Si impactas a tu oponente con un éxito grande o extraordinario
-con una Hoja del rey, infliges automáticamente
+con una Hoja del rey, gasta un punto de Esperanza para provocar
 un golpe perforante.
 		</div>
 		<div name="luckyArmour" fullname="Armadura afortunada">
@@ -2049,10 +2042,8 @@ y barbada, a menudo grabada con antiguas runas de
 victoria. La hoja, que es más larga de lo normal, atraviesa
 el escudo del oponente, y su extremo ganchudo puede
 utilizarse para desarmarle.<br/>
-Cuando obtienes una runa de Gandalf en el dado de proeza
-utilizando un Hacha barbada puedes escoger entre romper
-el escudo de tu oponente, O BIEN desarmarle (además de los
-efectos normales de un ataque con éxito).
+Cuando obtienes un éxito Superior o Extraordinario usando el Hacha Barbada, puedes escoger no aplicar tu puntuación de Daño para romper
+el escudo de tu oponente, O BIEN desarmarle.
 		</div>
 		<div name="featheredArmour" fullname="Armadura emplumada">
 		(armadura) <br/>
@@ -2071,10 +2062,9 @@ potente, los hombres del bosque de las tierras Ásperas
 lo llaman un ‘Arco del pastor’, puesto que lo utilizarán
 para proteger a su ganado de las voraces garras de las
 águilas de las montañas Nubladas.<br/>
-- Cuando obtienes una runa de Gandalf enel dado de proeza
+- Cuando obtienes un éxito superior o extraordinario
 utilizando un Arco del pastor, infliges daño adicional
-igual a tu puntuación de daño (independientemente del
-nivel de éxito).
+igual a tu puntuación básica de Corazón.
 		</div>
 		<div name="scholar" fullname="Erudito">
 Para ti el conocimiento hace que el mundo salvaje sea
