@@ -1473,9 +1473,11 @@ function initializeRewardsSelection() {
 function initializePreviousExperienceSpending() {
     // Empty window
     $(".rankableSkillsDiv").empty();
-    $(".remainingXP").attr("XPLeft", 10).html(_ui_("uiPX10XPLeft"));
+	var cultureId = $("#characterData").data("culture");
+	var previousXP = $("#internalData .cultures .culture[name=" + cultureId + "] .previousXP").attr("value") || 10;
+    $(".remainingXP").attr("XPLeft", previousXP).html(_ui_("uiPXXPLeft", previousXP));
 
-    var cultureId = $("#characterData").data("culture");
+    
     // We save in characterData the skills and ranks
     // Skill Scores saving
     var startingSkillScores = $("#internalData .cultures .culture[name=" + cultureId + "] .startingSkillScores .skillScore");
@@ -1534,7 +1536,8 @@ function initializePreviousExperienceSpending() {
         // Empty window
         $(".rankableSkillsDiv").empty();
         // Reset XP counter
-        $(".remainingXP").attr("XPLeft", 10).html("10 experience points left");
+		var previousXP = $("#internalData .cultures .culture[name=" + cultureId + "] .previousXP").attr("value") || 10;
+        $(".remainingXP").attr("XPLeft", previousXP).html(_ui_("uiPXXPLeft", previousXP));
 
         //Re create everything
         previousXPCreateTemporaryScores();
@@ -2009,6 +2012,9 @@ function sheetToObject() {
     data.favoured = $(".skillNameCell.localizable.favoured").toEnumerable()
 		.Select("$.attr('localizeKey')")
 		.ToArray();
+	data.eyeMarked = $(".skillNameCell.localizable.eyeMarked").toEnumerable()
+		.Select("$.attr('localizeKey')")
+		.ToArray();
 
     $(".skillTable .skillRankCell .skillRankIcon[filled=true]").each(function () {
         if (!data[$(this).attr("skill")] || parseInt(data[$(this).attr("skill")], 10) < parseInt($(this).attr("rank"), 10)) {
@@ -2457,11 +2463,15 @@ function objectToSheet(data) {
 
             $("#internalData .skillGroups .skillGroup div").each(function () {
                 var skillId = $(this).html();
-                $(".skillNameCell[skill=" + skillId + "]").removeClass("favoured");
+                $(".skillNameCell[skill=" + skillId + "]").removeClass("favoured").removeClass("eyeMarked");
             });
             array = data.favoured;
             for (i in array) {
                 $(".skillNameCell[skill=" + array[i] + "]").addClass("favoured");
+            }
+			array = data.eyeMarked || [];
+            for (i in array) {
+                $(".skillNameCell[skill=" + array[i] + "]").addClass("eyeMarked");
             }
 
             $("#internalData .skillGroups .skillGroup div").each(function () {
@@ -2726,6 +2736,25 @@ function commonSkillMenu(e) {
         });
         $(menu).append(button);
     }
+
+	// eye marked
+    if (sender.hasClass("eyeMarked")) {
+        var button = $("<div class='action'>" + _ui_("uiMenuNotEyeMarked") + "</div>").click(function () {
+            sender.removeClass("eyeMarked");
+            closeContextMenu();
+            performSynch();
+        });
+        $(menu).append(button);
+    }
+    if (!sender.hasClass("eyeMarked")) {
+        var button = $("<div class='action'>" + _ui_("uiMenuEyeMarked") + "</div>").click(function () {
+            sender.addClass("eyeMarked");
+            closeContextMenu();
+            performSynch();
+        });
+        $(menu).append(button);
+    }
+
 
     // nevermind button
     menu.append($("<div class='action'><b>" + _ui_("uiMenuNevermind") + "</b></div>").click(function () { closeContextMenu(); }));

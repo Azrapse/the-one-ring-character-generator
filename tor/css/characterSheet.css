@@ -119,8 +119,8 @@
 	border-style: solid;
 	border-width: 1px;
 	padding: 15px;
-	margin: 15px;
-	width: 620px;
+	margin: 10px;
+	width: 625px;
 	min-height: 920px;	
 	border-radius: 10px;	
 	box-shadow: 3px 2px 3px #555555;     
@@ -441,6 +441,10 @@ div.inventory .input
 
 .characterSheet .skillsBox .skillNameCell.favoured{
 	text-decoration: underline;
+}
+
+.characterSheet .skillsBox .skillNameCell.eyeMarked:before{
+    content: '•';		
 }
 
 .characterSheet .skillsBox .skillGroupNameCell{
