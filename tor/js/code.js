@@ -1578,7 +1578,10 @@ function previousXPCreateTemporaryScores() {
 function previousXPGenerateButtons() {
 
     var xpLeft = parseInt($("#wizardPreviousExperienceDiv .remainingXP").attr("XPLeft"), 10);
-
+	var cultureId = $("#characterData").data("culture");
+	var maxSkillRank = cultureId == "highElfRivendell" ? 6 : 5;
+	var maxWSkillRank = cultureId == "highElfRivendell" ? 4 : 3;
+	var wSCost = { "1":2, "2":4, "3":6, "4":10 };
     // Now we create the ranking buttons
     // For each skill
     $("#internalData .skillGroups .skillGroup div").each(function () {
@@ -1592,7 +1595,7 @@ function previousXPGenerateButtons() {
         }
         var rankUpButton;
         // Create the button
-        if (currentRank < 6) {
+        if (currentRank < maxSkillRank) {
             rankUpButton = $("<div class='rankUpButton selector' skill='" + skillId + "' cost='" + rankCost + "' rankToGo='" + (currentRank + 1) + "' type='common'><div class='skillName localizable'></div><div class='skillRankIcons'></div><div class='skillRankCost'></div></div>");
             $(rankUpButton).find(".skillName").html(skillId);
             $(rankUpButton).find(".skillRankCost").html(_ui_("uiPXRankCost", rankCost));
@@ -1610,14 +1613,14 @@ function previousXPGenerateButtons() {
     $("#characterData").data("tempweaponSkills").each(function () {
         var skillId = $(this).attr("skill");
         var currentRank = parseInt($(this).attr("score"), 10);
-        var rankCost = (currentRank + 1) * 2;
+        var rankCost = wSCost[currentRank + 1];
         // Skip to next if it is too expensive
         if (rankCost > xpLeft) {
             return true;
         }
         var rankUpButton;
         // Create the button
-        if (currentRank < 3) {
+        if (currentRank < maxWSkillRank) {
             rankUpButton = $("<div class='rankUpButton selector' skill='" + skillId + "' cost='" + rankCost + "' rankToGo='" + (currentRank + 1) + "'  type='weapon'><div class='skillName'></div><div class='skillRankIcons'></div><div class='skillRankCost'></div></div>");
             $(rankUpButton).find(".skillName").html(__(skillId));
             $(rankUpButton).find(".skillRankCost").html(_ui_("uiPXRankCost", rankCost));
