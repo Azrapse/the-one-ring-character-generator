@@ -32,10 +32,10 @@ function initializeLocale() {
     // spanish
     var localeFile;
     if (language.indexOf("es") != -1) {
-        localeFile = "localization-es.html";
+        localeFile = "localization-es.html?123";
         $(".logoContainer img").attr("src", "css/TorLogoEs.jpg");
     } else {
-        localeFile = "localization-en.html";
+        localeFile = "localization-en.html?123";
     }
     $.get(localeFile, {}, function(response){
 		var responseElements = $(response);
