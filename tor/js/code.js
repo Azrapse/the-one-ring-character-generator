@@ -749,6 +749,7 @@ function helpButtonClick(sender) {
     var helpTextContainer = $("#helpDiv fieldset .helpTextContainer").html(helpText);
 	localizeUI(helpTextContainer);
     $("#helpDiv").show();
+	$("#helpDiv").width(400).height(400);
     $("#tooltipDiv").hide();
 }
 
