@@ -2,4 +2,5 @@
 /app/tmp
 /plugins
 /vendors
+/app/webroot/error_log*.*
 /cake/tests
