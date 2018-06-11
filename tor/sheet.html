@@ -2,8 +2,8 @@
 <html>
 	<head>		
         <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE9" />
-		<link href='css/characterSheet.css' rel='stylesheet' type='text/css'>
-		<link href='css/print.css' rel='stylesheet' type='text/css' media="print">		
+		<link href='css/characterSheet.css?20170406' rel='stylesheet' type='text/css'>
+		<link href='css/print.css?20170406' rel='stylesheet' type='text/css' media="print">		
 		<link type="text/css" href="css/smoothness/jquery-ui-1.8.16.custom.css" rel="Stylesheet" />	
 		<script src="js/jquery-1.7.min.js" type="text/javascript"></script>		
 		<script src="js/jquery.linq.min.js" type="text/javascript"></script>
@@ -49,7 +49,7 @@
 			<button id="synchedToggleButton" class="action uiText discouragedButton">uiSynched</button>
 			<br />
 			<br />
-			<button id="changesButton" class="action uiText" latest="20140823">uiWhatsNew</button>
+			<button id="changesButton" class="action uiText" latest="20161221">uiWhatsNew</button>
 			<br />
 			<button id="aboutButton" class="action uiText">uiAbout</button>            
 		</div>
@@ -344,6 +344,10 @@
 				<label class="uiText">uistanding</label>
 				<input type="text" />		
 			</div>
+			<div class="roundStatBox" stat="courage">
+				<label class="uiText">uicourage</label>
+				<input type="text" />		
+			</div>
 			
 			<table class="basicInformationTable coinTable">
 				<tr>
@@ -488,6 +492,18 @@
 					<button id="cultureNextButton" style="display: none;" class="uiText next">uiNext</button>
 					<button class="uiText cancel">uiCancelCreation</button>
 				</div>
+			</fieldset>
+		</div>
+		<div id="wizardCulturalBlessingDiv" class="wizardWindow" style="display: none;">
+			<fieldset>
+				<legend class="uiText">uiCulturalblessing</legend>
+				<span class="uiText">uiCBChooseone</span>
+				<div id="wizardCulturalBlessingButtonsDiv"></div>
+				<div class="buttonContainer">
+					<button id="culturalBlessingPrevButton" class="uiText previous">uiPrevious</button>
+					<button id="culturalBlessingNextButton" style="display: none;" class="uiText next">uiNext</button>
+					<button class="uiText cancel">uiCancelCreation</button>
+				</div>				
 			</fieldset>
 		</div>
 		<div id="wizardWeaponSkillsPackageDiv" class="wizardWindow" style="display: none;">
@@ -728,10 +744,9 @@
 					<br />
 					<input type="checkbox" case="best" id="rollTwiceKeepBest" /><label for="rollTwiceKeepBest" class="uiText">uiFeatRollBest</label>
 					<br />
-					<input type="checkbox" case="worst" id="rollTwiceKeepWorst" /><label for="rollTwiceKeepWorst" class="uiText">uiFeatRollWorst</label>
-				
-				</div>
-
+					<input type="checkbox" case="worst" id="rollTwiceKeepWorst" /><label for="rollTwiceKeepWorst" class="uiText">uiFeatRollWorst</label>				
+				</div>				
+				<input type="checkbox" id="rollerInverseCheckbox" /><label for="rollerInverseCheckbox" class="uiText">uiInverseRoll</label>
 			</div>
 			<div id="rollerResultsDiv"></div>
 		</div>

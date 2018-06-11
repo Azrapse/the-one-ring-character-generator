@@ -187,6 +187,12 @@
 	padding: 0;
 	margin: 0;
 }
+
+#specialtiesInput,
+#distinctiveFeaturesInput{
+	white-space: normal;
+}
+
 .characterSheet.back .basicInformationTable.coinTable 
 {
 	top: 80px;
@@ -773,22 +779,27 @@ div.inventory .input
 
 .characterSheet .roundStatBox[stat=fellowshipPoints]{
 	top: 40px;	
-	left: 70px;
+	left: 50px;
 }
 
 .characterSheet .roundStatBox[stat=advancementPoints]{
 	top: 40px;	
-	left: 210px;
+	left: 175px;
 }
 
 .characterSheet .roundStatBox[stat=treasurePoints]{
 	top: 40px;	
-	left: 350px;
+	left: 300px;
 }
 
 .characterSheet .roundStatBox[stat=standing]{
 	top: 40px;	
-	left: 490px;
+	left: 425px;
+}
+
+.characterSheet .roundStatBox[stat=courage]{
+	top: 40px;	
+	left: 550px;
 }
 
 
@@ -1034,6 +1045,10 @@ fieldset.tutorialSlideWindow
 	width: 300px;
 }
 
+#wizardCultureButtonsDiv{
+	max-height: 500px;
+    overflow-y: auto;
+}
 
 #tooltipDiv.popupTooltips
 {

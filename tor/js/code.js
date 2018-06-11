@@ -2,7 +2,9 @@
 /// <reference path="jquery.linq.min.js" />
 
 // Main function
+var review = "";
 $(function () {
+	review = $("#changesButton").attr("latest");
     initializeInternalData();
 });
 
@@ -32,14 +34,17 @@ function initializeLocale() {
     // spanish
     var localeFile;
     if (language.indexOf("es") != -1) {
-        localeFile = "localization-es.html?13";
+        localeFile = "localization-es.html?"+review;
         $(".logoContainer img").attr("src", "css/TorLogoEs.jpg");
     } else if (language.indexOf("it") != -1) {
-        localeFile = "localization-it.html?13";
-        $(".logoContainer img").attr("src", "css/TorLogoIt.jpg");	
+        localeFile = "localization-it.html?"+review;
+        $(".logoContainer img").attr("src", "css/TorLogoIt.jpg");		
+    } else if (language.indexOf("pt") != -1) {
+        localeFile = "localization-pt.html?"+review;
+        $(".logoContainer img").attr("src", "css/TorLogoPt.jpg");	
 	} else
 	{
-        localeFile = "localization-en.html?13";
+        localeFile = "localization-en.html?"+review;
     }
     $.get(localeFile, {}, function(response){
 		var responseElements = $(response);
@@ -56,7 +61,7 @@ function initializeLocale() {
 }
 
 function initializeInternalData() {
-    $("#internalDataContainer").load("internalData.html #internalData", initializeLocale);
+    $("#internalDataContainer").load("internalData.html?"+review+" #internalData", initializeLocale);
 }
 
 function localize() {
@@ -664,7 +669,7 @@ function setClickablesEvents() {
     // Cultural Blessing
     $("#culturalBlessingInput .localizable").live("click", simpleCommentMenu);
     // Specialties
-    $("#specialtiesInput .localizable").live("click", simpleCommentMenu);
+    $("#specialtiesInput").on("click", ".localizable", changeSpecialityMenu);
     // Distinctive features
     $("#distinctiveFeaturesInput").on("click", ".localizable", changeFeatureMenu);
 
@@ -895,12 +900,68 @@ function initializeCultureSelection() {
     // Culture Next button
     $("#cultureNextButton").unbind().click(function (e) {
         $("#wizardCultureDiv").hide();
-        initializeWeaponSkillsPackageSelection();
-        $("#wizardWeaponSkillsPackageDiv").show();
+		
+		// Check if the culture has more than one blessing or not
+		var characterCulture = $("#characterData").data("culture");
+		var blessings = $("#internalData .cultures .culture[name=" + characterCulture + "] .culturalBlessing div");
+		if(blessings.length == 1){
+		
+			$("#characterData").data("culturalBlessing", blessings.first().html());
+			initializeWeaponSkillsPackageSelection();
+			$("#wizardWeaponSkillsPackageDiv").show();
+		} else {
+			initializeCulturalBlessingSelection();
+			$("#wizardCulturalBlessingDiv").show();
+		}
+        
     });
     localize();
 }
+function initializeCulturalBlessingSelection() {
+    $("#wizardCulturalBlessingButtonsDiv").empty();
+    $("#culturalBlessingNextButton").hide();
+    // Cultural Blessing Selection
+    // Create the blessing buttons	
+    var characterCulture = $("#characterData").data("culture");
+    var blessings = $("#internalData .cultures .culture[name=" + characterCulture + "] .culturalBlessing div");
 
+    // For each blessing
+    $(blessings).each(function (index) {
+        // We create a blessing selection div id=blessingId
+		var blessingId = $(this).html();
+        var blessingButton = $("<div id='" + blessingId + "' class='culturalBlessingSelectionButton selector' >");
+		blessingButton.append($("<span class='localizable'>"+blessingId+"</span>"));
+        blessingButton.data("blessingId", blessingId);
+        $("#wizardCulturalBlessingButtonsDiv").append(blessingButton);
+    });
+
+    // Click event for each button
+    $(".culturalBlessingSelectionButton").click(function (e) {
+        // save selection		
+        $("#characterData").data("culturalBlessing", $(this).data("blessingId"));
+        // make the selection highlight
+        $(".culturalBlessingSelectionButton").attr("chosen", "false");
+        $(this).attr("chosen", "true");
+
+        // Show the Next button
+        $("#culturalBlessingNextButton").show().focus();
+    });
+    // culturalBlessing Next button
+    $("#culturalBlessingNextButton").unbind().click(function (e) {
+        $("#wizardCulturalBlessingDiv").hide();
+        initializeWeaponSkillsPackageSelection();
+        $("#wizardWeaponSkillsPackageDiv").show();
+    });
+    // cultural Blessing Prev button
+    $("#culturalBlessingPrevButton").unbind().click(function (e) {
+        $("#wizardCulturalBlessingDiv").hide();
+        initializeCultureSelection();
+        $("#wizardCultureDiv").show();
+    });
+
+    localize();
+    updateCharacterSheetFromCharacterData();
+}
 function initializeWeaponSkillsPackageSelection() {
     $("#wizardWeaponSkillsPackageButtonsDiv").empty();
     $("#weaponSkillsPackageNextButton").hide();
@@ -1676,12 +1737,16 @@ function updateCharacterSheetFromCharacterData() {
     $(standardOfLivingInput).empty();
     $(standardOfLivingInput).append("<span class='localizable'>" + standardOfLivingId + "</span>");
     // Cultural Blessing(s)
-    var culturalBlessings = $("#internalData .cultures .culture[name=" + cultureId + "] .culturalBlessing div");
+    //var culturalBlessings = $("#internalData .cultures .culture[name=" + cultureId + "] .culturalBlessing div");
     var culturalBlessingInput = $("#culturalBlessingInput");
+	var culturalBlessingId = $("#characterData").data("culturalBlessing");
     $(culturalBlessingInput).empty();
-    $(culturalBlessings).each(function () {
+	culturalBlessingInput.append(" <span class='localizable'>" + culturalBlessingId + "</span>");
+    /*
+	$(culturalBlessings).each(function () {
         culturalBlessingInput.append(" <span class='localizable'>" + $(this).html() + "</span>");
     });
+	*/
     // Starting Skill Scores
     var startingSkillScores = $("#internalData .skillGroups .skillGroup div");
     startingSkillScores.each(function () {
@@ -3341,6 +3406,62 @@ function featuresMenu(e) {
     showContextMenu(e);
 }
 
+function changeSpecialityMenu(e) {
+	// showMenu
+    var menu = $(".contextMenu");
+    $(menu).empty();
+    var sender = $(this);
+
+    // Exchange Speciality
+    var thisFeatureKey = $(sender).attr("localizeKey");
+	var specialitiesCollection = $("#internalData .culture .specialties div, #internalData .callings .calling[name=slayer] .additionalTrait div").toEnumerable()
+		.Select(function(x){return $(x).text()})
+		.Distinct();
+	    
+	// get current specialities
+	var currentSpecialityKeys = $("#distinctiveFeaturesInput .localizable").toEnumerable()
+		.Select('$.attr("localizeKey")')
+		.ToArray();
+	// get features that aren't selected already. Order by their translation string
+	var nonCurrentSpecialityKeys = specialitiesCollection
+		.Except(currentSpecialityKeys)
+		.OrderBy("_loc_($)")
+		.ToArray();
+
+	var button = $("<div class='action'>" + _ui_("uiMenuExchangeSpeciality") + "</div>").click(function () {
+		closeContextMenu();
+		menu.empty();
+		// make the buttons
+		for (v in nonCurrentSpecialityKeys) {
+			var specialityName = nonCurrentSpecialityKeys[v];
+			var specialityButton = $("<div class='action'>" + __(specialityName) + "</div>");
+			$(specialityButton).click({ n: specialityName }, function (ea) {
+				closeContextMenu();
+				// replace the feature
+				$(sender).replaceWith(__(ea.data.n));
+				localize();
+				performSynch();
+			});
+			menu.append(specialityButton);
+		}
+		// nevermind button
+		menu.append($("<div class='action'><b>" + _ui_("uiMenuNevermind") + "</b></div>").click(function () { closeContextMenu(); }));
+
+		localize();
+		showContextMenu(e);
+	});
+	menu.append(button);
+    
+    // Add comment
+    addCommentMenuOption(sender);
+
+    // nevermind button
+    menu.append($("<div class='action'><b>" + _ui_("uiMenuNevermind") + "</b></div>").click(function () { closeContextMenu(); }));
+
+    localize();
+    showContextMenu(e);
+}
+
 function changeFeatureMenu(e) {
     // showMenu
     var menu = $(".contextMenu");
@@ -3472,7 +3593,8 @@ function initializeRoller() {
         var bonus = $("#rollerBonusInput").attr("value").replace("+", "");
         bonus = (isNaN(parseInt(bonus, 10)) ? 0 : parseInt(bonus, 10));
         var weary = ($("#rollerWearyCheckbox").attr("checked") == "checked");
-        roll(0, bonus, weary);
+		var inverse = ($("#rollerInverseCheckbox").attr("checked") == "checked");
+        roll(0, bonus, weary, inverse);
     });
 
     $("#rollerControlsDiv .successDiv .action").click(function () {
@@ -3480,7 +3602,8 @@ function initializeRoller() {
         bonus = (isNaN(parseInt(bonus, 10)) ? 0 : parseInt(bonus, 10));
         var weary = ($("#rollerWearyCheckbox").attr("checked") == "checked");
         var number = parseInt($(this).attr("number"), 10);
-        roll(number, bonus, weary);
+		var inverse = ($("#rollerInverseCheckbox").attr("checked") == "checked");
+        roll(number, bonus, weary, inverse);
     });
 
     $("#rollerDiv .keepOneOfTwo input[type=checkbox]").click(function () {
@@ -3491,7 +3614,7 @@ function initializeRoller() {
     });
 }
 
-function roll(d6, bonus, weary) {
+function roll(d6, bonus, weary, inverse) {
     var featDie = Math.floor(Math.random() * 12 + 1);
     var successDice = [];
     var i;
@@ -3503,8 +3626,8 @@ function roll(d6, bonus, weary) {
     // Keep best or worst as featDie. Discarded one will be secondFeatDie
     if (keepBest || keepWorst) {
         secondFeatDie = Math.floor(Math.random() * 12 + 1);
-        var die1 = (featDie == 12) ? 0 : featDie;
-        var die2 = (secondFeatDie == 12) ? 0 : secondFeatDie;
+        var die1 = ((featDie == 12 && !inverse) || (featDie == 11 && inverse)) ? 0 : featDie;
+        var die2 = ((secondFeatDie == 12 && !inverse) || (secondFeatDie == 11 && inverse)) ? 0 : secondFeatDie;
         if (keepBest) {
             if (die2 > die1) {
                 var aux = featDie;
@@ -3520,11 +3643,11 @@ function roll(d6, bonus, weary) {
         }
     }
 
-    if (featDie == 12) {
-        total = 0;
-    } else {
-        total = featDie;
-    }
+	if(!inverse){
+		total = (featDie == 12)? 0 : featDie;
+	} else {
+		total = (featDie == 11)? 0 : featDie;
+	}    
 
     for (i = 0; i < d6; i++) {
         var d6Roll = Math.floor(Math.random() * 6 + 1);
@@ -3587,7 +3710,7 @@ function roll(d6, bonus, weary) {
     }
 
     $(resultsDiv).append($("<br /><span id='rollerTotal'></span>"));
-    if (featDie != 11) {
+    if ((!inverse && featDie != 11) || (inverse && featDie != 12)) {
         if (tengwar == 0) {
             $("#rollerTotal").html(_ui_("uiTotal") + ": " + total);
         } else {
