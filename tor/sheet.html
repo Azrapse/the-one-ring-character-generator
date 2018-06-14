@@ -3,7 +3,7 @@
 	<head>		
         <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE9" />
 		<link href='css/characterSheet.css?20170406' rel='stylesheet' type='text/css'>
-		<link href='css/print.css?20170406' rel='stylesheet' type='text/css' media="print">		
+		<link href='css/print.css?20180614' rel='stylesheet' type='text/css' media="print">		
 		<link type="text/css" href="css/smoothness/jquery-ui-1.8.16.custom.css" rel="Stylesheet" />	
 		<script src="js/jquery-1.7.min.js" type="text/javascript"></script>		
 		<script src="js/jquery.linq.min.js" type="text/javascript"></script>
@@ -721,7 +721,7 @@
 
 		<div id="rollerDiv" class="actionMenu" style="display: none;">
 			<div class="rollerTitle uiText">
-				uiDiceRoller
+				uiDiceRollerDiceRoller
 			</div>
 			<div class="helpButton" helptopic="uiDiceRollerHelp">?</div>
 			<div id="rollerControlsDiv">
@@ -746,7 +746,8 @@
 					<br />
 					<input type="checkbox" case="worst" id="rollTwiceKeepWorst" /><label for="rollTwiceKeepWorst" class="uiText">uiFeatRollWorst</label>				
 				</div>				
-				<input type="checkbox" id="rollerInverseCheckbox" /><label for="rollerInverseCheckbox" class="uiText">uiInverseRoll</label>
+				<span style="white-space: nowrap;"><input type="checkbox" id="rollerInverseCheckbox" /><label for="rollerInverseCheckbox" class="uiText">uiInverseRoll</label></span>				
+				<span style="white-space: nowrap;"><input type="checkbox" id="rollerManOfMinasTirithBlessing" /><label for="rollerManOfMinasTirithBlessing" class="localizable" localizekey="menOfValourAndWisdom"></label></span>
 			</div>
 			<div id="rollerResultsDiv"></div>
 		</div>

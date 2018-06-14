@@ -3602,8 +3602,9 @@ function initializeRoller() {
         bonus = (isNaN(parseInt(bonus, 10)) ? 0 : parseInt(bonus, 10));
         var weary = ($("#rollerWearyCheckbox").attr("checked") == "checked");
         var number = parseInt($(this).attr("number"), 10);
-		var inverse = ($("#rollerInverseCheckbox").attr("checked") == "checked");
-        roll(number, bonus, weary, inverse);
+        var inverse = ($("#rollerInverseCheckbox").attr("checked") == "checked");
+        var manOfMinasTirithBlessing = ($("#rollerManOfMinasTirithBlessing").attr("checked") == "checked");
+        roll(number, bonus, weary, inverse, manOfMinasTirithBlessing);
     });
 
     $("#rollerDiv .keepOneOfTwo input[type=checkbox]").click(function () {
@@ -3614,20 +3615,23 @@ function initializeRoller() {
     });
 }
 
-function roll(d6, bonus, weary, inverse) {
+function roll(d6, bonus, weary, inverse, manOfMinasTirithBlessing) {
     var featDie = Math.floor(Math.random() * 12 + 1);
     var successDice = [];
     var i;
     var tengwar = 0;
     var total;
+    const gandalf = 11;
+    const sauron = 12;
     var keepBest = ($("#rollerDiv .keepOneOfTwo input[type=checkbox][case=best]").attr("checked") == "checked");
     var keepWorst = ($("#rollerDiv .keepOneOfTwo input[type=checkbox][case=worst]").attr("checked") == "checked");
     var secondFeatDie = false;
+    var discardedFeatDice = [];
     // Keep best or worst as featDie. Discarded one will be secondFeatDie
     if (keepBest || keepWorst) {
         secondFeatDie = Math.floor(Math.random() * 12 + 1);
-        var die1 = ((featDie == 12 && !inverse) || (featDie == 11 && inverse)) ? 0 : featDie;
-        var die2 = ((secondFeatDie == 12 && !inverse) || (secondFeatDie == 11 && inverse)) ? 0 : secondFeatDie;
+        var die1 = ((featDie == sauron && !inverse) || (featDie == gandalf && inverse)) ? 0 : featDie;
+        var die2 = ((secondFeatDie == sauron && !inverse) || (secondFeatDie == gandalf && inverse)) ? 0 : secondFeatDie;
         if (keepBest) {
             if (die2 > die1) {
                 var aux = featDie;
@@ -3641,12 +3645,20 @@ function roll(d6, bonus, weary, inverse) {
                 secondFeatDie = aux;
             }
         }
+        discardedFeatDice.push(secondFeatDie);
+    }
+    
+    var momtRerollDie = false;
+    if (manOfMinasTirithBlessing && featDie == sauron){
+        momtRerollDie = Math.floor(Math.random() * 12 + 1);
+        discardedFeatDice.push(featDie);
+        featDie = momtRerollDie;
     }
 
 	if(!inverse){
-		total = (featDie == 12)? 0 : featDie;
+		total = (featDie == sauron)? 0 : featDie;
 	} else {
-		total = (featDie == 11)? 0 : featDie;
+		total = (featDie == gandalf)? 0 : featDie;
 	}    
 
     for (i = 0; i < d6; i++) {
@@ -3671,25 +3683,27 @@ function roll(d6, bonus, weary, inverse) {
         }
     }
     total += bonus;
-
-    // Display results: 11 = gandalf, 12 = sauron
+    
     var resultsDiv = $("#rollerResultsDiv").empty();
-    if (featDie == 11) {
-        $(resultsDiv).append($("<div class='dieDiv d12DieDiv'><img src='css/g.png' /></div>"));
-    } else if (featDie == 12) {
-        $(resultsDiv).append($("<div class='dieDiv d12DieDiv'><img src='css/s.png' /></div>"));
-    } else {
-        $(resultsDiv).append($("<div class='dieDiv d12DieDiv'>" + featDie + "</div>"));
-    }
-    // If keeping best or worst, display the secondFeatDie too
-    if (keepBest || keepWorst) {
-        if (secondFeatDie == 11) {
+    // If there are any discarded feat dice, show them first
+    for(var i = 0; i < discardedFeatDice.length; i++) {
+        var die = discardedFeatDice[i];        
+        if (die == gandalf) {
             $(resultsDiv).append($("<div class='dieDiv d12DieDiv discarded'><img src='css/g.png' /></div>"));
-        } else if (secondFeatDie == 12) {
+        } else if (die == sauron) {
             $(resultsDiv).append($("<div class='dieDiv d12DieDiv discarded'><img src='css/s.png' /></div>"));
         } else {
             $(resultsDiv).append($("<div class='dieDiv d12DieDiv discarded'>" + secondFeatDie + "</div>"));
         }
+    }        
+
+    // Display results: 11 = gandalf, 12 = sauron
+    if (featDie == gandalf) {
+        $(resultsDiv).append($("<div class='dieDiv d12DieDiv'><img src='css/g.png' /></div>"));
+    } else if (featDie == sauron) {
+        $(resultsDiv).append($("<div class='dieDiv d12DieDiv'><img src='css/s.png' /></div>"));
+    } else {
+        $(resultsDiv).append($("<div class='dieDiv d12DieDiv'>" + featDie + "</div>"));
     }
 
     // Success dice
