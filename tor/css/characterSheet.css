@@ -1156,6 +1156,11 @@ fieldset.tutorialSlideWindow
 	background-image:url('d6.png');
 }
 
+.dieDiv.d6DieDiv.discarded
+{
+    background-image: url('d6discarded.png');
+}
+
 .dieDiv.d12DieDiv
 {
 	background-image:url('d12.png');

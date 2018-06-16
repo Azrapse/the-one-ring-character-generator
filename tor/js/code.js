@@ -3625,6 +3625,8 @@ function roll(d6, bonus, weary, inverse, manOfMinasTirithBlessing) {
     const sauron = 12;
     var keepBest = ($("#rollerDiv .keepOneOfTwo input[type=checkbox][case=best]").attr("checked") == "checked");
     var keepWorst = ($("#rollerDiv .keepOneOfTwo input[type=checkbox][case=worst]").attr("checked") == "checked");
+    var masteryDice = +($("#rollerMasteryDiceCount").val());
+    var notKeptDice = [];
     var secondFeatDie = false;
     var discardedFeatDice = [];
     // Keep best or worst as featDie. Discarded one will be secondFeatDie
@@ -3661,9 +3663,28 @@ function roll(d6, bonus, weary, inverse, manOfMinasTirithBlessing) {
 		total = (featDie == gandalf)? 0 : featDie;
 	}    
 
+    if (masteryDice > 0) {
+        d6 += masteryDice;
+    }
+
     for (i = 0; i < d6; i++) {
         var d6Roll = Math.floor(Math.random() * 6 + 1);
-        successDice.push(d6Roll);
+        successDice.push(d6Roll);        
+    }
+
+    // If any extra mastery dice is rolled, we need to remove that many success dice after rolling. We store them in notKeptDice
+    if (masteryDice > 0) {
+        var sortedDice = successDice.sort().slice(0);
+        for (var i = 0; i < masteryDice; i++) {
+            var discardedValue = sortedDice[i];
+            notKeptDice.push(discardedValue);
+            var discardedValueIndex = successDice.indexOf(discardedValue);
+            successDice.splice(discardedValueIndex, 1);
+        }
+    }
+
+    for (i = 0; i < successDice.length; i++) {
+        d6Roll = successDice[i];
         if (d6Roll == 6) {
             tengwar++;
         }
@@ -3673,6 +3694,7 @@ function roll(d6, bonus, weary, inverse, manOfMinasTirithBlessing) {
             total += d6Roll;
         }
     }
+
     var bonus = $("#rollerBonusInput").attr("value");
     if (bonus == undefined) {
         bonus = 0;
@@ -3707,14 +3729,26 @@ function roll(d6, bonus, weary, inverse, manOfMinasTirithBlessing) {
     }
 
     // Success dice
+    // Discarded first
     var d;
-    for (d in successDice) {
-        if (successDice[d] == 6) {
+    for (var i = 0; i < notKeptDice.length; i++) {
+        d = notKeptDice[i];
+        if (d == 6) {
+            $(resultsDiv).append($("<div class='dieDiv d6DieDiv discarded'><img src='css/6.png' /></div>"));
+        } else if (weary && d <= 3) {
+            $(resultsDiv).append($("<div class='dieDiv d6DieDiv discarded'>" + 0 + "</div>"));
+        } else {
+            $(resultsDiv).append($("<div class='dieDiv d6DieDiv discarded'>" + d + "</div>"));
+        }
+    }
+    for (var i = 0; i < successDice.length; i++) {
+        d = successDice[i];
+        if (d == 6) {
             $(resultsDiv).append($("<div class='dieDiv d6DieDiv'><img src='css/6.png' /></div>"));
-        } else if (weary && successDice[d] <= 3) {
+        } else if (weary && d <= 3) {
             $(resultsDiv).append($("<div class='dieDiv d6DieDiv'>" + 0 + "</div>"));
         } else {
-            $(resultsDiv).append($("<div class='dieDiv d6DieDiv'>" + successDice[d] + "</div>"));
+            $(resultsDiv).append($("<div class='dieDiv d6DieDiv'>" + d + "</div>"));
         }
     }
 
